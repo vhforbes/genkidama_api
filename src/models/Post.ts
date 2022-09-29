@@ -1,19 +1,28 @@
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { v4 } from "uuid";
 
+@Entity("posts")
 class Post {
+  @PrimaryGeneratedColumn("uuid")
   id: string;
+
+  @Column()
   date: Date;
+
+  @Column()
   author: string;
+
+  @Column()
   title: string;
+
+  @Column("text")
   content: string;
 
-  constructor({ author, title, content }: Omit<Post, "id" | "date">) {
-    this.id = v4();
-    this.date = new Date();
-    this.author = author;
-    this.title = title;
-    this.content = content;
-  }
+  @Column()
+  image: string;
+
+  @Column()
+  video: string;
 }
 
 export default Post;

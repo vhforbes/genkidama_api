@@ -1,22 +1,30 @@
 import { Router } from "express";
+import Post from "../models/Post";
 import PostsRepository from "../repositories/PostsRepository";
 import CreatePostService from "../services/CreatePostService";
 
 const postRouter = Router();
-const postsRepository = new PostsRepository();
+const postsRepository = PostsRepository;
 
-postRouter.get("/all", (req, res) => {
-  const posts = postsRepository.all();
+postRouter.get("/all", async (req, res) => {
+  const posts = await postsRepository.find();
+
   res.json({ posts });
 });
 
-postRouter.post("/", (req, res) => {
+postRouter.post("/", async (req, res) => {
   try {
-    const { author, title, content } = req.body;
+    const { author, title, content, image, video } = req.body;
 
-    const createPost = new CreatePostService(postsRepository);
+    const createPost = new CreatePostService();
 
-    const post = createPost.execute({ author, title, content });
+    const post = await createPost.execute({
+      author,
+      title,
+      content,
+      image,
+      video,
+    });
 
     return res.json(post);
   } catch (err) {
