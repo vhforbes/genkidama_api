@@ -1,5 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { v4 } from "uuid";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import User from "./User";
 
 @Entity("posts")
 class Post {
@@ -10,7 +10,11 @@ class Post {
   date: Date;
 
   @Column()
-  author: string;
+  user_id: string;
+
+  @ManyToOne(() => User, { onDelete: "SET NULL" })
+  @JoinColumn({ name: 'id' })
+  user: User
 
   @Column()
   title: string;
@@ -22,7 +26,13 @@ class Post {
   image: string;
 
   @Column()
-  video: string;
+  video_link: string;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 }
 
 export default Post;
