@@ -1,36 +1,38 @@
+import { AppDataSource } from "../data-source";
 import Post from "../models/Post";
-import PostsRepository from "../repositories/PostsRepository";
 
 interface Request {
+  user_id: string;
   title: string;
-  author: string;
   content: string;
   image: string;
-  video: string;
+  video_link: string;
 }
 
 class CreatePostService {
-  private postsRepository = PostsRepository;
-
   public async execute({
     title,
-    author,
+    user_id,
     content,
     image,
-    video,
+    video_link,
   }: Request): Promise<Post> {
-    const post = this.postsRepository.create({
-      date: new Date(),
+    const postsRepository = AppDataSource.getRepository(Post);
+
+    const post = postsRepository.create({
+      user_id,
       title,
-      author,
       content,
       image,
-      video,
+      video_link,
     });
 
-    const results = await this.postsRepository.save(post);
-
-    return results;
+    try {
+      const results = await postsRepository.save(post);
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 

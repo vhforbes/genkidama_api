@@ -3,28 +3,30 @@ import Post from "../models/Post";
 import PostsRepository from "../repositories/PostsRepository";
 import CreatePostService from "../services/CreatePostService";
 
-const postRouter = Router();
+const postsRouter = Router();
 const postsRepository = PostsRepository;
 
-postRouter.get("/all", async (req, res) => {
+postsRouter.get("/", async (req, res) => {
   const posts = await postsRepository.find();
 
   res.json({ posts });
 });
 
-postRouter.post("/", async (req, res) => {
+postsRouter.post("/", async (req, res) => {
   try {
-    const { author, title, content, image, video } = req.body;
+    const { user_id, title, content, image, video_link } = req.body;
 
     const createPost = new CreatePostService();
 
     const post = await createPost.execute({
-      author,
+      user_id,
       title,
       content,
       image,
-      video,
+      video_link,
     });
+
+    console.log(post);
 
     return res.json(post);
   } catch (err) {
@@ -32,4 +34,4 @@ postRouter.post("/", async (req, res) => {
   }
 });
 
-export default postRouter;
+export default postsRouter;

@@ -1,9 +1,12 @@
-import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
+import {
+  MigrationInterface,
+  QueryRunner,
+  Table,
+  TableForeignKey,
+} from "typeorm";
 
 export class postsTableUsersTable1664455607246 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"');
-
     await queryRunner.createTable(
       new Table({
         name: "posts",
@@ -18,22 +21,15 @@ export class postsTableUsersTable1664455607246 implements MigrationInterface {
           {
             name: "user_id",
             type: "uuid",
-            isNullable: true
-          },
-          {
-            name: "author",
-            type: "varchar",
-            isNullable: false,
+            isNullable: true,
           },
           {
             name: "title",
             type: "varchar",
-            isNullable: false,
           },
           {
             name: "content",
             type: "Text",
-            isNullable: false,
           },
           {
             name: "image",
@@ -48,13 +44,13 @@ export class postsTableUsersTable1664455607246 implements MigrationInterface {
           {
             name: "created_at",
             type: "timestamp",
-            default: "now()"
+            default: "now()",
           },
           {
             name: "updated_at",
             type: "timestamp",
-            default: "now()"
-          }
+            default: "now()",
+          },
         ],
       })
     );
@@ -85,30 +81,32 @@ export class postsTableUsersTable1664455607246 implements MigrationInterface {
           {
             name: "created_at",
             type: "timestamp",
-            default: "now()"
+            default: "now()",
           },
           {
             name: "updated_at",
             type: "timestamp",
-            default: "now()"
+            default: "now()",
           },
         ],
       })
     );
 
-    await queryRunner.createForeignKey('posts', new TableForeignKey({
-      name: 'PostOwner',
-      columnNames: ['user_id'],
-      referencedColumnNames: ['id'],
-      referencedTableName: 'users',
-      onDelete: 'SET NULL',
-      onUpdate: 'CASCADE'
-    }))
+    await queryRunner.createForeignKey(
+      "posts",
+      new TableForeignKey({
+        columnNames: ["user_id"],
+        referencedColumnNames: ["id"],
+        referencedTableName: "users",
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE",
+      })
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropForeignKey("posts", "PostOwner");
-    await queryRunner.dropTable("users");
+    // await queryRunner.dropForeignKey("posts", "PostAuthor");
     await queryRunner.dropTable("posts");
+    await queryRunner.dropTable("users");
   }
 }

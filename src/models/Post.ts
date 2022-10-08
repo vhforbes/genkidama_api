@@ -1,4 +1,12 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
 import User from "./User";
 
 @Entity("posts")
@@ -7,14 +15,11 @@ class Post {
   id: string;
 
   @Column()
-  date: Date;
-
-  @Column()
   user_id: string;
 
   @ManyToOne(() => User, { onDelete: "SET NULL" })
-  @JoinColumn({ name: 'id' })
-  user: User
+  @JoinColumn({ name: "id" })
+  user: User;
 
   @Column()
   title: string;
