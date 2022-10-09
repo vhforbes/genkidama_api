@@ -14,11 +14,11 @@ class Post {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column()
-  user_id: string;
+  @Column({ nullable: true })
+  author_id: string;
 
   @ManyToOne(() => User, { onDelete: "SET NULL" })
-  @JoinColumn({ name: "id" })
+  @JoinColumn({ name: "author_id" })
   user: User;
 
   @Column()

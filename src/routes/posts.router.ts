@@ -14,19 +14,17 @@ postsRouter.get("/", async (req, res) => {
 
 postsRouter.post("/", async (req, res) => {
   try {
-    const { user_id, title, content, image, video_link } = req.body;
+    const { author_id, title, content, image, video_link } = req.body;
 
     const createPost = new CreatePostService();
 
     const post = await createPost.execute({
-      user_id,
+      author_id,
       title,
       content,
       image,
       video_link,
     });
-
-    console.log(post);
 
     return res.json(post);
   } catch (err) {

@@ -2,7 +2,7 @@ import { AppDataSource } from "../data-source";
 import Post from "../models/Post";
 
 interface Request {
-  user_id: string;
+  author_id: string;
   title: string;
   content: string;
   image: string;
@@ -12,27 +12,23 @@ interface Request {
 class CreatePostService {
   public async execute({
     title,
-    user_id,
+    author_id,
     content,
     image,
     video_link,
-  }: Request): Promise<Post> {
+  }: Request): Promise<Post | null> {
     const postsRepository = AppDataSource.getRepository(Post);
 
     const post = postsRepository.create({
-      user_id,
+      author_id: author_id,
       title,
       content,
       image,
       video_link,
     });
 
-    try {
-      const results = await postsRepository.save(post);
-      return results;
-    } catch (error) {
-      console.log(error);
-    }
+    const results = await postsRepository.save(post);
+    return results;
   }
 }
 

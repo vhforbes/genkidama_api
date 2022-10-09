@@ -19,7 +19,7 @@ export class postsTableUsersTable1664455607246 implements MigrationInterface {
             default: "uuid_generate_v4()",
           },
           {
-            name: "user_id",
+            name: "author_id",
             type: "uuid",
             isNullable: true,
           },
@@ -95,7 +95,8 @@ export class postsTableUsersTable1664455607246 implements MigrationInterface {
     await queryRunner.createForeignKey(
       "posts",
       new TableForeignKey({
-        columnNames: ["user_id"],
+        name: "PostAuthor",
+        columnNames: ["author_id"],
         referencedColumnNames: ["id"],
         referencedTableName: "users",
         onDelete: "SET NULL",
