@@ -1,10 +1,13 @@
 import { Router } from "express";
+import { ensureAutenticated } from "../middlewares/ensureAuthenticated";
 import Post from "../models/Post";
 import PostsRepository from "../repositories/PostsRepository";
 import CreatePostService from "../services/CreatePostService";
 
 const postsRouter = Router();
 const postsRepository = PostsRepository;
+
+postsRouter.use(ensureAutenticated);
 
 postsRouter.get("/", async (req, res) => {
   const posts = await postsRepository.find();
