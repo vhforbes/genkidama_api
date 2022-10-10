@@ -1,7 +1,14 @@
 import { Router } from "express";
+import multer from "multer";
+
+import uploadConfig from "../config/upload";
+
+import { ensureAutenticated } from "../middlewares/ensureAuthenticated";
 import CreateUserService from "../services/CreateUserService";
+import UpdateUserAvatarService from "../services/UpdateUserAvatarService";
 
 const usersRouter = Router();
+const upload = multer(uploadConfig);
 
 usersRouter.post("/", async (req, res) => {
   try {
@@ -25,5 +32,31 @@ usersRouter.post("/", async (req, res) => {
     }
   }
 });
+
+// colocar middleware de validacao de sessao
+usersRouter.patch(
+  "/avatar",
+  ensureAutenticated,
+  upload.single("avatar"),
+  async (req, res) => {
+    const file = req.file;
+
+    if (!file) {
+      throw new Error("You must upload a file");
+    }
+
+    const updateUserAvatarService = new UpdateUserAvatarService();
+
+    const user = await updateUserAvatarService.execute({
+      user_id: req.user.id,
+      avatar: file.filename,
+    });
+
+    // @ts-expect-error
+    delete user.password;
+
+    res.json(user);
+  }
+);
 
 export default usersRouter;
