@@ -1,11 +1,11 @@
-import fs from "fs";
-import path from "path";
+import fs from 'fs';
+import path from 'path';
 
-import { AppDataSource } from "../data-source";
+import { AppDataSource } from '../data-source';
 
-import uploadConfig from "../config/upload";
-import User from "../models/User";
-import AppError from "../errors/AppError";
+import uploadConfig from '../config/upload';
+import User from '../models/User';
+import AppError from '../errors/AppError';
 
 /**
  * [x] Recebe as infos da chamada
@@ -19,7 +19,7 @@ interface Request {
 }
 
 class UpdateUserAvatarService {
-  public async execute({ user_id, avatar }: Request): Promise<User> {
+  public static async execute({ user_id, avatar }: Request): Promise<User> {
     const userRepository = AppDataSource.getRepository(User);
 
     const user = await userRepository.findOne({
@@ -27,7 +27,7 @@ class UpdateUserAvatarService {
     });
 
     if (!user) {
-      throw new AppError("Invalid user to update avatar");
+      throw new AppError('Invalid user to update avatar');
     }
 
     // Remove if existing avatar file.

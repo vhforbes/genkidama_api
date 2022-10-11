@@ -6,25 +6,25 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-} from "typeorm";
-import User from "./User";
+} from 'typeorm';
+import User from './User';
 
-@Entity("posts")
+@Entity('posts')
 class Post {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ nullable: true })
   author_id: string;
 
-  @ManyToOne(() => User, { onDelete: "SET NULL" })
-  @JoinColumn({ name: "author_id" })
+  @ManyToOne(() => User, { onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'author_id' })
   user: User;
 
   @Column()
   title: string;
 
-  @Column("text")
+  @Column('text')
   content: string;
 
   @Column()

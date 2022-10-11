@@ -1,21 +1,19 @@
-import { Router } from "express";
-import multer from "multer";
+import { Router } from 'express';
+import multer from 'multer';
 
-import uploadConfig from "../config/upload";
+import uploadConfig from '../config/upload';
 
-import { ensureAutenticated } from "../middlewares/ensureAuthenticated";
-import CreateUserService from "../services/CreateUserService";
-import UpdateUserAvatarService from "../services/UpdateUserAvatarService";
+import { ensureAutenticated } from '../middlewares/ensureAuthenticated';
+import CreateUserService from '../services/CreateUserService';
+import UpdateUserAvatarService from '../services/UpdateUserAvatarService';
 
 const usersRouter = Router();
 const upload = multer(uploadConfig);
 
-usersRouter.post("/", async (req, res) => {
+usersRouter.post('/', async (req, res) => {
   const { name, email, password } = req.body;
 
-  const createUserService = new CreateUserService();
-
-  const user = await createUserService.execute({
+  const user = await CreateUserService.execute({
     name,
     email,
     password,
@@ -29,19 +27,17 @@ usersRouter.post("/", async (req, res) => {
 
 // colocar middleware de validacao de sessao
 usersRouter.patch(
-  "/avatar",
+  '/avatar',
   ensureAutenticated,
-  upload.single("avatar"),
+  upload.single('avatar'),
   async (req, res) => {
     const file = req.file;
 
     if (!file) {
-      throw new Error("You must upload a file");
+      throw new Error('You must upload a file');
     }
 
-    const updateUserAvatarService = new UpdateUserAvatarService();
-
-    const user = await updateUserAvatarService.execute({
+    const user = await UpdateUserAvatarService.execute({
       user_id: req.user.id,
       avatar: file.filename,
     });
@@ -50,7 +46,7 @@ usersRouter.patch(
     delete user.password;
 
     res.json(user);
-  }
+  },
 );
 
 export default usersRouter;

@@ -1,5 +1,5 @@
-import { AppDataSource } from "../data-source";
-import Post from "../models/Post";
+import { AppDataSource } from '../data-source';
+import Post from '../models/Post';
 
 interface Request {
   author_id: string;
@@ -10,7 +10,7 @@ interface Request {
 }
 
 class CreatePostService {
-  public async execute({
+  public static async execute({
     title,
     author_id,
     content,

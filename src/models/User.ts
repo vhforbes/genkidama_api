@@ -4,12 +4,12 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-} from "typeorm";
+} from 'typeorm';
 
 // Decorator => A classe é um parametro sendo passado para o decorator Entity
-@Entity("users")
+@Entity('users')
 class User {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
