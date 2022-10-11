@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { verify } from "jsonwebtoken";
 
 import authConfig from "../config/auth";
+import AppError from "../errors/AppError";
 
 interface TokenPayload {
   id: string;
@@ -18,7 +19,7 @@ export const ensureAutenticated = (
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
-    throw new Error("Token is missing");
+    throw new AppError("Token is missing");
   }
 
   const [, token] = authHeader.split(" ");
@@ -35,6 +36,6 @@ export const ensureAutenticated = (
 
     return next();
   } catch {
-    throw new Error("Invalid JWT Token");
+    throw new AppError("Invalid JWT Token");
   }
 };

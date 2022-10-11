@@ -1,5 +1,6 @@
 import { hash } from "bcryptjs";
 import { AppDataSource } from "../data-source";
+import AppError from "../errors/AppError";
 import User from "../models/User";
 
 /**
@@ -24,7 +25,7 @@ class CreateUserService {
     });
 
     if (userExists) {
-      throw new Error("Email already in use");
+      throw new AppError("Email already in use");
     }
 
     const hashedPassword = await hash(password, 8);

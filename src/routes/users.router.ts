@@ -11,26 +11,20 @@ const usersRouter = Router();
 const upload = multer(uploadConfig);
 
 usersRouter.post("/", async (req, res) => {
-  try {
-    const { name, email, password } = req.body;
+  const { name, email, password } = req.body;
 
-    const createUserService = new CreateUserService();
+  const createUserService = new CreateUserService();
 
-    const user = await createUserService.execute({
-      name,
-      email,
-      password,
-    });
+  const user = await createUserService.execute({
+    name,
+    email,
+    password,
+  });
 
-    // @ts-expect-error
-    delete user.password;
+  // @ts-expect-error
+  delete user.password;
 
-    return res.json(user);
-  } catch (err) {
-    if (err instanceof Error) {
-      return res.status(400).json({ error: err.message });
-    }
-  }
+  return res.json(user);
 });
 
 // colocar middleware de validacao de sessao

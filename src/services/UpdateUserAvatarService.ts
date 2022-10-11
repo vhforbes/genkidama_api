@@ -5,6 +5,7 @@ import { AppDataSource } from "../data-source";
 
 import uploadConfig from "../config/upload";
 import User from "../models/User";
+import AppError from "../errors/AppError";
 
 /**
  * [x] Recebe as infos da chamada
@@ -26,7 +27,7 @@ class UpdateUserAvatarService {
     });
 
     if (!user) {
-      throw new Error("Invalid user to update avatar");
+      throw new AppError("Invalid user to update avatar");
     }
 
     // Remove if existing avatar file.

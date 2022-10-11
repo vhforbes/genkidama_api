@@ -5,6 +5,7 @@ import { AppDataSource } from "../data-source";
 
 import AuthConfig from "../config/auth";
 import User from "../models/User";
+import AppError from "../errors/AppError";
 /**
  * [x] Recebe as infos da chamada
  * [x] Tratativa de erros/excessoes, logicas de negcio, ifs
@@ -32,14 +33,14 @@ class CreateSessionService {
 
     if (!user) {
       console.log("fuck1");
-      throw new Error("Invalid user or password");
+      throw new AppError("Invalid user or password", 401);
     }
 
     const validPassword = await compare(password, user.password);
 
     if (!validPassword) {
       console.log("fuck2");
-      throw new Error("Invalid user or password");
+      throw new AppError("Invalid user or password", 401);
     }
 
     const { secret, expiresIn } = AuthConfig.jwt;

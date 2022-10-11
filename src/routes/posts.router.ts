@@ -16,23 +16,19 @@ postsRouter.get("/", async (req, res) => {
 });
 
 postsRouter.post("/", async (req, res) => {
-  try {
-    const { author_id, title, content, image, video_link } = req.body;
+  const { author_id, title, content, image, video_link } = req.body;
 
-    const createPost = new CreatePostService();
+  const createPost = new CreatePostService();
 
-    const post = await createPost.execute({
-      author_id,
-      title,
-      content,
-      image,
-      video_link,
-    });
+  const post = await createPost.execute({
+    author_id,
+    title,
+    content,
+    image,
+    video_link,
+  });
 
-    return res.json(post);
-  } catch (err) {
-    return res.status(400);
-  }
+  return res.json(post);
 });
 
 export default postsRouter;
