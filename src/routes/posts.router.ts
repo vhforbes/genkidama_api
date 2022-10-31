@@ -1,17 +1,28 @@
 import { Router } from 'express';
 import { ensureAutenticated } from '../middlewares/ensureAuthenticated';
 import PostsRepository from '../repositories/PostsRepository';
-import CreatePostService from '../services/CreatePostService';
+import CreatePostService from '../services/Posts/CreatePostService';
+import GetPaginatedPostsService from '../services/Posts/GetPaginatedPostsSerivce';
 
 const postsRouter = Router();
-const postsRepository = PostsRepository;
 
 postsRouter.use(ensureAutenticated);
 
 postsRouter.get('/', async (req, res) => {
-  const posts = await postsRepository.find();
+  // If there is no query params return all posts
+  if (!req.query.page || !req.query.limit) {
+    const response = await PostsRepository.find();
+    res.json({ response });
+  }
 
-  res.json({ posts });
+  if (req.query.page && req.query.limit) {
+    const page = parseInt(req.query.page as string, 10);
+    const limit = parseInt(req.query.limit as string, 10);
+
+    const response = await GetPaginatedPostsService.execute({ page, limit });
+
+    res.json({ response });
+  }
 });
 
 postsRouter.post('/', async (req, res) => {

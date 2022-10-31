@@ -1,7 +1,7 @@
 import { hash } from 'bcryptjs';
-import { AppDataSource } from '../data-source';
-import AppError from '../errors/AppError';
-import User from '../models/User';
+import { AppDataSource } from '../../data-source';
+import AppError from '../../errors/AppError';
+import User from '../../models/User';
 
 interface Request {
   name: string;

@@ -24,19 +24,18 @@ app.use(express.json());
 app.use('/files', express.static(uploadConfig.tmpPath));
 app.use(routes);
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+  console.error(err);
   if (err instanceof AppError) {
     res.status(err.statusCode).json({
       status: 'error',
       message: err.message,
     });
+  } else {
+    res.status(500).json({
+      status: 'error',
+      message: err.message,
+    });
   }
-
-  console.error(err);
-
-  res.status(500).json({
-    status: 'error',
-    message: err.message,
-  });
 });
 
 app.listen(3333, () => {

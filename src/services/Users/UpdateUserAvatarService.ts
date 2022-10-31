@@ -1,11 +1,11 @@
 import fs from 'fs';
 import path from 'path';
 
-import { AppDataSource } from '../data-source';
+import { AppDataSource } from '../../data-source';
 
-import uploadConfig from '../config/upload';
-import User from '../models/User';
-import AppError from '../errors/AppError';
+import uploadConfig from '../../config/upload';
+import User from '../../models/User';
+import AppError from '../../errors/AppError';
 
 /**
  * [x] Recebe as infos da chamada

@@ -4,8 +4,8 @@ import multer from 'multer';
 import uploadConfig from '../config/upload';
 
 import { ensureAutenticated } from '../middlewares/ensureAuthenticated';
-import CreateUserService from '../services/CreateUserService';
-import UpdateUserAvatarService from '../services/UpdateUserAvatarService';
+import CreateUserService from '../services/Users/CreateUserService';
+import UpdateUserAvatarService from '../services/Users/UpdateUserAvatarService';
 
 const usersRouter = Router();
 const upload = multer(uploadConfig);
@@ -42,7 +42,6 @@ usersRouter.patch(
       avatar: file.filename,
     });
 
-    // @ts-expect-error
     delete user.password;
 
     res.json(user);
