@@ -21,7 +21,7 @@ postsRouter.get('/', async (req, res) => {
 
     const response = await GetPaginatedPostsService.execute({ page, limit });
 
-    res.json({ response });
+    res.json(response);
   }
 });
 
