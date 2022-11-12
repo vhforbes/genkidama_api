@@ -36,6 +36,6 @@ export const ensureAutenticated = (
 
     return next();
   } catch {
-    throw new AppError('Invalid JWT Token');
+    throw new AppError('Invalid JWT Token', 401);
   }
 };
