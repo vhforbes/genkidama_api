@@ -11,7 +11,9 @@ import User from './models/User';
 
 dotenv.config();
 
-console.log(process.env.DATABASE_URL);
+if (!process.env.DATABASE_URL) {
+  console.log('NOT FOUND THE DATABASE ENV');
+}
 
 export const AppDataSource = new DataSource({
   url: process.env.DATABASE_URL,
