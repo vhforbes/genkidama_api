@@ -27,4 +27,7 @@ exports.AppDataSource = new typeorm_1.DataSource({
         _1668256084805_verifiedUserAttribute_1.verifiedUserAttribute1668256084805,
     ],
     subscribers: [],
+    ssl: {
+        rejectUnauthorized: false,
+    },
 });

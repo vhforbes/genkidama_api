@@ -26,4 +26,7 @@ export const AppDataSource = new DataSource({
     verifiedUserAttribute1668256084805,
   ],
   subscribers: [],
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
