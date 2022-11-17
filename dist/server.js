@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const dotenv_1 = __importDefault(require("dotenv"));
 require("reflect-metadata");
 require("express-async-errors");
 const express_1 = __importDefault(require("express"));
@@ -20,6 +21,7 @@ const routes_1 = __importDefault(require("./routes"));
 const data_source_1 = require("./data-source");
 const upload_1 = __importDefault(require("./config/upload"));
 const AppError_1 = __importDefault(require("./errors/AppError"));
+dotenv_1.default.config();
 data_source_1.AppDataSource.initialize()
     .then(() => __awaiter(void 0, void 0, void 0, function* () {
     console.log('Data Source has been initialized!');
@@ -47,6 +49,7 @@ app.use((err, _req, res, _next) => {
         });
     }
 });
-app.listen(3333, () => {
-    console.log('Server started on port 3333');
+const port = process.env.PORT || 3333;
+app.listen(port, () => {
+    console.log('Server started on port ', port);
 });

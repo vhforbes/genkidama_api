@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppDataSource = void 0;
+const dotenv_1 = __importDefault(require("dotenv"));
 require("reflect-metadata");
 const typeorm_1 = require("typeorm");
 const _1664455607246_postsTableUsersTable_1 = require("./migrations/1664455607246-postsTableUsersTable");
@@ -11,13 +12,13 @@ const _1668256084805_verifiedUserAttribute_1 = require("./migrations/16682560848
 const Post_1 = __importDefault(require("./models/Post"));
 const Token_1 = __importDefault(require("./models/Token"));
 const User_1 = __importDefault(require("./models/User"));
+dotenv_1.default.config();
+if (!process.env.DATABASE_URL) {
+    console.log('NOT FOUND THE DATABASE ENV');
+}
 exports.AppDataSource = new typeorm_1.DataSource({
+    url: process.env.DATABASE_URL,
     type: 'postgres',
-    host: 'localhost',
-    port: 5432,
-    username: 'genkidama',
-    password: 'genkidama',
-    database: 'genkidama',
     synchronize: true,
     logging: false,
     entities: [Post_1.default, User_1.default, Token_1.default],
