@@ -1,3 +1,4 @@
+import dotenv from 'dotenv';
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 
@@ -8,13 +9,11 @@ import Post from './models/Post';
 import Token from './models/Token';
 import User from './models/User';
 
+dotenv.config();
+
 export const AppDataSource = new DataSource({
+  url: process.env.DATABASE_URL,
   type: 'postgres',
-  host: 'localhost',
-  port: 5432,
-  username: 'genkidama',
-  password: 'genkidama',
-  database: 'genkidama',
   synchronize: true,
   logging: false,
   entities: [Post, User, Token],

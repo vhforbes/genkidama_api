@@ -1,3 +1,4 @@
+import dotenv from 'dotenv';
 import 'reflect-metadata';
 import 'express-async-errors';
 
@@ -7,6 +8,8 @@ import routes from './routes';
 import { AppDataSource } from './data-source';
 import uploadConfig from './config/upload';
 import AppError from './errors/AppError';
+
+dotenv.config();
 
 AppDataSource.initialize()
   .then(async () => {
