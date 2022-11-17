@@ -8,7 +8,8 @@
     "dev:server": "ts-node-dev --inspect --transpile-only ./src/server.ts",
     "migration:create": "typeorm-ts-node-commonjs migration:create",
     "migration:run": "typeorm-ts-node-commonjs migration:run -d ./src/data-source.ts",
-    "migration:revert": "typeorm-ts-node-commonjs migration:revert -d ./src/data-source.ts"
+    "migration:revert": "typeorm-ts-node-commonjs migration:revert -d ./src/data-source.ts",
+    "start": "node dist/server.js"
   },
   "author": "",
   "license": "ISC",
@@ -17,6 +18,7 @@
     "@types/nodemailer": "^6.4.6",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
     "express": "^4.18.1",
     "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^8.5.1",
