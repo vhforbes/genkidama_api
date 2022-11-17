@@ -20,10 +20,6 @@ sessionsRouter.post('/', async (req, res) => {
   return res.json({ user, token, refreshToken });
 });
 
-sessionsRouter.get('/', ensureAutenticated, async (req, res) => {
-  return res.json({ validSession: true });
-});
-
 sessionsRouter.post('/refresh', async (req, res) => {
   const refreshToken = req.body.refreshToken;
 

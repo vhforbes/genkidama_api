@@ -1,6 +1,8 @@
+import crypto from 'crypto';
 import { hash } from 'bcryptjs';
 import { AppDataSource } from '../../data-source';
 import AppError from '../../errors/AppError';
+import Token from '../../models/Token';
 import User from '../../models/User';
 
 interface Request {
@@ -9,14 +11,20 @@ interface Request {
   password: string;
 }
 
+interface Response {
+  user: User;
+  token: string;
+}
+
 class CreateUserService {
   public static async execute({
     name,
     email,
     password,
-  }: Request): Promise<User> {
+  }: Request): Promise<Response> {
     // Transforma a data em um horario inicial, 9:15 => 9:00
     const userRepository = AppDataSource.getRepository(User);
+    const tokenRepository = AppDataSource.getRepository(Token);
 
     const userExists = await userRepository.findOne({
       where: { email },
@@ -34,9 +42,17 @@ class CreateUserService {
       password: hashedPassword,
     });
 
-    const results = await userRepository.save(user);
+    const createdUser = await userRepository.save(user);
 
-    return results;
+    // Create a token to to be used in email verification
+    const verificationToken = tokenRepository.create({
+      user_id: createdUser.id,
+      token: crypto.randomBytes(16).toString('hex'),
+    });
+
+    const createdToken = await tokenRepository.save(verificationToken);
+
+    return { user: createdUser, token: createdToken.token };
   }
 }
 
