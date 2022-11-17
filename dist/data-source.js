@@ -1,0 +1,29 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AppDataSource = void 0;
+require("reflect-metadata");
+const typeorm_1 = require("typeorm");
+const _1664455607246_postsTableUsersTable_1 = require("./migrations/1664455607246-postsTableUsersTable");
+const _1668256084805_verifiedUserAttribute_1 = require("./migrations/1668256084805-verifiedUserAttribute");
+const Post_1 = __importDefault(require("./models/Post"));
+const Token_1 = __importDefault(require("./models/Token"));
+const User_1 = __importDefault(require("./models/User"));
+exports.AppDataSource = new typeorm_1.DataSource({
+    type: 'postgres',
+    host: 'localhost',
+    port: 5432,
+    username: 'genkidama',
+    password: 'genkidama',
+    database: 'genkidama',
+    synchronize: true,
+    logging: false,
+    entities: [Post_1.default, User_1.default, Token_1.default],
+    migrations: [
+        _1664455607246_postsTableUsersTable_1.postsTableUsersTable1664455607246,
+        _1668256084805_verifiedUserAttribute_1.verifiedUserAttribute1668256084805,
+    ],
+    subscribers: [],
+});
