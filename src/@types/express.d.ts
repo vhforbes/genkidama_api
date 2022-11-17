@@ -5,4 +5,7 @@ declare namespace Express {
       name: string;
     };
   }
+  export interface Response {
+    paginatedResults: {};
+  }
 }

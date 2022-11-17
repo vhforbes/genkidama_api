@@ -1,5 +1,5 @@
-import { AppDataSource } from '../data-source';
-import Post from '../models/Post';
+import { AppDataSource } from '../../data-source';
+import Post from '../../models/Post';
 
 interface Request {
   author_id: string;

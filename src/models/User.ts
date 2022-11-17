@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Column,
   CreateDateColumn,
@@ -20,6 +21,9 @@ class User {
 
   @Column()
   password: string;
+
+  @Column({ default: false })
+  verified: boolean;
 
   @Column({ nullable: true })
   avatar: string;
