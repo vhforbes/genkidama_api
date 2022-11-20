@@ -11,9 +11,7 @@ import User from './models/User';
 
 dotenv.config();
 
-if (!process.env.DATABASE_URL) {
-  console.log('NOT FOUND THE DATABASE ENV');
-}
+const enviroment = process.env.ENVIROMENT;
 
 export const AppDataSource = new DataSource({
   url: process.env.DATABASE_URL,
@@ -26,7 +24,10 @@ export const AppDataSource = new DataSource({
     verifiedUserAttribute1668256084805,
   ],
   subscribers: [],
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  ssl:
+    enviroment === 'local'
+      ? false
+      : {
+          rejectUnauthorized: false,
+        },
 });
