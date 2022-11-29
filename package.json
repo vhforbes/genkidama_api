@@ -6,16 +6,20 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev:server": "ts-node-dev --inspect --transpile-only ./src/server.ts",
+    "typeorm": "typeorm-ts-node-commonjs",
+    "migration:generate": "typeorm-ts-node-commonjs migration:generate -d ./src/data-source.ts",
     "migration:create": "typeorm-ts-node-commonjs migration:create",
     "migration:run": "typeorm-ts-node-commonjs migration:run -d ./src/data-source.ts",
     "migration:revert": "typeorm-ts-node-commonjs migration:revert -d ./src/data-source.ts",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "ngrok": "ngrok http http://localhost:3333 --host-header=sample-app.test"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@types/cors": "^2.8.12",
     "@types/nodemailer": "^6.4.6",
+    "axios": "^1.2.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",

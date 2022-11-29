@@ -1,11 +1,11 @@
-import dotenv from 'dotenv';
 import 'reflect-metadata';
+import dotenv from 'dotenv';
 import { DataSource } from 'typeorm';
 
-import { postsTableUsersTable1664455607246 } from './migrations/1664455607246-postsTableUsersTable';
-import { verifiedUserAttribute1668256084805 } from './migrations/1668256084805-verifiedUserAttribute';
+import { emptyMigration1669742463695 } from './migrations/1669742463695-emptyMigration';
 
 import Post from './models/Post';
+import Subscription from './models/Subscription';
 import Token from './models/Token';
 import User from './models/User';
 
@@ -18,10 +18,12 @@ export const AppDataSource = new DataSource({
   type: 'postgres',
   synchronize: true,
   logging: false,
-  entities: [Post, User, Token],
+  entities: [Post, User, Token, Subscription],
   migrations: [
-    postsTableUsersTable1664455607246,
-    verifiedUserAttribute1668256084805,
+    emptyMigration1669742463695,
+    // postsTableUsersTable1664455607246,
+    // verifiedUserAttribute1668256084805,
+    // createSubscription1669738765564,
   ],
   subscribers: [],
   ssl:
