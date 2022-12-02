@@ -2,7 +2,10 @@ import crypto from 'crypto';
 import { hash } from 'bcryptjs';
 import { AppDataSource } from '../../data-source';
 import AppError from '../../errors/AppError';
-import Token from '../../models/Token';
+
+import SendVerificationEmailService from './SendVerificationEmailService';
+
+import ConfirmEmailToken from '../../models/ConfirmEmailToken';
 import User from '../../models/User';
 
 interface Request {
@@ -13,7 +16,6 @@ interface Request {
 
 interface Response {
   user: User;
-  token: string;
 }
 
 class CreateUserService {
@@ -22,9 +24,9 @@ class CreateUserService {
     email,
     password,
   }: Request): Promise<Response> {
-    // Transforma a data em um horario inicial, 9:15 => 9:00
     const userRepository = AppDataSource.getRepository(User);
-    const tokenRepository = AppDataSource.getRepository(Token);
+    const confirmEmailTokenRepository =
+      AppDataSource.getRepository(ConfirmEmailToken);
 
     const userExists = await userRepository.findOne({
       where: { email },
@@ -44,15 +46,19 @@ class CreateUserService {
 
     const createdUser = await userRepository.save(user);
 
-    // Create a token to to be used in email verification
-    const verificationToken = tokenRepository.create({
+    // Send verification email
+    const emailVerificationToken = confirmEmailTokenRepository.create({
       user_id: createdUser.id,
       token: crypto.randomBytes(16).toString('hex'),
     });
 
-    const createdToken = await tokenRepository.save(verificationToken);
+    await SendVerificationEmailService.execute({
+      token: emailVerificationToken.token,
+    });
 
-    return { user: createdUser, token: createdToken.token };
+    await confirmEmailTokenRepository.save(emailVerificationToken);
+
+    return { user: createdUser };
   }
 }
 

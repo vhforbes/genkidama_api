@@ -1,6 +1,6 @@
 import { AppDataSource } from '../../data-source';
 import AppError from '../../errors/AppError';
-import Token from '../../models/Token';
+import Token from '../../models/ConfirmEmailToken';
 import User from '../../models/User';
 
 interface Request {
