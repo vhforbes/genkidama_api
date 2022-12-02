@@ -6,8 +6,9 @@ import { emptyMigration1669742463695 } from './migrations/1669742463695-emptyMig
 
 import Post from './models/Post';
 import Subscription from './models/Subscription';
-import Token from './models/Token';
 import User from './models/User';
+import ConfirmEmailToken from './models/ConfirmEmailToken';
+import PaypalAccessToken from './models/PayPalAccessToken';
 
 dotenv.config();
 
@@ -18,7 +19,7 @@ export const AppDataSource = new DataSource({
   type: 'postgres',
   synchronize: true,
   logging: false,
-  entities: [Post, User, Token, Subscription],
+  entities: [Post, User, ConfirmEmailToken, Subscription, PaypalAccessToken],
   migrations: [
     emptyMigration1669742463695,
     // postsTableUsersTable1664455607246,

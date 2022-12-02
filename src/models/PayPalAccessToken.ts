@@ -10,20 +10,13 @@ import {
 } from 'typeorm';
 import User from './User';
 
-@Entity('tokens')
-class Token {
+@Entity('paypalAccessToken')
+class PaypalAccessToken {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column()
-  token: string;
-
-  // @ManyToOne(() => User, { onDelete: 'CASCADE' })
-  // @JoinColumn({ name: 'user_id' })
-  // user: User;
-
-  @Column()
-  user_id: string;
+  paypal_access_token: string;
 }
 
-export default Token;
+export default PaypalAccessToken;

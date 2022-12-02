@@ -42,19 +42,7 @@ paypalRouter.post('/', async (req, res) => {
       break;
   }
 
-  // await ReceiveWebhookService.execute({
-  //   headers,
-  //   email: resource.subscriber.email_address || null,
-  //   eventType: event_type,
-  // });
-
   res.json({ ok: 'ok' });
 });
-
-// paypalRouter.get('/token', async (req, res) => {
-//   AuthTokenPaypal.execute();
-
-//   res.json({ ok: 'ok' });
-// });
 
 export default paypalRouter;

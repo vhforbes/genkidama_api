@@ -2,7 +2,7 @@ import crypto from 'crypto';
 import { hash } from 'bcryptjs';
 import { AppDataSource } from '../../data-source';
 import AppError from '../../errors/AppError';
-import Token from '../../models/Token';
+import ConfirmEmailToken from '../../models/ConfirmEmailToken';
 import User from '../../models/User';
 
 interface Request {
@@ -22,9 +22,8 @@ class CreateUserService {
     email,
     password,
   }: Request): Promise<Response> {
-    // Transforma a data em um horario inicial, 9:15 => 9:00
     const userRepository = AppDataSource.getRepository(User);
-    const tokenRepository = AppDataSource.getRepository(Token);
+    const tokenRepository = AppDataSource.getRepository(ConfirmEmailToken);
 
     const userExists = await userRepository.findOne({
       where: { email },
