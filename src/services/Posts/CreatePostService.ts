@@ -1,5 +1,7 @@
 import { AppDataSource } from '../../data-source';
+import AppError from '../../errors/AppError';
 import Post from '../../models/Post';
+import User from '../../models/User';
 
 interface Request {
   author_id: string;
@@ -18,6 +20,15 @@ class CreatePostService {
     video_link,
   }: Request): Promise<Post | null> {
     const postsRepository = AppDataSource.getRepository(Post);
+    const usersRepository = AppDataSource.getRepository(User);
+
+    const user = await usersRepository.findOne({
+      where: { id: author_id },
+    });
+
+    if (!user) {
+      throw new AppError('Unable to create post: User not found');
+    }
 
     const post = postsRepository.create({
       author_id: author_id,
