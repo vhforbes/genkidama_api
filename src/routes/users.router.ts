@@ -6,7 +6,6 @@ import uploadConfig from '../config/upload';
 import { ensureAutenticated } from '../middlewares/ensureAuthenticated';
 
 import CreateUserService from '../services/Users/CreateUserService';
-import SendVerificationEmailService from '../services/Users/SendVerificationEmailService';
 import UpdateUserAvatarService from '../services/Users/UpdateUserAvatarService';
 import VerifyEmailSerice from '../services/Users/VerifyEmailSerice';
 
@@ -16,7 +15,7 @@ const upload = multer(uploadConfig);
 usersRouter.post('/', async (req, res) => {
   const { name, email, password } = req.body;
 
-  const { user, token } = await CreateUserService.execute({
+  const { user } = await CreateUserService.execute({
     name,
     email,
     password,
@@ -25,11 +24,7 @@ usersRouter.post('/', async (req, res) => {
   // @ts-expect-error
   delete user.password;
 
-  // -------- Send verification email --------
-
-  await SendVerificationEmailService.execute({ token });
-
-  return res.json(user);
+  return res.json({ user });
 });
 
 usersRouter.patch(

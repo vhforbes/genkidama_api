@@ -1,4 +1,5 @@
 import axios from 'axios';
+import dotenv from 'dotenv';
 
 /*
 [] Check if a auth token already exists ou is expired
@@ -9,6 +10,8 @@ import axios from 'axios';
 
 class GetPaypalAccessToken {
   public static async execute(): Promise<{}> {
+    dotenv.config();
+
     const response = await axios({
       url: 'https://api.sandbox.paypal.com/v1/oauth2/token',
       method: 'post',
@@ -18,10 +21,8 @@ class GetPaypalAccessToken {
         'content-type': 'application/x-www-form-urlencoded',
       },
       auth: {
-        username:
-          'AVXXx1iHH4B-iILgv85Hx0KxnPwekFNSP42RGcUyeFRkabrwjaEeS_nfVeggJkKQPplrUi3BbgwTdfFu',
-        password:
-          'ECvYMdjdbnMpGPkJozlM_zK-UE3EETLo9vC5TB5cMX2n4enECYvdJF9o0QD2dSRROvD70NLAme4uSnTC',
+        username: process.env.PAYPAL_USERNAME as string,
+        password: process.env.PAYPAL_PASSWORD as string,
       },
       params: {
         grant_type: 'client_credentials',

@@ -29,8 +29,21 @@ class CreateSubscriptionService {
       throw new AppError('User not found');
     }
 
+    // CHECKS IF USER HAS A ACTIVE SUBSCRIPTION
     if (user.subscription_id) {
-      throw new AppError('User already has a subscription, update it instead');
+      const subscription = await subscriptionRepository.findOne({
+        where: { subscription_id: user.subscription_id },
+      });
+
+      if (!subscription) {
+        throw new AppError('User subscription was not found');
+      }
+
+      if (subscription.status === 'ACTIVE') {
+        throw new AppError(
+          'User already has a active subscription, update it instead',
+        );
+      }
     }
 
     const { data } = await paypalApi(
@@ -52,7 +65,7 @@ class CreateSubscriptionService {
 
     const createdSubscription = await subscriptionRepository.save(subscription);
 
-    user.subscription_id = createdSubscription.id;
+    user.subscription_id = createdSubscription.subscription_id;
     user.subscription = createdSubscription;
 
     const updateUser = await userRepository.save(user);
