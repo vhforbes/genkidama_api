@@ -6,6 +6,7 @@ import { AppDataSource } from '../../data-source';
 import AuthConfig from '../../config/auth';
 import User from '../../models/User';
 import AppError from '../../errors/AppError';
+import Subscription from '../../models/Subscription';
 /**
  * [x] Recebe as infos da chamada
  * [x] Tratativa de erros/excessoes, logicas de negcio, ifs
@@ -21,11 +22,13 @@ interface Return {
   user: User;
   token: string;
   refreshToken: string;
+  subscription: Subscription | null;
 }
 
 class CreateSessionService {
   public static async execute({ email, password }: Request): Promise<Return> {
     const userRepository = AppDataSource.getRepository(User);
+    const subscriptionRepository = AppDataSource.getRepository(Subscription);
 
     const user = await userRepository.findOne({
       where: { email },
@@ -55,7 +58,11 @@ class CreateSessionService {
       expiresIn: AuthTokenConfig.expiresIn,
     });
 
-    return { user, token, refreshToken };
+    const subscription = await subscriptionRepository.findOne({
+      where: { id: user.subscription_id },
+    });
+
+    return { user, token, refreshToken, subscription };
   }
 }
 
