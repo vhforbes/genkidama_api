@@ -3,7 +3,7 @@ import AppError from '../../errors/AppError';
 
 import Subscription from '../../models/Subscription';
 
-import paypalApi from '../../apis/paypalApi';
+import paypalPrivateApi from '../../apis/paypalPrivateApi';
 
 interface Request {
   paypalSubscriptionId: string;
@@ -33,7 +33,7 @@ class CancelSubscriptionService {
     }
 
     if (subscription.status === 'ACTIVE') {
-      const cancelResponse = await paypalApi.post(
+      const cancelResponse = await paypalPrivateApi.post(
         `/billing/subscriptions/${subscription.paypal_subscription_id}/cancel`,
         { reason: 'watever' },
       );

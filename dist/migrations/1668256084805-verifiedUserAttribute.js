@@ -51,3 +51,4 @@ class verifiedUserAttribute1668256084805 {
     }
 }
 exports.verifiedUserAttribute1668256084805 = verifiedUserAttribute1668256084805;
+//# sourceMappingURL=1668256084805-verifiedUserAttribute.js.map

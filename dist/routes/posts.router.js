@@ -44,3 +44,4 @@ postsRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* 
     return res.json(post);
 }));
 exports.default = postsRouter;
+//# sourceMappingURL=posts.router.js.map

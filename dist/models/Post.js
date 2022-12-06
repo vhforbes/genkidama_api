@@ -58,3 +58,4 @@ Post = __decorate([
     (0, typeorm_1.Entity)('posts')
 ], Post);
 exports.default = Post;
+//# sourceMappingURL=Post.js.map

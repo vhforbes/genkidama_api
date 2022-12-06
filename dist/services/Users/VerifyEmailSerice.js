@@ -14,12 +14,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const data_source_1 = require("../../data-source");
 const AppError_1 = __importDefault(require("../../errors/AppError"));
-const Token_1 = __importDefault(require("../../models/Token"));
+const ConfirmEmailToken_1 = __importDefault(require("../../models/ConfirmEmailToken"));
 const User_1 = __importDefault(require("../../models/User"));
 class VerifyEmailSerice {
     static execute({ token }) {
         return __awaiter(this, void 0, void 0, function* () {
-            const tokenRepository = data_source_1.AppDataSource.getRepository(Token_1.default);
+            const tokenRepository = data_source_1.AppDataSource.getRepository(ConfirmEmailToken_1.default);
             const userRepository = data_source_1.AppDataSource.getRepository(User_1.default);
             const verificationToken = yield tokenRepository.findOne({
                 where: { token },
@@ -41,3 +41,4 @@ class VerifyEmailSerice {
     }
 }
 exports.default = VerifyEmailSerice;
+//# sourceMappingURL=VerifyEmailSerice.js.map

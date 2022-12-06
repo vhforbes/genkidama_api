@@ -19,13 +19,13 @@ const RefreshTokenService_1 = __importDefault(require("../services/Sessions/Refr
 const sessionsRouter = (0, express_1.Router)();
 sessionsRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
-    const { user, token, refreshToken } = yield CreateSessionService_1.default.execute({
+    const { user, token, refreshToken, subscription } = yield CreateSessionService_1.default.execute({
         email,
         password,
     });
     // @ts-expect-error
     delete user.password;
-    return res.json({ user, token, refreshToken });
+    return res.json({ user, token, refreshToken, subscription });
 }));
 sessionsRouter.post('/refresh', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const refreshToken = req.body.refreshToken;
@@ -36,3 +36,4 @@ sessionsRouter.post('/refresh', (req, res) => __awaiter(void 0, void 0, void 0, 
     return res.json(newToken);
 }));
 exports.default = sessionsRouter;
+//# sourceMappingURL=sessions.router.js.map

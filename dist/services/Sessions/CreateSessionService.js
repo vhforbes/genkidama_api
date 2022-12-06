@@ -18,10 +18,12 @@ const data_source_1 = require("../../data-source");
 const auth_1 = __importDefault(require("../../config/auth"));
 const User_1 = __importDefault(require("../../models/User"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
+const Subscription_1 = __importDefault(require("../../models/Subscription"));
 class CreateSessionService {
     static execute({ email, password }) {
         return __awaiter(this, void 0, void 0, function* () {
             const userRepository = data_source_1.AppDataSource.getRepository(User_1.default);
+            const subscriptionRepository = data_source_1.AppDataSource.getRepository(Subscription_1.default);
             const user = yield userRepository.findOne({
                 where: { email },
             });
@@ -40,8 +42,12 @@ class CreateSessionService {
             let token = (0, jsonwebtoken_1.sign)({ id: user.id, name: user.name }, AuthTokenConfig.secret, {
                 expiresIn: AuthTokenConfig.expiresIn,
             });
-            return { user, token, refreshToken };
+            const subscription = yield subscriptionRepository.findOne({
+                where: { id: user.subscription_id },
+            });
+            return { user, token, refreshToken, subscription };
         });
     }
 }
 exports.default = CreateSessionService;
+//# sourceMappingURL=CreateSessionService.js.map

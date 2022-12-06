@@ -18,3 +18,4 @@ exports.default = {
         },
     }),
 };
+//# sourceMappingURL=upload.js.map

@@ -13,11 +13,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const data_source_1 = require("../../data-source");
+const AppError_1 = __importDefault(require("../../errors/AppError"));
 const Post_1 = __importDefault(require("../../models/Post"));
+const User_1 = __importDefault(require("../../models/User"));
 class CreatePostService {
     static execute({ title, author_id, content, image, video_link, }) {
         return __awaiter(this, void 0, void 0, function* () {
             const postsRepository = data_source_1.AppDataSource.getRepository(Post_1.default);
+            const usersRepository = data_source_1.AppDataSource.getRepository(User_1.default);
+            const user = yield usersRepository.findOne({
+                where: { id: author_id },
+            });
+            if (!user) {
+                throw new AppError_1.default('Unable to create post: User not found');
+            }
             const post = postsRepository.create({
                 author_id: author_id,
                 title,
@@ -31,3 +40,4 @@ class CreatePostService {
     }
 }
 exports.default = CreatePostService;
+//# sourceMappingURL=CreatePostService.js.map

@@ -10,3 +10,4 @@ exports.default = {
         expiresIn: '15d',
     },
 };
+//# sourceMappingURL=auth.js.map

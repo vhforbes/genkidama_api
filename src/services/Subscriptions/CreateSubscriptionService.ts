@@ -4,7 +4,7 @@ import AppError from '../../errors/AppError';
 import Subscription from '../../models/Subscription';
 import User from '../../models/User';
 
-import paypalApi from '../../apis/paypalApi';
+import paypalPrivateApi from '../../apis/paypalPrivateApi';
 
 interface Request {
   email: string;
@@ -48,7 +48,7 @@ class CreateSubscriptionService {
       }
     }
 
-    const { data } = await paypalApi(
+    const { data } = await paypalPrivateApi(
       `/billing/subscriptions/${subscriptionID}`,
     );
 

@@ -16,14 +16,14 @@ const crypto_1 = __importDefault(require("crypto"));
 const bcryptjs_1 = require("bcryptjs");
 const data_source_1 = require("../../data-source");
 const AppError_1 = __importDefault(require("../../errors/AppError"));
-const Token_1 = __importDefault(require("../../models/Token"));
+const SendVerificationEmailService_1 = __importDefault(require("./SendVerificationEmailService"));
+const ConfirmEmailToken_1 = __importDefault(require("../../models/ConfirmEmailToken"));
 const User_1 = __importDefault(require("../../models/User"));
 class CreateUserService {
     static execute({ name, email, password, }) {
         return __awaiter(this, void 0, void 0, function* () {
-            // Transforma a data em um horario inicial, 9:15 => 9:00
             const userRepository = data_source_1.AppDataSource.getRepository(User_1.default);
-            const tokenRepository = data_source_1.AppDataSource.getRepository(Token_1.default);
+            const confirmEmailTokenRepository = data_source_1.AppDataSource.getRepository(ConfirmEmailToken_1.default);
             const userExists = yield userRepository.findOne({
                 where: { email },
             });
@@ -37,14 +37,18 @@ class CreateUserService {
                 password: hashedPassword,
             });
             const createdUser = yield userRepository.save(user);
-            // Create a token to to be used in email verification
-            const verificationToken = tokenRepository.create({
+            // Send verification email
+            const emailVerificationToken = confirmEmailTokenRepository.create({
                 user_id: createdUser.id,
                 token: crypto_1.default.randomBytes(16).toString('hex'),
             });
-            const createdToken = yield tokenRepository.save(verificationToken);
-            return { user: createdUser, token: createdToken.token };
+            yield SendVerificationEmailService_1.default.execute({
+                token: emailVerificationToken.token,
+            });
+            yield confirmEmailTokenRepository.save(emailVerificationToken);
+            return { user: createdUser };
         });
     }
 }
 exports.default = CreateUserService;
+//# sourceMappingURL=CreateUserService.js.map

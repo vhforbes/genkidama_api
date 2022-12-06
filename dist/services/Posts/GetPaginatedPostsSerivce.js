@@ -52,3 +52,4 @@ class GetPaginatedPostsService {
     }
 }
 exports.default = GetPaginatedPostsService;
+//# sourceMappingURL=GetPaginatedPostsSerivce.js.map

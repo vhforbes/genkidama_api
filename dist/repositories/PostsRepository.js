@@ -29,3 +29,4 @@ const PostsRepository = data_source_1.AppDataSource.getRepository(Post_1.default
     },
 });
 exports.default = PostsRepository;
+//# sourceMappingURL=PostsRepository.js.map

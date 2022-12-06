@@ -27,3 +27,4 @@ const ensureAutenticated = (req, res, next) => {
     }
 };
 exports.ensureAutenticated = ensureAutenticated;
+//# sourceMappingURL=ensureAuthenticated.js.map

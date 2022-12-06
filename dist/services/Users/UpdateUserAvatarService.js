@@ -43,3 +43,4 @@ class UpdateUserAvatarService {
     }
 }
 exports.default = UpdateUserAvatarService;
+//# sourceMappingURL=UpdateUserAvatarService.js.map

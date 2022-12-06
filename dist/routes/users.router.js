@@ -17,23 +17,20 @@ const multer_1 = __importDefault(require("multer"));
 const upload_1 = __importDefault(require("../config/upload"));
 const ensureAuthenticated_1 = require("../middlewares/ensureAuthenticated");
 const CreateUserService_1 = __importDefault(require("../services/Users/CreateUserService"));
-const SendVerificationEmailService_1 = __importDefault(require("../services/Users/SendVerificationEmailService"));
 const UpdateUserAvatarService_1 = __importDefault(require("../services/Users/UpdateUserAvatarService"));
 const VerifyEmailSerice_1 = __importDefault(require("../services/Users/VerifyEmailSerice"));
 const usersRouter = (0, express_1.Router)();
 const upload = (0, multer_1.default)(upload_1.default);
 usersRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, email, password } = req.body;
-    const { user, token } = yield CreateUserService_1.default.execute({
+    const { user } = yield CreateUserService_1.default.execute({
         name,
         email,
         password,
     });
     // @ts-expect-error
     delete user.password;
-    // -------- Send verification email --------
-    yield SendVerificationEmailService_1.default.execute({ token });
-    return res.json(user);
+    return res.json({ user });
 }));
 usersRouter.patch('/avatar', ensureAuthenticated_1.ensureAutenticated, upload.single('avatar'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const file = req.file;
@@ -56,3 +53,4 @@ usersRouter.get('/verify/:token', (req, res) => __awaiter(void 0, void 0, void 0
     }
 }));
 exports.default = usersRouter;
+//# sourceMappingURL=users.router.js.map

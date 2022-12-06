@@ -12,7 +12,8 @@
     "migration:run": "typeorm-ts-node-commonjs migration:run -d ./src/data-source.ts",
     "migration:revert": "typeorm-ts-node-commonjs migration:revert -d ./src/data-source.ts",
     "start": "node dist/server.js",
-    "ngrok": "ngrok http http://localhost:3333 --host-header=sample-app.test"
+    "ngrok": "ngrok http http://localhost:3333 --host-header=sample-app.test",
+    "build": "tsc --build"
   },
   "author": "",
   "license": "ISC",
