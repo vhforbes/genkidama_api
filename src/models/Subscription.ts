@@ -22,7 +22,7 @@ class Subscription {
   status: string;
 
   @Column()
-  subscription_id: string;
+  paypal_subscription_id: string;
 
   @Column()
   plan_id: string;

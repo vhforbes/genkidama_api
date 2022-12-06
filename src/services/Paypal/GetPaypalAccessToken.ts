@@ -1,18 +1,24 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
+import { AppDataSource } from '../../data-source';
+import PaypalAccessToken from '../../models/PayPalAccessToken';
 
-/*
-[] Check if a auth token already exists ou is expired
-[] Get auth token
-[] Save it somewhere
-[]
-*/
+dotenv.config();
+
+const paypalTokenApi = axios.create({});
 
 class GetPaypalAccessToken {
   public static async execute(): Promise<{}> {
-    dotenv.config();
+    const paypalAccessTokenRepository =
+      AppDataSource.getRepository(PaypalAccessToken);
 
-    const response = await axios({
+    const paypalAccessToken = await paypalAccessTokenRepository.find();
+
+    if (paypalAccessToken[0]) {
+      paypalAccessTokenRepository.delete(paypalAccessToken[0]);
+    }
+
+    const response = await paypalTokenApi({
       url: 'https://api.sandbox.paypal.com/v1/oauth2/token',
       method: 'post',
       headers: {
@@ -29,9 +35,15 @@ class GetPaypalAccessToken {
       },
     });
 
-    const token = response.data.access_token;
+    const paypalToken = response.data.access_token;
 
-    return token;
+    const createdPaypalAccessToken = paypalAccessTokenRepository.create({
+      paypal_access_token: paypalToken,
+    });
+
+    await paypalAccessTokenRepository.save(createdPaypalAccessToken);
+
+    return paypalToken as string;
   }
 }
 

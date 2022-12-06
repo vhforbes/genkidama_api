@@ -1,23 +1,23 @@
 import { Router } from 'express';
 import { ensureAutenticated } from '../middlewares/ensureAuthenticated';
-import CreateSubscriptionService from '../services/Subscriptions/CreateSubscription';
+import CancelSubscriptionService from '../services/Subscriptions/CancelSubscriptionService';
+import CreateSubscriptionService from '../services/Subscriptions/CreateSubscriptionService';
+import SubscriptionStatusService from '../services/Subscriptions/SubscriptionStatusService';
 
 const subscriptionsRouter = Router();
 
-subscriptionsRouter.post('/create', ensureAutenticated, async (req, res) => {
-  /* 
-        Paypal Token Middleware
-        - Validar se o token atual é valido ou pegar novo token
-        
-        Create Subscription Service
-        - Fazer chamada para pegar detalhes da order
-        - Passar esses detalhes para nossa DB
-        - Ativar a subscription
-        
-        */
-  const { email, subscriptionID } = req.body;
+subscriptionsRouter.get('/status', ensureAutenticated, async (req, res) => {
+  const userId = req.user.id;
 
-  // const subscriptionId = req.params.subscription_id; // will come from the front end
+  const subscriptionStatus = await SubscriptionStatusService.execute({
+    userId,
+  });
+
+  res.send(subscriptionStatus);
+});
+
+subscriptionsRouter.post('/create', ensureAutenticated, async (req, res) => {
+  const { email, subscriptionID } = req.body;
 
   const createdSubscription = await CreateSubscriptionService.execute({
     email,
@@ -25,6 +25,16 @@ subscriptionsRouter.post('/create', ensureAutenticated, async (req, res) => {
   });
 
   return res.json(createdSubscription);
+});
+
+subscriptionsRouter.post('/cancel', ensureAutenticated, async (req, res) => {
+  const { paypalSubscriptionId } = req.body;
+
+  const canceledSubscription = await CancelSubscriptionService.execute({
+    paypalSubscriptionId: paypalSubscriptionId as string,
+  });
+
+  return res.json(canceledSubscription);
 });
 
 export default subscriptionsRouter;

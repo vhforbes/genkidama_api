@@ -1,6 +1,7 @@
 import { Router } from 'express';
-
-import CreateSubscriptionService from '../services/Subscriptions/CreateSubscription';
+import AppError from '../errors/AppError';
+import CancelSubscriptionService from '../services/Subscriptions/CancelSubscriptionService';
+import UpdateSubscriptionService from '../services/Subscriptions/UpdateSubscriptionService';
 
 const paypalRouter = Router();
 
@@ -8,41 +9,45 @@ paypalRouter.post('/', async (req, res) => {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const { event_type, resource } = req.body;
 
+  let serviceResponse = null;
+
   switch (event_type) {
-    case 'BILLING.SUBSCRIPTION.ACTIVATED': {
-      // "id": "I-BW452GLLEP1G" => Subscription identifier
-      // "plan_id": "P-5ML4271244454362WXNWU5NQ",
-
-      const user = await CreateSubscriptionService.execute({
-        email: resource.subscriber.email_address,
-        subscription_id: resource.id,
-        plan_id: resource.plan_id,
-      });
-
-      res.json({ user: user });
-      break;
-    }
-
     case 'BILLING.SUBSCRIPTION.CANCELLED':
-      console.log('CANCELED');
+      serviceResponse = await CancelSubscriptionService.execute({
+        paypalSubscriptionId: resource.id,
+      });
 
       break;
 
     case 'BILLING.SUBSCRIPTION.EXPIRED':
-      console.log('EXPIRED');
+      serviceResponse = await CancelSubscriptionService.execute({
+        paypalSubscriptionId: resource.id,
+      });
+
+      break;
+
+    case 'BILLING.SUBSCRIPTION.UPDATED':
+      serviceResponse = await UpdateSubscriptionService.execute({
+        paypalSubscriptionId: resource.id,
+        current_period_end: resource.final_payment_due_date,
+      });
 
       break;
 
     case 'BILLING.SUBSCRIPTION.RE-ACTIVATED':
-      console.log('RE-ACTIVATED');
+      serviceResponse = await UpdateSubscriptionService.execute({
+        paypalSubscriptionId: resource.id,
+        current_period_end: resource.final_payment_due_date,
+      });
 
       break;
 
     default:
+      throw new AppError(`Webhhok event ${event_type} not mapped`, 200);
       break;
   }
 
-  res.json({ ok: 'ok' });
+  res.json({ serviceResponse });
 });
 
 export default paypalRouter;

@@ -1,8 +1,10 @@
 import { AppDataSource } from '../../data-source';
 import AppError from '../../errors/AppError';
+
 import Subscription from '../../models/Subscription';
 import User from '../../models/User';
-import paypalApi from '../../utils/paypalApi';
+
+import paypalApi from '../../apis/paypalApi';
 
 interface Request {
   email: string;
@@ -32,7 +34,7 @@ class CreateSubscriptionService {
     // CHECKS IF USER HAS A ACTIVE SUBSCRIPTION
     if (user.subscription_id) {
       const subscription = await subscriptionRepository.findOne({
-        where: { subscription_id: user.subscription_id },
+        where: { id: user.subscription_id },
       });
 
       if (!subscription) {
@@ -56,7 +58,7 @@ class CreateSubscriptionService {
 
     const subscription = subscriptionRepository.create({
       user_id: user.id,
-      subscription_id: subscriptionID,
+      paypal_subscription_id: subscriptionID,
       plan_id: data.plan_id,
       status: 'ACTIVE',
       current_period_start: data.start_time,
@@ -65,13 +67,12 @@ class CreateSubscriptionService {
 
     const createdSubscription = await subscriptionRepository.save(subscription);
 
-    user.subscription_id = createdSubscription.subscription_id;
     user.subscription = createdSubscription;
 
-    const updateUser = await userRepository.save(user);
+    await userRepository.save(user);
 
     return {
-      user: updateUser,
+      subscription: subscription,
     };
   }
 }
