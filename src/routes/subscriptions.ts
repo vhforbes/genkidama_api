@@ -13,7 +13,7 @@ subscriptionsRouter.get('/status', ensureAutenticated, async (req, res) => {
     userId,
   });
 
-  res.send(subscriptionStatus);
+  res.json(subscriptionStatus);
 });
 
 subscriptionsRouter.post('/create', ensureAutenticated, async (req, res) => {
@@ -28,10 +28,11 @@ subscriptionsRouter.post('/create', ensureAutenticated, async (req, res) => {
 });
 
 subscriptionsRouter.post('/cancel', ensureAutenticated, async (req, res) => {
-  const { paypalSubscriptionId } = req.body;
+  const { paypalSubscriptionId, cancelationReason } = req.body;
 
   const canceledSubscription = await CancelSubscriptionService.execute({
     paypalSubscriptionId: paypalSubscriptionId as string,
+    cancelationReason: cancelationReason as string,
   });
 
   return res.json(canceledSubscription);

@@ -1,14 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-import User from './User';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('subscriptions')
 class Subscription {
@@ -35,6 +26,9 @@ class Subscription {
 
   @Column({ nullable: true })
   canceled_at: string;
+
+  @Column({ nullable: true })
+  cancelation_reason: string;
 }
 
 export default Subscription;

@@ -71,9 +71,7 @@ class CreateSubscriptionService {
 
     await userRepository.save(user);
 
-    return {
-      subscription: subscription,
-    };
+    return subscription;
   }
 }
 

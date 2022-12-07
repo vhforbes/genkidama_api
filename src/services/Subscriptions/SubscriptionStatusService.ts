@@ -31,9 +31,7 @@ class SubscriptionStatusService {
       };
     }
 
-    return {
-      status: subscription.status,
-    };
+    return subscription;
   }
 }
 
