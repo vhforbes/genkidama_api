@@ -28,7 +28,7 @@ class Subscription {
   canceled_at: string;
 
   @Column({ nullable: true })
-  cancelation_reason: string;
+  cancelation_reason: string | null;
 }
 
 export default Subscription;

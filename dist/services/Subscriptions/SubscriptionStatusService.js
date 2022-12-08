@@ -34,9 +34,7 @@ class SubscriptionStatusService {
                     status: 'NO SUBSCRIPTION FOUND',
                 };
             }
-            return {
-                status: subscription.status,
-            };
+            return subscription;
         });
     }
 }

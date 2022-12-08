@@ -23,7 +23,7 @@ subscriptionsRouter.get('/status', ensureAuthenticated_1.ensureAutenticated, (re
     const subscriptionStatus = yield SubscriptionStatusService_1.default.execute({
         userId,
     });
-    res.send(subscriptionStatus);
+    res.json(subscriptionStatus);
 }));
 subscriptionsRouter.post('/create', ensureAuthenticated_1.ensureAutenticated, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, subscriptionID } = req.body;
@@ -34,9 +34,10 @@ subscriptionsRouter.post('/create', ensureAuthenticated_1.ensureAutenticated, (r
     return res.json(createdSubscription);
 }));
 subscriptionsRouter.post('/cancel', ensureAuthenticated_1.ensureAutenticated, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { paypalSubscriptionId } = req.body;
+    const { paypalSubscriptionId, cancelationReason } = req.body;
     const canceledSubscription = yield CancelSubscriptionService_1.default.execute({
         paypalSubscriptionId: paypalSubscriptionId,
+        cancelationReason: cancelationReason,
     });
     return res.json(canceledSubscription);
 }));

@@ -61,9 +61,7 @@ class CreateSubscriptionService {
             const createdSubscription = yield subscriptionRepository.save(subscription);
             user.subscription = createdSubscription;
             yield userRepository.save(user);
-            return {
-                subscription: subscription,
-            };
+            return subscription;
         });
     }
 }

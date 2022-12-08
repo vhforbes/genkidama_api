@@ -23,7 +23,7 @@ const paypalPrivateApi_1 = __importDefault(require("../../apis/paypalPrivateApi"
   [] Create or Update Subscription
 */
 class CancelSubscriptionService {
-    static execute({ paypalSubscriptionId }) {
+    static execute({ paypalSubscriptionId, cancelationReason, }) {
         return __awaiter(this, void 0, void 0, function* () {
             const subscriptionRepository = data_source_1.AppDataSource.getRepository(Subscription_1.default);
             const subscription = yield subscriptionRepository.findOne({
@@ -33,19 +33,18 @@ class CancelSubscriptionService {
                 throw new AppError_1.default('Subscription was not found');
             }
             if (subscription.status !== 'ACTIVE') {
-                throw new AppError_1.default('User don`t have a active subscription');
+                throw new AppError_1.default('Not a active subscription');
             }
             if (subscription.status === 'ACTIVE') {
                 const cancelResponse = yield paypalPrivateApi_1.default.post(`/billing/subscriptions/${subscription.paypal_subscription_id}/cancel`, { reason: 'watever' });
                 if (cancelResponse.status === 204) {
                     subscription.status = 'CANCELED';
+                    subscription.cancelation_reason = cancelationReason || null;
                     subscription.canceled_at = new Date().toISOString();
                     yield subscriptionRepository.update(subscription.id, subscription);
                 }
             }
-            return {
-                canceledSubscription: subscription,
-            };
+            return subscription;
         });
     }
 }
