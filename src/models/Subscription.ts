@@ -25,10 +25,10 @@ class Subscription {
   current_period_end: string;
 
   @Column({ nullable: true })
-  canceled_at: string;
+  canceled_at?: string;
 
   @Column({ nullable: true })
-  cancelation_reason: string | null;
+  cancelation_reason?: string;
 }
 
 export default Subscription;

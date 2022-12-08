@@ -47,7 +47,7 @@ __decorate([
 ], Subscription.prototype, "canceled_at", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", Object)
+    __metadata("design:type", String)
 ], Subscription.prototype, "cancelation_reason", void 0);
 Subscription = __decorate([
     (0, typeorm_1.Entity)('subscriptions')
