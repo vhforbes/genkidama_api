@@ -30,6 +30,10 @@ class CreatePostService {
       throw new AppError('Unable to create post: User not found');
     }
 
+    if (user.type !== 'ADMIN') {
+      throw new AppError('You are not authorized to create a POST');
+    }
+
     const post = postsRepository.create({
       author_id: author_id,
       title,
