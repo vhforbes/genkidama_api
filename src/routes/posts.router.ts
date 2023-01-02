@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { ensureAdmin } from '../middlewares/ensureAdmin';
 import { ensureAutenticated } from '../middlewares/ensureAuthenticated';
 import PostsRepository from '../repositories/PostsRepository';
 import CreatePostService from '../services/Posts/CreatePostService';
@@ -7,6 +8,7 @@ import GetPaginatedPostsService from '../services/Posts/GetPaginatedPostsSerivce
 const postsRouter = Router();
 
 postsRouter.use(ensureAutenticated);
+postsRouter.use(ensureAdmin);
 
 postsRouter.get('/', async (req, res) => {
   // If there is no query params return all posts

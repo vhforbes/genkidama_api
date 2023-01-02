@@ -25,8 +25,8 @@ class User {
   @Column()
   password: string;
 
-  @Column()
-  type: string;
+  @Column({ nullable: true })
+  role: string;
 
   @Column({ nullable: true })
   subscription_id: string;

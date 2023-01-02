@@ -32,10 +32,10 @@ class TradeOperation {
   direction: string;
 
   @Column()
-  entryZone: {
-    begin: number;
-    end: number;
-  };
+  entryZoneStart: number;
+
+  @Column()
+  entryZoneEnd: number;
 
   @CreateDateColumn()
   created_at: Date;

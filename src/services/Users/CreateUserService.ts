@@ -1,11 +1,11 @@
-import crypto from 'crypto';
+// import crypto from 'crypto';
 import { hash } from 'bcryptjs';
 import { AppDataSource } from '../../data-source';
 import AppError from '../../errors/AppError';
 
-import SendVerificationEmailService from './SendVerificationEmailService';
+// import SendVerificationEmailService from './SendVerificationEmailService';
 
-import ConfirmEmailToken from '../../models/ConfirmEmailToken';
+// import ConfirmEmailToken from '../../models/ConfirmEmailToken';
 import User from '../../models/User';
 
 interface Request {
@@ -18,6 +18,8 @@ interface Response {
   user: User;
 }
 
+// EMAIL SERVICE TO-BE IMPLEMENTED WHEN EMAIL ONLINE
+
 class CreateUserService {
   public static async execute({
     name,
@@ -25,8 +27,8 @@ class CreateUserService {
     password,
   }: Request): Promise<Response> {
     const userRepository = AppDataSource.getRepository(User);
-    const confirmEmailTokenRepository =
-      AppDataSource.getRepository(ConfirmEmailToken);
+    // const confirmEmailTokenRepository =
+    //   AppDataSource.getRepository(ConfirmEmailToken);
 
     const userExists = await userRepository.findOne({
       where: { email },
@@ -44,19 +46,21 @@ class CreateUserService {
       password: hashedPassword,
     });
 
-    const createdUser = await userRepository.save(user);
-
     // Send verification email
+    /*
     const emailVerificationToken = confirmEmailTokenRepository.create({
       user_id: createdUser.id,
       token: crypto.randomBytes(16).toString('hex'),
     });
-
+    
     await SendVerificationEmailService.execute({
       token: emailVerificationToken.token,
     });
-
+    
     await confirmEmailTokenRepository.save(emailVerificationToken);
+    */
+
+    const createdUser = await userRepository.save(user);
 
     return { user: createdUser };
   }
