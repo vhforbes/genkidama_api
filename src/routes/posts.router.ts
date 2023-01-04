@@ -8,7 +8,6 @@ import GetPaginatedPostsService from '../services/Posts/GetPaginatedPostsSerivce
 const postsRouter = Router();
 
 postsRouter.use(ensureAutenticated);
-postsRouter.use(ensureAdmin);
 
 postsRouter.get('/', async (req, res) => {
   // If there is no query params return all posts
@@ -27,7 +26,7 @@ postsRouter.get('/', async (req, res) => {
   }
 });
 
-postsRouter.post('/', async (req, res) => {
+postsRouter.post('/', ensureAdmin, async (req, res) => {
   const { authorId, title, content, image, videoLink } = req.body;
 
   const post = await CreatePostService.execute({

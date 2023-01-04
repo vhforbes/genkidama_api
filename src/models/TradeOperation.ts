@@ -26,16 +26,19 @@ class TradeOperation {
   market: string;
 
   @Column()
-  status: string;
+  active: boolean;
 
   @Column()
   direction: string;
 
   @Column()
-  entryZoneStart: number;
+  entry_zone_start: number;
 
   @Column()
-  entryZoneEnd: number;
+  entry_zone_end: number;
+
+  @Column()
+  stop: number;
 
   @CreateDateColumn()
   created_at: Date;
