@@ -2,8 +2,8 @@ import { AppDataSource } from '../data-source';
 import TradeOperation from '../models/TradeOperation';
 
 interface Request {
-  active: boolean;
-  direction: string;
+  active?: boolean;
+  direction?: string;
 }
 
 const TradeOperationsRepository = AppDataSource.getRepository(

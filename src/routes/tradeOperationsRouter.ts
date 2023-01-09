@@ -14,9 +14,10 @@ tradeOperationsRouter.get('/', async (req, res) => {
   const tradeOperationsRepository = AppDataSource.getRepository(TradeOperation);
 
   if (Object.keys(req.query).length !== 0) {
-    // const { active, direction } = req.query;
-
-    const response = await GetActiveTradeoperationsService.execute(req.query);
+    const response = await GetActiveTradeoperationsService.execute({
+      active: req.query.active === 'true',
+      direction: req.query.direction as string,
+    });
 
     res.json(response);
   } else {
