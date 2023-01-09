@@ -4,6 +4,7 @@ import { ensureAdmin } from '../middlewares/ensureAdmin';
 import { ensureAutenticated } from '../middlewares/ensureAuthenticated';
 import TradeOperation from '../models/TradeOperation';
 import CreateTradeOperationService from '../services/TradeOperations/createTradeOperationService';
+import GetActiveTradeoperationsService from '../services/TradeOperations/getFilteredOperationsService';
 
 const tradeOperationsRouter = Router();
 
@@ -11,9 +12,17 @@ tradeOperationsRouter.use(ensureAutenticated);
 
 tradeOperationsRouter.get('/', async (req, res) => {
   const tradeOperationsRepository = AppDataSource.getRepository(TradeOperation);
-  const tradeOperations = await tradeOperationsRepository.find();
 
-  res.json(tradeOperations);
+  if (Object.keys(req.query).length !== 0) {
+    // const { active, direction } = req.query;
+
+    const response = await GetActiveTradeoperationsService.execute(req.query);
+
+    res.json(response);
+  } else {
+    const tradeOperations = await tradeOperationsRepository.find();
+    res.json(tradeOperations);
+  }
 });
 
 tradeOperationsRouter.post('/create', ensureAdmin, async (req, res) => {
