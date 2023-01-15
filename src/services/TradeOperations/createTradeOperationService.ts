@@ -2,35 +2,44 @@ import { AppDataSource } from '../../data-source';
 import TradeOperation from '../../models/TradeOperation';
 
 interface Request {
-  authorId: string;
+  userId: string;
   market: string;
   active: boolean;
   direction: string;
-  entryZoneStart: number;
-  entryZoneEnd: number;
+  entryOrderOne: number;
+  entryOrderTwo?: number;
+  entryOrderThree?: number;
+  takeProfitOne: number;
+  takeProfitTwo?: number;
   stop: number;
 }
 
 class CreateTradeOperationService {
   public static async execute({
-    authorId,
+    userId,
     market,
     active,
     direction,
-    entryZoneStart,
-    entryZoneEnd,
+    entryOrderOne,
+    entryOrderTwo,
+    entryOrderThree,
+    takeProfitOne,
+    takeProfitTwo,
     stop,
   }: Request): Promise<TradeOperation | null> {
     const tradeOperationsRepository =
       AppDataSource.getRepository(TradeOperation);
 
     const tradeOperation = tradeOperationsRepository.create({
-      author_id: authorId,
+      user_id: userId,
       market,
       active,
       direction,
-      entry_zone_start: entryZoneStart,
-      entry_zone_end: entryZoneEnd,
+      entry_order_one: entryOrderOne,
+      entry_order_two: entryOrderTwo,
+      entry_order_three: entryOrderThree,
+      take_profit_one: takeProfitOne,
+      take_profit_two: takeProfitTwo,
       stop,
     });
 

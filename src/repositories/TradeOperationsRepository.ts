@@ -2,8 +2,8 @@ import { AppDataSource } from '../data-source';
 import TradeOperation from '../models/TradeOperation';
 
 interface Request {
-  active: boolean;
-  direction: string;
+  active?: boolean;
+  direction?: string;
 }
 
 const TradeOperationsRepository = AppDataSource.getRepository(
@@ -12,6 +12,9 @@ const TradeOperationsRepository = AppDataSource.getRepository(
   async filteredOperations(query: Request): Promise<TradeOperation[] | null> {
     const tradeOperationsQueryResult = await this.find({
       where: query,
+      order: {
+        updated_at: 'DESC',
+      },
     });
 
     return tradeOperationsQueryResult;

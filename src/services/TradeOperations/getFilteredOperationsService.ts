@@ -2,8 +2,8 @@ import TradeOperation from '../../models/TradeOperation';
 import TradeOperationsRepository from '../../repositories/TradeOperationsRepository';
 
 interface Request {
-  active: boolean;
-  direction: string;
+  active?: boolean;
+  direction?: string;
 }
 
 class GetFilteredTradeOperationsService {

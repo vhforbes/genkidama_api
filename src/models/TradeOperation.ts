@@ -16,7 +16,7 @@ class TradeOperation {
   id: string;
 
   @Column({ nullable: true })
-  author_id: string;
+  user_id: string;
 
   @ManyToOne(() => User, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'author_id' })
@@ -32,13 +32,25 @@ class TradeOperation {
   direction: string;
 
   @Column()
-  entry_zone_start: number;
+  entry_order_one: number;
+
+  @Column({ nullable: true })
+  entry_order_two: number;
+
+  @Column({ nullable: true })
+  entry_order_three: number;
 
   @Column()
-  entry_zone_end: number;
+  take_profit_one: number;
+
+  @Column({ nullable: true })
+  take_profit_two: number;
 
   @Column()
   stop: number;
+
+  @Column({ nullable: true })
+  result: string;
 
   @CreateDateColumn()
   created_at: Date;

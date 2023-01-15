@@ -14,28 +14,42 @@ tradeOperationsRouter.get('/', async (req, res) => {
   const tradeOperationsRepository = AppDataSource.getRepository(TradeOperation);
 
   if (Object.keys(req.query).length !== 0) {
-    // const { active, direction } = req.query;
-
     const response = await GetActiveTradeoperationsService.execute(req.query);
 
     res.json(response);
   } else {
-    const tradeOperations = await tradeOperationsRepository.find();
+    const tradeOperations = await tradeOperationsRepository.find({
+      order: {
+        updated_at: 'ASC',
+      },
+    });
     res.json(tradeOperations);
   }
 });
 
 tradeOperationsRouter.post('/create', ensureAdmin, async (req, res) => {
-  const { market, active, direction, entryZoneStart, entryZoneEnd, stop } =
-    req.body;
-
-  const result = await CreateTradeOperationService.execute({
-    authorId: req.user.id,
+  const {
     market,
     active,
     direction,
-    entryZoneStart,
-    entryZoneEnd,
+    entryOrderOne,
+    entryOrderTwo,
+    entryOrderThree,
+    takeProfitOne,
+    takeProfitTwo,
+    stop,
+  } = req.body;
+
+  const result = await CreateTradeOperationService.execute({
+    userId: req.user.id,
+    market,
+    active,
+    direction,
+    entryOrderOne,
+    entryOrderTwo,
+    entryOrderThree,
+    takeProfitOne,
+    takeProfitTwo,
     stop,
   });
 
