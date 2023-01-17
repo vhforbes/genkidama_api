@@ -28,16 +28,16 @@ class Post {
   @Column('text')
   content: string;
 
-  @Column()
+  @Column({ nullable: true })
   image: string;
 
   @Column()
   video_link: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamptz' })
   created_at: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: 'timestamptz' })
   updated_at: Date;
 }
 

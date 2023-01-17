@@ -4,6 +4,7 @@ import { ensureAutenticated } from '../middlewares/ensureAuthenticated';
 import PostsRepository from '../repositories/PostsRepository';
 import CreatePostService from '../services/Posts/CreatePostService';
 import GetPaginatedPostsService from '../services/Posts/GetPaginatedPostsSerivce';
+import UpdatePostService from '../services/Posts/UpdatePostService';
 
 const postsRouter = Router();
 
@@ -31,6 +32,20 @@ postsRouter.post('/', ensureAdmin, async (req, res) => {
 
   const post = await CreatePostService.execute({
     author_id: authorId,
+    title,
+    content,
+    image,
+    video_link: videoLink,
+  });
+
+  return res.json(post);
+});
+
+postsRouter.put('/', ensureAdmin, async (req, res) => {
+  const { id, title, content, image, videoLink } = req.body;
+
+  const post = await UpdatePostService.execute({
+    id,
     title,
     content,
     image,
