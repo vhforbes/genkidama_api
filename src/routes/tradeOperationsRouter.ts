@@ -5,6 +5,7 @@ import { ensureAutenticated } from '../middlewares/ensureAuthenticated';
 import TradeOperation from '../models/TradeOperation';
 import CreateTradeOperationService from '../services/TradeOperations/createTradeOperationService';
 import GetActiveTradeoperationsService from '../services/TradeOperations/getFilteredOperationsService';
+import UpdateTradeOperationService from '../services/TradeOperations/updateTradeOperationService';
 
 const tradeOperationsRouter = Router();
 
@@ -20,7 +21,7 @@ tradeOperationsRouter.get('/', async (req, res) => {
   } else {
     const tradeOperations = await tradeOperationsRepository.find({
       order: {
-        updated_at: 'ASC',
+        updated_at: 'DESC',
       },
     });
     res.json(tradeOperations);
@@ -54,6 +55,38 @@ tradeOperationsRouter.post('/create', ensureAdmin, async (req, res) => {
   });
 
   res.json(result);
+});
+
+tradeOperationsRouter.put('/update', ensureAdmin, async (req, res) => {
+  const {
+    id,
+    market,
+    active,
+    direction,
+    entryOrderOne,
+    entryOrderTwo,
+    entryOrderThree,
+    takeProfitOne,
+    takeProfitTwo,
+    stop,
+    result,
+  } = req.body;
+
+  const response = await UpdateTradeOperationService.execute({
+    id,
+    market,
+    active,
+    direction,
+    entry_order_one: entryOrderOne,
+    entry_order_two: entryOrderTwo,
+    entry_order_three: entryOrderThree,
+    take_profit_one: takeProfitOne,
+    take_profit_two: takeProfitTwo,
+    stop,
+    result,
+  });
+
+  res.json(response);
 });
 
 export default tradeOperationsRouter;

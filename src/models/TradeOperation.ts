@@ -19,7 +19,7 @@ class TradeOperation {
   user_id: string;
 
   @ManyToOne(() => User, { onDelete: 'SET NULL' })
-  @JoinColumn({ name: 'author_id' })
+  @JoinColumn({ name: 'user_id' })
   user: User;
 
   @Column()
@@ -52,10 +52,10 @@ class TradeOperation {
   @Column({ nullable: true })
   result: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamptz' })
   created_at: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: 'timestamptz' })
   updated_at: Date;
 }
 
