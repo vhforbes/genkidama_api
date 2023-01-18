@@ -11,7 +11,6 @@ class GetFilteredTradeOperationsService {
     query: Request,
   ): Promise<TradeOperation[] | null> {
     const results = await TradeOperationsRepository.filteredOperations(query);
-
     return results;
   }
 }
