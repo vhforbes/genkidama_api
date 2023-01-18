@@ -3,9 +3,9 @@ import { AppDataSource } from '../data-source';
 import { ensureAdmin } from '../middlewares/ensureAdmin';
 import { ensureAutenticated } from '../middlewares/ensureAuthenticated';
 import TradeOperation from '../models/TradeOperation';
-import CreateTradeOperationService from '../services/TradeOperations/CreateTradeOperationService';
-import GetActiveTradeoperationsService from '../services/TradeOperations/GetFilteredOperationsService';
-import UpdateTradeOperationService from '../services/TradeOperations/UpdateTradeOperationService';
+import CreateTradeOperationService from '../services/TradeOperations/createTradeOperationService';
+import GetActiveTradeoperationsService from '../services/TradeOperations/getFilteredOperationsService';
+import UpdateTradeOperationService from '../services/TradeOperations/updateTradeOperationService';
 
 const tradeOperationsRouter = Router();
 
