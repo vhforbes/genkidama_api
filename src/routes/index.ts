@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import formsRouter from './forms';
 import paypalRouter from './paypal.router';
 import postsRouter from './posts.router';
 import sessionsRouter from './sessions.router';
@@ -14,5 +15,6 @@ routes.use('/sessions', sessionsRouter);
 routes.use('/paypal', paypalRouter);
 routes.use('/subscriptions', subscriptionsRouter);
 routes.use('/trade-operations', tradeOperationsRouter);
+routes.use('/forms', formsRouter);
 
 export default routes;

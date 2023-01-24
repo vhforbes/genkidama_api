@@ -3,13 +3,13 @@ import CreateMentoriaFormService from '../services/Forms/CreateMentoriaFormServi
 const formsRouter = Router();
 
 formsRouter.post('/mentoria', async (req, res) => {
-  const { name, email, phoneNumber, telegramUsername, tradingTime } = req.query;
+  const { name, email, phoneNumber, telegramName, tradingTime } = req.body;
 
-  const response = CreateMentoriaFormService.execute({
+  const response = await CreateMentoriaFormService.execute({
     name: name as string,
     email: email as string,
     phone_number: phoneNumber as string,
-    telegram_username: telegramUsername as string,
+    telegram_username: telegramName as string,
     trading_time: tradingTime as string,
   });
 
