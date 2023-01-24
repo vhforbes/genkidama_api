@@ -37,7 +37,7 @@ class CreateMentoriaFormService {
       name,
       email,
       phone_number: cleanPhoneNumber,
-      telegram_username,
+      telegram_username: telegram_username.trim(),
       trading_time,
     });
 
