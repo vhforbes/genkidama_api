@@ -10,11 +10,12 @@ interface Response {}
 class SendVerificationEmailService {
   public static async execute({ token }: Request): Promise<Response> {
     const transporter = nodemailer.createTransport({
-      host: 'smtp.ethereal.email',
-      port: 587,
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
       auth: {
-        user: 'tyra.gleichner35@ethereal.email',
-        pass: '2xc9RdVNyajgzEm8Pz',
+        user: 'admin@genkidama.me',
+        pass: 'lnnpmxdzwlczvdri',
       },
     });
 
@@ -31,6 +32,7 @@ class SendVerificationEmailService {
 
       return { info };
     } catch (error) {
+      console.error(error);
       throw new AppError('Unable to send verification email');
     }
   }

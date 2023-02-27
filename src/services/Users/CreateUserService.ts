@@ -1,11 +1,12 @@
 // import crypto from 'crypto';
 import { hash } from 'bcryptjs';
+import crypto from 'crypto';
 import { AppDataSource } from '../../data-source';
 import AppError from '../../errors/AppError';
 
-// import SendVerificationEmailService from './SendVerificationEmailService';
+import SendVerificationEmailService from './SendVerificationEmailService';
 
-// import ConfirmEmailToken from '../../models/ConfirmEmailToken';
+import ConfirmEmailToken from '../../models/ConfirmEmailToken';
 import User from '../../models/User';
 
 interface Request {
@@ -27,8 +28,8 @@ class CreateUserService {
     password,
   }: Request): Promise<Response> {
     const userRepository = AppDataSource.getRepository(User);
-    // const confirmEmailTokenRepository =
-    //   AppDataSource.getRepository(ConfirmEmailToken);
+    const confirmEmailTokenRepository =
+      AppDataSource.getRepository(ConfirmEmailToken);
 
     const userExists = await userRepository.findOne({
       where: { email },
@@ -47,20 +48,19 @@ class CreateUserService {
     });
 
     // Send verification email
-    /*
+
+    const createdUser = await userRepository.save(user);
+
     const emailVerificationToken = confirmEmailTokenRepository.create({
       user_id: createdUser.id,
       token: crypto.randomBytes(16).toString('hex'),
     });
-    
+
     await SendVerificationEmailService.execute({
       token: emailVerificationToken.token,
     });
-    
-    await confirmEmailTokenRepository.save(emailVerificationToken);
-    */
 
-    const createdUser = await userRepository.save(user);
+    await confirmEmailTokenRepository.save(emailVerificationToken);
 
     return { user: createdUser };
   }
