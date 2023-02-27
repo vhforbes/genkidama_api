@@ -11,6 +11,7 @@ import ConfirmEmailToken from './models/ConfirmEmailToken';
 import PaypalAccessToken from './models/PayPalAccessToken';
 import TradeOperation from './models/TradeOperation';
 import MentoriaForm from './models/MentoriaForm';
+import TelegramMember from './models/TelegramMember';
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ export const AppDataSource = new DataSource({
     PaypalAccessToken,
     TradeOperation,
     MentoriaForm,
+    TelegramMember,
   ],
   migrations: [
     emptyMigration1669742463695,
