@@ -23,11 +23,14 @@ class SendVerificationEmailService {
 
     try {
       const info = await transporter.sendMail({
-        from: '"Fred Foo 👻" <foo@example.com>', // sender address
-        to: 'vhforbes@gmail.com>', // list of receivers
-        subject: 'Hello ✔', // Subject line
+        from: '"Genkidama" <admin@genkidama.me>', // sender address
+        to: 'vhforbes@gmail.com', // list of receivers
+        subject: 'Bem vindo a Genkidama!', // Subject line
         text: token, // plain text body
-        html: `<a href="${verificationLink}">Verify email</a>`, // html body
+        html: `
+        <h1>Seja bem vindo a Genkidama!</h1>
+        <p>Favor confirme seu email no link abaixo</p>
+        <a href="${verificationLink}">Verify email</a>`, // html body
       });
 
       return { info };

@@ -6,6 +6,8 @@ import uploadConfig from '../config/upload';
 import { ensureAutenticated } from '../middlewares/ensureAuthenticated';
 
 import CreateUserService from '../services/Users/CreateUserService';
+import RecoverPasswordService from '../services/Users/RecoverPasswordService';
+import SendPasswordResetLinkSerivce from '../services/Users/SendPasswordResetLinkSerivce';
 import UpdateUserAvatarService from '../services/Users/UpdateUserAvatarService';
 import VerifyEmailSerice from '../services/Users/VerifyEmailSerice';
 
@@ -57,6 +59,26 @@ usersRouter.get('/verify/:token', async (req, res) => {
   if (response.success) {
     res.redirect('http://google.com');
   }
+});
+
+usersRouter.post('/recover', async (req, res) => {
+  const email = req.body.email;
+
+  await SendPasswordResetLinkSerivce.execute({ email });
+
+  res.send({ ok: 'ok' });
+});
+
+usersRouter.put('/recover/', async (req, res) => {
+  const token = req.body.token;
+  const newPassword = req.body.newPassword;
+
+  const response = await RecoverPasswordService.execute({ token, newPassword });
+
+  // @ts-expect-error
+  delete response.user.password;
+
+  res.send(response);
 });
 
 export default usersRouter;
