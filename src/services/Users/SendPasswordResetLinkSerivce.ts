@@ -30,7 +30,7 @@ class SendPasswordResetLinkSerivce {
       expiresIn: resetPassword.jwt.expiresIn,
     });
 
-    const recoveryLink = `http://localhost:3333/users/recover/?token=${token}`;
+    const recoveryLink = `http://localhost:3000/users/recover?token=${token}`;
 
     try {
       await transporter.sendMail({
