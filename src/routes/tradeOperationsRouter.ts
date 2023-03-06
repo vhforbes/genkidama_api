@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Router } from 'express';
 import { AppDataSource } from '../data-source';
+import AppError from '../errors/AppError';
 import { ensureAdmin } from '../middlewares/ensureAdmin';
 import { ensureAutenticated } from '../middlewares/ensureAuthenticated';
 import TradeOperation from '../models/TradeOperation';
@@ -33,28 +35,30 @@ tradeOperationsRouter.post('/create', ensureAdmin, async (req, res) => {
     market,
     active,
     direction,
-    entryOrderOne,
-    entryOrderTwo,
-    entryOrderThree,
-    takeProfitOne,
-    takeProfitTwo,
+    entry_order_one,
+    entry_order_two,
+    entry_order_three,
+    take_profit_one,
+    take_profit_two,
     stop,
+    result,
   } = req.body;
 
-  const result = await CreateTradeOperationService.execute({
-    userId: req.user.id,
+  const requestResult = await CreateTradeOperationService.execute({
+    author_id: req.user.id,
     market,
     active,
     direction,
-    entryOrderOne,
-    entryOrderTwo,
-    entryOrderThree,
-    takeProfitOne,
-    takeProfitTwo,
+    entry_order_one,
+    entry_order_two,
+    entry_order_three,
+    take_profit_one,
+    take_profit_two,
     stop,
+    result,
   });
 
-  res.json(result);
+  res.json(requestResult);
 });
 
 tradeOperationsRouter.put('/update', ensureAdmin, async (req, res) => {
@@ -63,11 +67,11 @@ tradeOperationsRouter.put('/update', ensureAdmin, async (req, res) => {
     market,
     active,
     direction,
-    entryOrderOne,
-    entryOrderTwo,
-    entryOrderThree,
-    takeProfitOne,
-    takeProfitTwo,
+    entry_order_one,
+    entry_order_two,
+    entry_order_three,
+    take_profit_one,
+    take_profit_two,
     stop,
     result,
   } = req.body;
@@ -77,16 +81,36 @@ tradeOperationsRouter.put('/update', ensureAdmin, async (req, res) => {
     market,
     active,
     direction,
-    entry_order_one: entryOrderOne,
-    entry_order_two: entryOrderTwo,
-    entry_order_three: entryOrderThree,
-    take_profit_one: takeProfitOne,
-    take_profit_two: takeProfitTwo,
+    entry_order_one,
+    entry_order_two,
+    entry_order_three,
+    take_profit_one,
+    take_profit_two,
     stop,
     result,
   });
 
   res.json(response);
+});
+
+tradeOperationsRouter.delete('/:operationId', ensureAdmin, async (req, res) => {
+  const tradeOperationsRepository = AppDataSource.getRepository(TradeOperation);
+
+  const { operationId } = req.query;
+
+  const tradeOperation = await tradeOperationsRepository.findOne({
+    where: {
+      id: operationId as string,
+    },
+  });
+
+  if (!tradeOperation) {
+    throw new AppError('Could not find trade operation to delete');
+  }
+
+  const result = await tradeOperationsRepository.remove(tradeOperation);
+
+  res.json(result);
 });
 
 export default tradeOperationsRouter;
