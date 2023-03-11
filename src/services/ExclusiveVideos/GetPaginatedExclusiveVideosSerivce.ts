@@ -1,7 +1,7 @@
 import AppError from '../../errors/AppError';
 import ExclusiveVideo from '../../models/ExclusiveVideo';
 import exclusiveVideosRepository from '../../repositories/ExclusiveVideosRepository';
-import { responseToCamel } from '../../utils/responseToCamel';
+import { arrayToCamel } from '../../utils/responseToCamel';
 
 interface QueryPayload {
   page: number;
@@ -32,7 +32,7 @@ class GetPaginatedExclusiveVideosService {
       throw new AppError('Unable to make exclusiveVideos query');
     }
 
-    const exclusiveVideos = responseToCamel(response[0]);
+    const exclusiveVideos = arrayToCamel(response[0]) as ExclusiveVideo[];
     const totalPosts = response[1];
 
     if (exclusiveVideos.length < 1) {

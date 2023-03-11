@@ -11,7 +11,7 @@ import ExclusiveVideosRepository from '../repositories/ExclusiveVideosRepository
 import CreateExclsiveVideoService from '../services/ExclusiveVideos/CreateExclusiveVideoService';
 import GetPaginatedPostsService from '../services/ExclusiveVideos/GetPaginatedExclusiveVideosSerivce';
 import UpdateExclusiveVideoService from '../services/ExclusiveVideos/UpdateExclusiveVideoService';
-import { responseToCamel } from '../utils/responseToCamel';
+import { arrayToCamel, objToCamel } from '../utils/responseToCamel';
 
 const exclusiveVideoRouter = Router();
 
@@ -21,7 +21,7 @@ exclusiveVideoRouter.get('/', async (req, res) => {
   // If there is no query params return all posts
   if (!req.query.page || !req.query.limit) {
     const response = await ExclusiveVideosRepository.find();
-    const camelizedRes = responseToCamel(response);
+    const camelizedRes = arrayToCamel(response);
     res.json(camelizedRes);
   }
 
@@ -40,15 +40,15 @@ exclusiveVideoRouter.post('/', ensureAdmin, async (req, res) => {
 
   exclusiveVideo.authorId = req.user.id;
 
-  const post = await CreateExclsiveVideoService.execute(exclusiveVideo);
+  const result = await CreateExclsiveVideoService.execute(exclusiveVideo);
 
-  return res.json(post);
+  return res.json(objToCamel(result));
 });
 
 exclusiveVideoRouter.put('/', ensureAdmin, async (req, res) => {
   const { id, title, content, image, videoLink } = req.body;
 
-  const post = await UpdateExclusiveVideoService.execute({
+  const result = await UpdateExclusiveVideoService.execute({
     id,
     title,
     content,
@@ -56,7 +56,7 @@ exclusiveVideoRouter.put('/', ensureAdmin, async (req, res) => {
     video_link: videoLink,
   });
 
-  return res.json(post);
+  return res.json(objToCamel(result));
 });
 
 exclusiveVideoRouter.delete('/:id', ensureAdmin, async (req, res) => {
@@ -76,7 +76,7 @@ exclusiveVideoRouter.delete('/:id', ensureAdmin, async (req, res) => {
 
   const result = await exclusiveVideosRepository.remove(exclusiveVideo);
 
-  return res.json(result);
+  return res.json(objToCamel(result));
 });
 
 export default exclusiveVideoRouter;
