@@ -10,8 +10,8 @@ import {
 } from 'typeorm';
 import User from './User';
 
-@Entity('posts')
-class Post {
+@Entity('exclusiveVideo')
+class ExclusiveVideo {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -41,4 +41,4 @@ class Post {
   updated_at: Date;
 }
 
-export default Post;
+export default ExclusiveVideo;

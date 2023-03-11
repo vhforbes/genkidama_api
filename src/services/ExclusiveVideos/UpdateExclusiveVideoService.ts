@@ -1,6 +1,6 @@
 import { AppDataSource } from '../../data-source';
 import AppError from '../../errors/AppError';
-import Post from '../../models/Post';
+import Post from '../../models/ExclusiveVideo';
 
 interface Request {
   id: string;
@@ -10,7 +10,7 @@ interface Request {
   video_link: string;
 }
 
-class UpdatePostService {
+class UpdateExclusiveVideoService {
   public static async execute({
     id,
     title,
@@ -40,4 +40,4 @@ class UpdatePostService {
   }
 }
 
-export default UpdatePostService;
+export default UpdateExclusiveVideoService;

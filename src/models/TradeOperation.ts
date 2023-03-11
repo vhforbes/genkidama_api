@@ -16,7 +16,7 @@ class TradeOperation {
   id: string;
 
   @Column({ nullable: true })
-  user_id: string;
+  author_id: string;
 
   @ManyToOne(() => User, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'user_id' })

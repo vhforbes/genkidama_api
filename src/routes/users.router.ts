@@ -2,8 +2,10 @@ import { Router } from 'express';
 import multer from 'multer';
 
 import uploadConfig from '../config/upload';
+import { AppDataSource } from '../data-source';
 
 import { ensureAutenticated } from '../middlewares/ensureAuthenticated';
+import User from '../models/User';
 
 import CreateUserService from '../services/Users/CreateUserService';
 import RecoverPasswordService from '../services/Users/RecoverPasswordService';
@@ -13,6 +15,24 @@ import VerifyEmailSerice from '../services/Users/VerifyEmailSerice';
 
 const usersRouter = Router();
 const upload = multer(uploadConfig);
+
+usersRouter.get('/', ensureAutenticated, async (req, res) => {
+  const userId = req.user.id;
+
+  const userRepository = AppDataSource.getRepository(User);
+
+  const user = await userRepository.findOne({
+    where: {
+      id: userId,
+    },
+    relations: { subscription: true },
+  });
+
+  // @ts-expect-error
+  delete user.password;
+
+  return res.json({ user });
+});
 
 usersRouter.post('/', async (req, res) => {
   const { name, email, password } = req.body;
@@ -69,7 +89,7 @@ usersRouter.post('/recover', async (req, res) => {
   res.send({ ok: 'ok' });
 });
 
-usersRouter.put('/recover/', async (req, res) => {
+usersRouter.put('/recover', async (req, res) => {
   const token = req.body.token;
   const newPassword = req.body.newPassword;
 

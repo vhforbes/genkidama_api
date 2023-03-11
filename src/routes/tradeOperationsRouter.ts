@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Router } from 'express';
-import { AppDataSource } from '../data-source';
 import AppError from '../errors/AppError';
+import { TradeOperationInterface } from '../interfaces/TradeOperationInterface';
 import { ensureAdmin } from '../middlewares/ensureAdmin';
 import { ensureAutenticated } from '../middlewares/ensureAuthenticated';
-import TradeOperation from '../models/TradeOperation';
+import TradeOperationsRepository from '../repositories/TradeOperationsRepository';
 import CreateTradeOperationService from '../services/TradeOperations/createTradeOperationService';
 import GetActiveTradeoperationsService from '../services/TradeOperations/getFilteredOperationsService';
 import UpdateTradeOperationService from '../services/TradeOperations/updateTradeOperationService';
@@ -14,7 +14,7 @@ const tradeOperationsRouter = Router();
 tradeOperationsRouter.use(ensureAutenticated);
 
 tradeOperationsRouter.get('/', async (req, res) => {
-  const tradeOperationsRepository = AppDataSource.getRepository(TradeOperation);
+  const tradeOperationsRepository = TradeOperationsRepository;
 
   if (Object.keys(req.query).length !== 0) {
     const response = await GetActiveTradeoperationsService.execute(req.query);
@@ -31,70 +31,23 @@ tradeOperationsRouter.get('/', async (req, res) => {
 });
 
 tradeOperationsRouter.post('/create', ensureAdmin, async (req, res) => {
-  const {
-    market,
-    active,
-    direction,
-    entry_order_one,
-    entry_order_two,
-    entry_order_three,
-    take_profit_one,
-    take_profit_two,
-    stop,
-    result,
-  } = req.body;
+  const request = req.body as TradeOperationInterface;
 
-  const requestResult = await CreateTradeOperationService.execute({
-    author_id: req.user.id,
-    market,
-    active,
-    direction,
-    entry_order_one,
-    entry_order_two,
-    entry_order_three,
-    take_profit_one,
-    take_profit_two,
-    stop,
-    result,
-  });
+  const requestResult = await CreateTradeOperationService.execute(request);
 
   res.json(requestResult);
 });
 
 tradeOperationsRouter.put('/update', ensureAdmin, async (req, res) => {
-  const {
-    id,
-    market,
-    active,
-    direction,
-    entry_order_one,
-    entry_order_two,
-    entry_order_three,
-    take_profit_one,
-    take_profit_two,
-    stop,
-    result,
-  } = req.body;
+  const tradeOperation = req.body as TradeOperationInterface;
 
-  const response = await UpdateTradeOperationService.execute({
-    id,
-    market,
-    active,
-    direction,
-    entry_order_one,
-    entry_order_two,
-    entry_order_three,
-    take_profit_one,
-    take_profit_two,
-    stop,
-    result,
-  });
+  const response = await UpdateTradeOperationService.execute(tradeOperation);
 
   res.json(response);
 });
 
 tradeOperationsRouter.delete('/:operationId', ensureAdmin, async (req, res) => {
-  const tradeOperationsRepository = AppDataSource.getRepository(TradeOperation);
+  const tradeOperationsRepository = TradeOperationsRepository;
 
   const { operationId } = req.query;
 

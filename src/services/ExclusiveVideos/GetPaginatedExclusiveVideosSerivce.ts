@@ -1,6 +1,6 @@
 import AppError from '../../errors/AppError';
-import Post from '../../models/Post';
-import PostsRepository from '../../repositories/PostsRepository';
+import Post from '../../models/ExclusiveVideo';
+import PostsRepository from '../../repositories/ExclusiveVideosRepository';
 
 interface QueryPayload {
   page: number;

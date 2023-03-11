@@ -1,16 +1,16 @@
 import { Router } from 'express';
 import formsRouter from './forms';
 import paypalRouter from './paypal.router';
-import postsRouter from './posts.router';
 import sessionsRouter from './sessions.router';
 import subscriptionsRouter from './subscriptions';
 import tradeOperationsRouter from './tradeOperationsRouter';
 import usersRouter from './users.router';
+import exclusiveVideoRouter from './exclusiveVideos.router';
 
 const routes = Router();
 
 routes.use('/users', usersRouter);
-routes.use('/posts', postsRouter);
+routes.use('/exclusive-videos', exclusiveVideoRouter);
 routes.use('/sessions', sessionsRouter);
 routes.use('/paypal', paypalRouter);
 routes.use('/subscriptions', subscriptionsRouter);
