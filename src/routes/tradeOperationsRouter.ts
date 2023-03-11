@@ -8,6 +8,7 @@ import TradeOperationsRepository from '../repositories/TradeOperationsRepository
 import CreateTradeOperationService from '../services/TradeOperations/createTradeOperationService';
 import GetActiveTradeoperationsService from '../services/TradeOperations/getFilteredOperationsService';
 import UpdateTradeOperationService from '../services/TradeOperations/updateTradeOperationService';
+import { arrayToCamel, objToCamel } from '../utils/responseToCamel';
 
 const tradeOperationsRouter = Router();
 
@@ -26,7 +27,8 @@ tradeOperationsRouter.get('/', async (req, res) => {
         updated_at: 'DESC',
       },
     });
-    res.json(tradeOperations);
+
+    res.json(arrayToCamel(tradeOperations));
   }
 });
 
@@ -41,9 +43,9 @@ tradeOperationsRouter.post('/create', ensureAdmin, async (req, res) => {
 tradeOperationsRouter.put('/update', ensureAdmin, async (req, res) => {
   const tradeOperation = req.body as TradeOperationInterface;
 
-  const response = await UpdateTradeOperationService.execute(tradeOperation);
+  const result = await UpdateTradeOperationService.execute(tradeOperation);
 
-  res.json(response);
+  res.json(objToCamel(result));
 });
 
 tradeOperationsRouter.delete('/:operationId', ensureAdmin, async (req, res) => {
@@ -63,7 +65,7 @@ tradeOperationsRouter.delete('/:operationId', ensureAdmin, async (req, res) => {
 
   const result = await tradeOperationsRepository.remove(tradeOperation);
 
-  res.json(result);
+  res.json(objToCamel(result));
 });
 
 export default tradeOperationsRouter;

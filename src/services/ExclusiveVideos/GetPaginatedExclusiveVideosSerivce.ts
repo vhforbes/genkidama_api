@@ -1,49 +1,53 @@
 import AppError from '../../errors/AppError';
-import Post from '../../models/ExclusiveVideo';
-import PostsRepository from '../../repositories/ExclusiveVideosRepository';
+import ExclusiveVideo from '../../models/ExclusiveVideo';
+import exclusiveVideosRepository from '../../repositories/ExclusiveVideosRepository';
+import { responseToCamel } from '../../utils/responseToCamel';
 
 interface QueryPayload {
   page: number;
   limit: number;
 }
 
-interface PostsResults {
-  posts: Post[];
+interface ExclusiveVideosResults {
+  exclusiveVideos: ExclusiveVideo[];
   next: Object;
   previous: Object;
   totalPages: number;
 }
 
-class GetPaginatedPostsService {
+class GetPaginatedExclusiveVideosService {
   public static async execute({
     page,
     limit,
-  }: QueryPayload): Promise<PostsResults> {
+  }: QueryPayload): Promise<ExclusiveVideosResults> {
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
 
-    const response = await PostsRepository.paginatedPosts(limit, startIndex);
+    const response = await exclusiveVideosRepository.paginatedExclusiveVideos(
+      limit,
+      startIndex,
+    );
 
     if (!response) {
-      throw new AppError('Unable to make posts query');
+      throw new AppError('Unable to make exclusiveVideos query');
     }
 
-    const posts = response[0];
+    const exclusiveVideos = responseToCamel(response[0]);
     const totalPosts = response[1];
 
-    if (posts.length < 1) {
+    if (exclusiveVideos.length < 1) {
       throw new AppError('There are no more posts to be fetched');
     }
 
-    const results: PostsResults = {
-      posts,
+    const results: ExclusiveVideosResults = {
+      exclusiveVideos,
       next: {},
       previous: {},
       totalPages: Math.ceil(totalPosts / limit),
     };
 
     // Next page number and check if the posts has ended
-    if (endIndex > posts.length && page * limit < totalPosts) {
+    if (endIndex > exclusiveVideos.length && page * limit < totalPosts) {
       results.next = {
         page: page + 1,
         limit,
@@ -61,4 +65,4 @@ class GetPaginatedPostsService {
   }
 }
 
-export default GetPaginatedPostsService;
+export default GetPaginatedExclusiveVideosService;

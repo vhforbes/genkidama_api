@@ -4,7 +4,7 @@ import ExclusiveVideo from '../models/ExclusiveVideo';
 const ExclusiveVideosRepository = AppDataSource.getRepository(
   ExclusiveVideo,
 ).extend({
-  async paginatedPosts(
+  async paginatedExclusiveVideos(
     take: number,
     skip: number,
   ): Promise<[ExclusiveVideo[], number] | null> {

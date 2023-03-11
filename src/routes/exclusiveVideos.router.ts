@@ -11,6 +11,7 @@ import ExclusiveVideosRepository from '../repositories/ExclusiveVideosRepository
 import CreateExclsiveVideoService from '../services/ExclusiveVideos/CreateExclusiveVideoService';
 import GetPaginatedPostsService from '../services/ExclusiveVideos/GetPaginatedExclusiveVideosSerivce';
 import UpdateExclusiveVideoService from '../services/ExclusiveVideos/UpdateExclusiveVideoService';
+import { responseToCamel } from '../utils/responseToCamel';
 
 const exclusiveVideoRouter = Router();
 
@@ -20,7 +21,8 @@ exclusiveVideoRouter.get('/', async (req, res) => {
   // If there is no query params return all posts
   if (!req.query.page || !req.query.limit) {
     const response = await ExclusiveVideosRepository.find();
-    res.json({ response });
+    const camelizedRes = responseToCamel(response);
+    res.json(camelizedRes);
   }
 
   if (req.query.page && req.query.limit) {
