@@ -24,7 +24,7 @@ class CreateTradeOperationService {
     } = request;
 
     const tradeOperation = tradeOperationsRepository.create({
-      user_id: authorId,
+      author_id: authorId,
       market,
       active,
       direction,
