@@ -29,13 +29,13 @@ class CreateTradeOperationService {
       active,
       direction,
       entry_order_one: entryOrderOne,
-      entry_order_two: entryOrderTwo,
-      entry_order_three: entryOrderThree,
+      entry_order_two: entryOrderTwo || null,
+      entry_order_three: entryOrderThree || null,
       take_profit_one: takeProfitOne,
-      take_profit_two: takeProfitTwo,
+      take_profit_two: takeProfitTwo || null,
       stop,
       result,
-    });
+    } as TradeOperation);
 
     const results = await tradeOperationsRepository.save(tradeOperation);
 

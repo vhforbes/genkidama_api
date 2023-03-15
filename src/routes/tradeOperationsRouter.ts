@@ -32,7 +32,7 @@ tradeOperationsRouter.get('/', async (req, res) => {
   }
 });
 
-tradeOperationsRouter.post('/create', ensureAdmin, async (req, res) => {
+tradeOperationsRouter.post('/', ensureAdmin, async (req, res) => {
   const request = req.body as TradeOperationInterface;
 
   const requestResult = await CreateTradeOperationService.execute(request);
@@ -40,7 +40,7 @@ tradeOperationsRouter.post('/create', ensureAdmin, async (req, res) => {
   res.json(requestResult);
 });
 
-tradeOperationsRouter.put('/update', ensureAdmin, async (req, res) => {
+tradeOperationsRouter.put('/', ensureAdmin, async (req, res) => {
   const tradeOperation = req.body as TradeOperationInterface;
 
   const result = await UpdateTradeOperationService.execute(tradeOperation);
@@ -48,14 +48,14 @@ tradeOperationsRouter.put('/update', ensureAdmin, async (req, res) => {
   res.json(objToCamel(result));
 });
 
-tradeOperationsRouter.delete('/:operationId', ensureAdmin, async (req, res) => {
+tradeOperationsRouter.delete('/', ensureAdmin, async (req, res) => {
   const tradeOperationsRepository = TradeOperationsRepository;
 
-  const { operationId } = req.query;
+  const { id } = req.query;
 
   const tradeOperation = await tradeOperationsRepository.findOne({
     where: {
-      id: operationId as string,
+      id: id as string,
     },
   });
 
@@ -64,6 +64,8 @@ tradeOperationsRouter.delete('/:operationId', ensureAdmin, async (req, res) => {
   }
 
   const result = await tradeOperationsRepository.remove(tradeOperation);
+
+  result.id = id as string;
 
   res.json(objToCamel(result));
 });

@@ -1,13 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import User from './User';
 
 @Entity('confirmEmailTokens')
