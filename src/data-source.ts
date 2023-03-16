@@ -12,6 +12,7 @@ import TradeOperation from './models/TradeOperation';
 import MentoriaForm from './models/MentoriaForm';
 import TelegramMember from './models/TelegramMember';
 import ExclusiveVideo from './models/ExclusiveVideo';
+import BitgetUID from './models/BitgetAssociatedUids';
 
 dotenv.config();
 
@@ -31,6 +32,7 @@ export const AppDataSource = new DataSource({
     TradeOperation,
     MentoriaForm,
     TelegramMember,
+    BitgetUID,
   ],
   migrations: [
     emptyMigration1669742463695,

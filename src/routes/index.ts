@@ -6,6 +6,7 @@ import subscriptionsRouter from './subscriptions';
 import tradeOperationsRouter from './tradeOperationsRouter';
 import usersRouter from './users.router';
 import exclusiveVideoRouter from './exclusiveVideos.router';
+import bitgetRouter from './bitget';
 
 const routes = Router();
 
@@ -16,5 +17,6 @@ routes.use('/paypal', paypalRouter);
 routes.use('/subscriptions', subscriptionsRouter);
 routes.use('/trade-operations', tradeOperationsRouter);
 routes.use('/forms', formsRouter);
+routes.use('/bitget', bitgetRouter);
 
 export default routes;
