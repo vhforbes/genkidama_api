@@ -26,6 +26,9 @@ class User {
   password: string;
 
   @Column({ nullable: true })
+  bitgetUID: string;
+
+  @Column({ nullable: true })
   role: string;
 
   @Column({ nullable: true })

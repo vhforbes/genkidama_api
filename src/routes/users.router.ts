@@ -11,6 +11,7 @@ import CreateUserService from '../services/Users/CreateUserService';
 import RecoverPasswordService from '../services/Users/RecoverPasswordService';
 import SendPasswordResetLinkSerivce from '../services/Users/SendPasswordResetLinkSerivce';
 import UpdateUserAvatarService from '../services/Users/UpdateUserAvatarService';
+import UpdateUserService from '../services/Users/UpdateUserService';
 import VerifyEmailSerice from '../services/Users/VerifyEmailSerice';
 
 const usersRouter = Router();
@@ -71,6 +72,18 @@ usersRouter.patch(
     res.json(user);
   },
 );
+
+usersRouter.put('/', ensureAutenticated, async (req, res) => {
+  const { name, bitgetUID } = req.body;
+
+  const updatedUser = await UpdateUserService.execute({
+    id: req.user.id,
+    name,
+    bitgetUID,
+  });
+
+  res.send(updatedUser);
+});
 
 usersRouter.get('/verify/:token', async (req, res) => {
   const token = req.params.token;
