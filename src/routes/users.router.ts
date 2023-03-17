@@ -74,6 +74,8 @@ usersRouter.patch(
 );
 
 usersRouter.put('/', ensureAutenticated, async (req, res) => {
+  // CHECK IF THIS MFUCKER IS ON BITGET LIST
+
   const { name, bitgetUID } = req.body;
 
   const updatedUser = await UpdateUserService.execute({

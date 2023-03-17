@@ -1,5 +1,7 @@
 import { AppDataSource } from '../../data-source';
+import { roles } from '../../enums/roles';
 import AppError from '../../errors/AppError';
+import BitgetUID from '../../models/BitgetAssociatedUids';
 import User from '../../models/User';
 
 interface Request {
@@ -13,6 +15,7 @@ interface Request {
 class UpdateUserService {
   public static async execute({ id, name, bitgetUID }: Request): Promise<User> {
     const userRepository = AppDataSource.getRepository(User);
+    const bitgetUIDRepository = AppDataSource.getRepository(BitgetUID);
 
     const userToUpdate = await userRepository.findOne({
       where: {
@@ -22,6 +25,18 @@ class UpdateUserService {
 
     if (!userToUpdate) {
       throw new AppError('User not found', 400);
+    }
+
+    if (bitgetUID) {
+      const existsOnDB = await bitgetUIDRepository.findOne({
+        where: {
+          BitgetUID: bitgetUID,
+        },
+      });
+
+      if (existsOnDB) {
+        userToUpdate.role = roles.bitget;
+      }
     }
 
     userToUpdate.bitgetUID = bitgetUID;
