@@ -18,10 +18,11 @@ tradeOperationsRouter.get('/', async (req, res) => {
   const tradeOperationsRepository = TradeOperationsRepository;
 
   if (Object.keys(req.query).length !== 0) {
+    // OPERATIONS WITH A QUERY
     const response = await GetActiveTradeoperationsService.execute(req.query);
-
     res.json(response);
   } else {
+    // RETURN ALL THE OPERATIONS
     const tradeOperations = await tradeOperationsRepository.find({
       order: {
         updated_at: 'DESC',

@@ -9,12 +9,17 @@ interface Request {
 const TradeOperationsRepository = AppDataSource.getRepository(
   TradeOperation,
 ).extend({
-  async filteredOperations(query: Request): Promise<TradeOperation[] | null> {
-    const tradeOperationsQueryResult = await this.find({
-      where: query,
+  async filteredOperations(
+    filter: Request,
+    pagination: any,
+  ): Promise<[TradeOperation[], number] | null> {
+    const tradeOperationsQueryResult = await this.findAndCount({
+      where: filter,
       order: {
         updated_at: 'DESC',
       },
+      take: pagination.take,
+      skip: pagination.skip,
     });
 
     return tradeOperationsQueryResult;
