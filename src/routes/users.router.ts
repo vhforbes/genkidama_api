@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import dotenv from 'dotenv';
 import multer from 'multer';
 
 import uploadConfig from '../config/upload';
@@ -16,6 +17,7 @@ import VerifyEmailSerice from '../services/Users/VerifyEmailSerice';
 
 const usersRouter = Router();
 const upload = multer(uploadConfig);
+dotenv.config();
 
 usersRouter.get('/', ensureAutenticated, async (req, res) => {
   const userId = req.user.id;
@@ -92,7 +94,7 @@ usersRouter.get('/verify/:token', async (req, res) => {
   const response = await VerifyEmailSerice.execute({ token });
 
   if (response.success) {
-    res.redirect('http://google.com');
+    res.redirect(`${process.env.FRONTEND_URL}/sign-in`);
   }
 });
 

@@ -57,6 +57,7 @@ class CreateUserService {
     });
 
     await SendVerificationEmailService.execute({
+      email,
       token: emailVerificationToken.token,
     });
 

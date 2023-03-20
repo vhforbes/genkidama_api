@@ -1,11 +1,9 @@
 import nodemailer from 'nodemailer';
 
 export const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 465,
-  secure: true,
+  service: 'SendinBlue',
   auth: {
-    user: 'admin@genkidama.me',
-    pass: 'lnnpmxdzwlczvdri',
+    user: 'vhforbes@gmail.com',
+    pass: 'D5QEBZxvOqygt1XN',
   },
 });

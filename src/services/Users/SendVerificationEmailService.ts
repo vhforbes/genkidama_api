@@ -1,30 +1,24 @@
-import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
+import { transporter } from '../../config/nodemailer';
 import AppError from '../../errors/AppError';
 
 interface Request {
+  email: string;
   token: string;
 }
 
 interface Response {}
 
-class SendVerificationEmailService {
-  public static async execute({ token }: Request): Promise<Response> {
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
-      auth: {
-        user: 'admin@genkidama.me',
-        pass: 'lnnpmxdzwlczvdri',
-      },
-    });
+dotenv.config();
 
-    const verificationLink = `http://localhost:3333/users/verify/${token}`;
+class SendVerificationEmailService {
+  public static async execute({ email, token }: Request): Promise<Response> {
+    const verificationLink = `${process.env.BACKEND_URL}/users/verify/${token}`;
 
     try {
       const info = await transporter.sendMail({
         from: '"Genkidama" <admin@genkidama.me>', // sender address
-        to: 'vhforbes@gmail.com', // list of receivers
+        to: email, // list of receivers
         subject: 'Bem vindo a Genkidama!', // Subject line
         text: token, // plain text body
         html: `
