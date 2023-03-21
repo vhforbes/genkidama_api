@@ -35,10 +35,6 @@ class GetPaginatedExclusiveVideosService {
     const exclusiveVideos = arrayToCamel(response[0]) as ExclusiveVideo[];
     const totalPosts = response[1];
 
-    if (exclusiveVideos.length < 1) {
-      throw new AppError('There are no more posts to be fetched');
-    }
-
     const results: ExclusiveVideosResults = {
       exclusiveVideos,
       next: {},

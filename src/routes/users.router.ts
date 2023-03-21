@@ -38,12 +38,13 @@ usersRouter.get('/', ensureAutenticated, async (req, res) => {
 });
 
 usersRouter.post('/', async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, bitgetUID } = req.body;
 
   const { user } = await CreateUserService.execute({
     name,
     email,
     password,
+    bitgetUID,
   });
 
   // @ts-expect-error

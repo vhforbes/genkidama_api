@@ -62,10 +62,6 @@ class GetFilteredTradeOperationsService {
     const tradeOperations = arrayToCamel(response[0]) as TradeOperation[];
     const totalTradeOperations = response[1];
 
-    if (tradeOperations.length < 1) {
-      throw new AppError('There are no more posts to be fetched');
-    }
-
     const results: TradeOperationsResults = {
       tradeOperations,
       next: {},

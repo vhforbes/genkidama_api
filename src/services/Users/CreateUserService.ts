@@ -8,11 +8,14 @@ import SendVerificationEmailService from './SendVerificationEmailService';
 
 import ConfirmEmailToken from '../../models/ConfirmEmailToken';
 import User from '../../models/User';
+import BitgetUID from '../../models/BitgetAssociatedUids';
+import { roles } from '../../enums/roles';
 
 interface Request {
   name: string;
   email: string;
   password: string;
+  bitgetUID?: string;
 }
 
 interface Response {
@@ -26,8 +29,11 @@ class CreateUserService {
     name,
     email,
     password,
+    bitgetUID,
   }: Request): Promise<Response> {
     const userRepository = AppDataSource.getRepository(User);
+    const bitgetRepository = AppDataSource.getRepository(BitgetUID);
+
     const confirmEmailTokenRepository =
       AppDataSource.getRepository(ConfirmEmailToken);
 
@@ -41,10 +47,20 @@ class CreateUserService {
 
     const hashedPassword = await hash(password, 8);
 
+    let hasBitgetAccount = null;
+
+    if (bitgetUID) {
+      hasBitgetAccount = await bitgetRepository.findOne({
+        where: { BitgetUID: bitgetUID },
+      });
+    }
+
     const user = userRepository.create({
       name,
       email,
       password: hashedPassword,
+      bitgetUID,
+      role: hasBitgetAccount ? roles.bitget : '',
     });
 
     // Send verification email
