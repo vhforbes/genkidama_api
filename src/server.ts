@@ -20,7 +20,7 @@ AppDataSource.initialize()
     console.error('Error during Data Source initialization:', err);
   });
 
-// startBot();
+startBot();
 
 const app = express();
 
