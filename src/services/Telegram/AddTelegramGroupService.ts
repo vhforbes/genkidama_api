@@ -62,8 +62,8 @@ class AddTelegramGroupService {
     }
 
     if (
-      subscription?.status !== 'ACTIVE' ||
-      role !== roles.member ||
+      subscription?.status !== 'ACTIVE' &&
+      role !== roles.member &&
       role !== roles.admin
     ) {
       return {
