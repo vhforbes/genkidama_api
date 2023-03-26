@@ -8,7 +8,7 @@ import routes from './routes';
 import { AppDataSource } from './data-source';
 import uploadConfig from './config/upload';
 import AppError from './errors/AppError';
-import startBot from './bot/initializeBot';
+import { startBot } from './bot/initializeBot';
 
 dotenv.config();
 

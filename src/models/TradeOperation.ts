@@ -31,22 +31,22 @@ class TradeOperation {
   @Column()
   direction: string;
 
-  @Column()
+  @Column({ type: 'float' })
   entry_order_one: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'float' })
   entry_order_two: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'float' })
   entry_order_three: number;
 
-  @Column()
+  @Column({ type: 'float' })
   take_profit_one: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'float' })
   take_profit_two: number;
 
-  @Column()
+  @Column({ type: 'float' })
   stop: number;
 
   @Column({ nullable: true })

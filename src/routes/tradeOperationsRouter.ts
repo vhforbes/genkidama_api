@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Router } from 'express';
 import AppError from '../errors/AppError';
-import { TradeOperationInterface } from '../interfaces/TradeOperationInterface';
+import { PayloadTradeOperationInterface } from '../interfaces/TradeOperationInterface';
 import { ensureAdmin } from '../middlewares/ensureAdmin';
 import { ensureAutenticated } from '../middlewares/ensureAuthenticated';
 import TradeOperationsRepository from '../repositories/TradeOperationsRepository';
@@ -34,7 +34,7 @@ tradeOperationsRouter.get('/', async (req, res) => {
 });
 
 tradeOperationsRouter.post('/', ensureAdmin, async (req, res) => {
-  const request = req.body as TradeOperationInterface;
+  const request = req.body as PayloadTradeOperationInterface;
 
   const requestResult = await CreateTradeOperationService.execute(request);
 
@@ -42,7 +42,7 @@ tradeOperationsRouter.post('/', ensureAdmin, async (req, res) => {
 });
 
 tradeOperationsRouter.put('/', ensureAdmin, async (req, res) => {
-  const tradeOperation = req.body as TradeOperationInterface;
+  const tradeOperation = req.body as PayloadTradeOperationInterface;
 
   const result = await UpdateTradeOperationService.execute(tradeOperation);
 

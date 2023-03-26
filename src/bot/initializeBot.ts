@@ -13,7 +13,7 @@ const botToken = process.env.BOT_TOKEN as string;
 
 export const groupId = -817116434;
 
-const bot = new TelegramBot(botToken, { polling: true });
+export const bot = new TelegramBot(botToken, { polling: true });
 
 const allCommands = ['/membro', '/ajuda', '/sair', '/ban'];
 
@@ -29,7 +29,7 @@ export const clearConversation = (chatId: number) => {
   }
 };
 
-const startBot = async () => {
+export const startBot = async () => {
   // Todas mensagens de texto que o bot recebe, serão processadas aqui de acordo com a conversa atual
   bot.on('message', msg => {
     const chatId = msg.chat.id;
@@ -151,5 +151,3 @@ const startBot = async () => {
     });
   });
 };
-
-export default startBot;

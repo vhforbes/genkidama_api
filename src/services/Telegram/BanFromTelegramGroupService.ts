@@ -1,6 +1,8 @@
 import { AppDataSource } from '../../data-source';
+import { roles } from '../../enums/roles';
 import Subscription from '../../models/Subscription';
 import TelegramMember from '../../models/TelegramMember';
+import User from '../../models/User';
 
 interface Request {
   chatMembersNumber: number;
@@ -13,6 +15,8 @@ class BanFromTelegramGroupService {
     chatMembersNumber,
   }: Request): Promise<number[] | null> {
     const subscriptionRepository = AppDataSource.getRepository(Subscription);
+    const userRepository = AppDataSource.getRepository(User);
+
     const telegramMemberRepository =
       AppDataSource.getRepository(TelegramMember);
 
@@ -20,7 +24,13 @@ class BanFromTelegramGroupService {
       where: { status: 'ACTIVE' },
     });
 
-    if (chatMembersNumber === subscribersNumber + 1) {
+    const roleAssignedNumber = await userRepository.count({
+      where: { role: roles.admin || roles.member },
+    });
+
+    const totalValidTelegramMembers = subscribersNumber + roleAssignedNumber;
+
+    if (chatMembersNumber === totalValidTelegramMembers + 1) {
       return null;
     }
 

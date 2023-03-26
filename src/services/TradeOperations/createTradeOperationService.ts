@@ -1,13 +1,17 @@
+import { newOperationToGroup } from '../../bot/tradeOperationsBot/newOperationToGroup';
 import { AppDataSource } from '../../data-source';
-import { TradeOperationInterface } from '../../interfaces/TradeOperationInterface';
+import { PayloadTradeOperationInterface } from '../../interfaces/TradeOperationInterface';
 import TradeOperation from '../../models/TradeOperation';
+import { replaceCommasWithDots } from '../../utils/replaceCommasWithDots';
 
 class CreateTradeOperationService {
   public static async execute(
-    request: TradeOperationInterface,
+    request: PayloadTradeOperationInterface,
   ): Promise<TradeOperation | null> {
     const tradeOperationsRepository =
       AppDataSource.getRepository(TradeOperation);
+
+    const cleanRequest = replaceCommasWithDots(request);
 
     const {
       authorId,
@@ -21,23 +25,25 @@ class CreateTradeOperationService {
       takeProfitTwo,
       stop,
       result,
-    } = request;
+    } = cleanRequest;
 
     const tradeOperation = tradeOperationsRepository.create({
       author_id: authorId,
       market,
       active,
       direction,
-      entry_order_one: entryOrderOne,
-      entry_order_two: entryOrderTwo || null,
-      entry_order_three: entryOrderThree || null,
-      take_profit_one: takeProfitOne,
-      take_profit_two: takeProfitTwo || null,
-      stop,
+      entry_order_one: parseFloat(entryOrderOne),
+      entry_order_two: entryOrderTwo ? parseFloat(entryOrderTwo) : null,
+      entry_order_three: entryOrderThree ? parseFloat(entryOrderThree) : null,
+      take_profit_one: parseFloat(takeProfitOne),
+      take_profit_two: takeProfitTwo ? parseFloat(takeProfitTwo) : null,
+      stop: parseFloat(stop),
       result,
     } as TradeOperation);
 
     const results = await tradeOperationsRepository.save(tradeOperation);
+
+    newOperationToGroup(-817116434, request);
 
     return results;
   }
