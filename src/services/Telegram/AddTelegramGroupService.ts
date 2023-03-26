@@ -1,5 +1,6 @@
 // import crypto from 'crypto';
 import { AppDataSource } from '../../data-source';
+import { roles } from '../../enums/roles';
 import AppError from '../../errors/AppError';
 import TelegramMember from '../../models/TelegramMember';
 
@@ -54,12 +55,13 @@ class AddTelegramGroupService {
 
     // TOO MANY QYERIES HOW CAN I GET THE SUBSCRIPTION DIRECTLY
     const subscription = user.subscription;
+    const role = user.role;
 
-    if (!subscription) {
+    if (!subscription || !role) {
       throw new AppError('Could not find subscription');
     }
 
-    if (user.subscription.status !== 'ACTIVE') {
+    if (subscription.status !== 'ACTIVE' || role !== roles.member) {
       return {
         success: false,
         messageForBot:
@@ -72,7 +74,8 @@ class AddTelegramGroupService {
       email: email,
       telegram_id: telegramUserId,
       name: fullName,
-      subscription_id: subscription.id,
+      subscription_id: subscription?.id,
+      role: role,
     });
 
     const createdNewMemberOnGroup = await telegramMemberRepository.save(

@@ -34,8 +34,11 @@ class TelegramMember {
   @JoinColumn({ name: 'subscription_id' })
   subscription: Subscription;
 
-  @Column()
+  @Column({ nullable: true })
   subscription_id: string;
+
+  @Column({ nullable: true })
+  role: string;
 
   @CreateDateColumn()
   created_at: Date;
