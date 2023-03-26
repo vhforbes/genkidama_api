@@ -61,7 +61,11 @@ class AddTelegramGroupService {
       throw new AppError('Could not find user subscription');
     }
 
-    if (subscription?.status !== 'ACTIVE' || role !== roles.member) {
+    if (
+      subscription?.status !== 'ACTIVE' ||
+      role !== roles.member ||
+      role !== roles.admin
+    ) {
       return {
         success: false,
         messageForBot:
