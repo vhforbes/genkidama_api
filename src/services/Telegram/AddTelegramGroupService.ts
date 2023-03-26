@@ -57,15 +57,15 @@ class AddTelegramGroupService {
     const subscription = user.subscription;
     const role = user.role;
 
-    if (!subscription || !role) {
-      throw new AppError('Could not find subscription');
+    if (!subscription && !role) {
+      throw new AppError('Could not find user subscription');
     }
 
     if (subscription.status !== 'ACTIVE' || role !== roles.member) {
       return {
         success: false,
         messageForBot:
-          'Sua assinatura expirou. Assine novamente no nosso site!',
+          'Sua assinatura não está ativa. Assine novamente no nosso site!',
       };
     }
 
