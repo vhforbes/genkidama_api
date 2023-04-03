@@ -37,7 +37,7 @@ const runMemberScene = (
         return;
       }
 
-      const { invite_link } = await bot.createChatInviteLink(-817116434);
+      const { invite_link } = await bot.createChatInviteLink(-1001875967546);
 
       bot.sendMessage(
         chatId,
