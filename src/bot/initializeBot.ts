@@ -35,6 +35,7 @@ export const startBot = async () => {
   // Todas mensagens de texto que o bot recebe, serão processadas aqui de acordo com a conversa atual
   bot.on('message', msg => {
     const chatId = msg.chat.id;
+    console.log(chatId);
     let conversation = findCurrentConversation(chatId, activeConversations);
 
     // Ignore massages from group

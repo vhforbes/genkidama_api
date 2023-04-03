@@ -56,7 +56,7 @@ class UpdateTradeOperationService {
 
     const results = await tradeOperationsRepository.save(updatedTradeOperation);
 
-    updateOperationToGroup(-817116434, request);
+    updateOperationToGroup(-1001875967546, request);
 
     return results;
   }
