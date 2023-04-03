@@ -11,7 +11,7 @@ import runMemberScene from './runMemberScene';
 
 const botToken = process.env.BOT_TOKEN as string;
 
-export const groupId = -817116434;
+export const groupId = parseInt(process.env.GROUP_ID as string, 10);
 
 export const bot = new TelegramBot(botToken, { polling: true });
 

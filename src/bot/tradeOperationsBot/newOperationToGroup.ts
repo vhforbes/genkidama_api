@@ -18,7 +18,7 @@ export const newOperationToGroup = async (
   // let entryOrdersMessage = `${entryOrderTwo ? entryOrderTwo : '-'}`;
 
   const messageHtml = `
-      -- <b>NOVA OPERAÇÃO</b>: ${market} --\n
+      <b>NOVA OPERAÇÃO</b>: ${market}\n
       <b>ENTRADAS:</b>
       1. R$${entryOrderOne}
       2. R$${entryOrderTwo}

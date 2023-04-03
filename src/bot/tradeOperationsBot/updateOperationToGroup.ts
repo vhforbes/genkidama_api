@@ -20,7 +20,7 @@ export const updateOperationToGroup = async (
   const isActive = active ? 'ATIVA' : `FECHADA: ${result}`;
 
   const messageHtml = `
-      -- <b>OPERAÇÃO ATUALIZADA</b>: ${market} --\n
+      <b>OPERAÇÃO ATUALIZADA</b>: ${market}\n
       <b>${isActive}</b> 
 
       <b>ENTRADAS:</b>
