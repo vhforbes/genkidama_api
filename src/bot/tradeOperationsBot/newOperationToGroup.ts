@@ -23,16 +23,16 @@ export const newOperationToGroup = async (
       <b>NOVA OPERAÇÃO</b>: ${market}\n
       ${observation && `<b>Obs:  ${observation}</b>\n`}
       <b>ENTRADAS:</b>
-      1. R$${entryOrderOne}
-      2. R$${entryOrderTwo}
-      3. R$${entryOrderThree}
+      1. $ ${entryOrderOne}
+      2. $ ${entryOrderTwo}
+      3. $ ${entryOrderThree}
   
       <b>STOP:</b>
-      R$${stop}
+      $ ${stop}
   
       <b>TAKE PROFIT</b>
-      1. R$${takeProfitOne}
-      2. R$${takeProfitTwo}
+      1. $ ${takeProfitOne}
+      2. $ ${takeProfitTwo}
     `;
 
   await bot.sendMessage(groupId, messageHtml, { parse_mode: 'HTML' });
