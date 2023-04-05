@@ -8,6 +8,7 @@ export const newOperationToGroup = async (
 ) => {
   const {
     market,
+    direction,
     entryOrderOne = `$ ${tradeOperation.entryOrderOne}`,
     entryOrderTwo = '-',
     entryOrderThree = '-',
@@ -21,6 +22,8 @@ export const newOperationToGroup = async (
 
   const messageHtml = `
       <b>NOVA OPERAÇÃO</b>: ${market}\n
+      ${direction}
+
       ${observation && `<b>Obs:  ${observation}</b>\n`}
       <b>ENTRADAS:</b>
       1. $ ${entryOrderOne}
