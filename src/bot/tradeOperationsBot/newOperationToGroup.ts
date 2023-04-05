@@ -8,7 +8,7 @@ export const newOperationToGroup = async (
 ) => {
   const {
     market,
-    entryOrderOne = `R$${tradeOperation.entryOrderOne}`,
+    entryOrderOne = `$ ${tradeOperation.entryOrderOne}`,
     entryOrderTwo = '-',
     entryOrderThree = '-',
     takeProfitOne,
