@@ -25,6 +25,7 @@ class CreateTradeOperationService {
       takeProfitTwo,
       stop,
       result,
+      observation,
     } = cleanRequest;
 
     const tradeOperation = tradeOperationsRepository.create({
@@ -39,11 +40,12 @@ class CreateTradeOperationService {
       take_profit_two: takeProfitTwo ? parseFloat(takeProfitTwo) : null,
       stop: parseFloat(stop),
       result,
+      observation,
     } as TradeOperation);
 
     const results = await tradeOperationsRepository.save(tradeOperation);
 
-    newOperationToGroup(-1001875967546, request);
+    newOperationToGroup(request);
 
     return results;
   }

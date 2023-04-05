@@ -27,6 +27,7 @@ class UpdateTradeOperationService {
       takeProfitTwo,
       stop,
       result,
+      observation,
     } = cleanRequest;
 
     const tradeOperationToUpdate = await tradeOperationsRepository.findOne({
@@ -52,11 +53,12 @@ class UpdateTradeOperationService {
       take_profit_two: takeProfitTwo ? parseFloat(takeProfitTwo) : null,
       stop: parseFloat(stop),
       result,
+      observation,
     } as TradeOperation;
 
     const results = await tradeOperationsRepository.save(updatedTradeOperation);
 
-    updateOperationToGroup(-1001875967546, request);
+    updateOperationToGroup(request);
 
     return results;
   }

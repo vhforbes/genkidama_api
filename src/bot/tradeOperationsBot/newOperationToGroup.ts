@@ -1,8 +1,9 @@
 import { PayloadTradeOperationInterface } from '../../interfaces/TradeOperationInterface';
 import { bot } from '../initializeBot';
 
+const groupId = process.env.GROUP_ID as string;
+
 export const newOperationToGroup = async (
-  chatId: number,
   tradeOperation: PayloadTradeOperationInterface,
 ) => {
   const {
@@ -13,12 +14,14 @@ export const newOperationToGroup = async (
     takeProfitOne,
     takeProfitTwo = '-',
     stop,
+    observation = '',
   } = tradeOperation;
 
   // let entryOrdersMessage = `${entryOrderTwo ? entryOrderTwo : '-'}`;
 
   const messageHtml = `
       <b>NOVA OPERAÇÃO</b>: ${market}\n
+      ${observation && `<b>Obs:  ${observation}</b>\n`}
       <b>ENTRADAS:</b>
       1. R$${entryOrderOne}
       2. R$${entryOrderTwo}
@@ -32,5 +35,5 @@ export const newOperationToGroup = async (
       2. R$${takeProfitTwo}
     `;
 
-  await bot.sendMessage(chatId, messageHtml, { parse_mode: 'HTML' });
+  await bot.sendMessage(groupId, messageHtml, { parse_mode: 'HTML' });
 };

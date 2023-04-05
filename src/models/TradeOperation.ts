@@ -52,6 +52,9 @@ class TradeOperation {
   @Column({ nullable: true })
   result: string;
 
+  @Column({ nullable: true })
+  observation: string;
+
   @CreateDateColumn({ type: 'timestamptz' })
   created_at: Date;
 

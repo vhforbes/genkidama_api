@@ -13,6 +13,7 @@ export interface TradeOperationInterface {
   createdAt?: string;
   updatedAt?: string;
   result?: string;
+  observation?: string;
 }
 
 export interface PayloadTradeOperationInterface {
@@ -30,4 +31,5 @@ export interface PayloadTradeOperationInterface {
   createdAt?: string;
   updatedAt?: string;
   result?: string;
+  observation?: string;
 }
