@@ -30,7 +30,7 @@ const runMemberScene = (
       const response = await AddTelegramGroupService.execute({
         email,
         telegramUserId: msg.from?.id as number,
-        fullName: `${msg.from?.first_name} ${msg.from?.last_name}`,
+        fullName: `${msg.from?.first_name}`,
       });
 
       if (!response.success) {
