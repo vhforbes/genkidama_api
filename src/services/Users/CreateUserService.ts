@@ -34,11 +34,13 @@ class CreateUserService {
     const userRepository = AppDataSource.getRepository(User);
     const bitgetRepository = AppDataSource.getRepository(BitgetUID);
 
+    const lowerCaseEmail = email.toLowerCase();
+
     const confirmEmailTokenRepository =
       AppDataSource.getRepository(ConfirmEmailToken);
 
     const userExists = await userRepository.findOne({
-      where: { email },
+      where: { email: lowerCaseEmail },
     });
 
     if (userExists) {
@@ -57,7 +59,7 @@ class CreateUserService {
 
     const user = userRepository.create({
       name,
-      email,
+      email: lowerCaseEmail,
       password: hashedPassword,
       bitgetUID,
       role: hasBitgetAccount ? roles.bitget : '',

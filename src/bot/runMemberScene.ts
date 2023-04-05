@@ -24,9 +24,11 @@ const runMemberScene = (
       return;
     }
 
+    const email = msg.text?.toLowerCase() as string;
+
     try {
       const response = await AddTelegramGroupService.execute({
-        email: msg.text as string,
+        email,
         telegramUserId: msg.from?.id as number,
         fullName: `${msg.from?.first_name} ${msg.from?.last_name}`,
       });
