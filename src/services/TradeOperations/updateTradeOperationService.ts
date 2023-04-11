@@ -4,6 +4,7 @@ import AppError from '../../errors/AppError';
 import { PayloadTradeOperationInterface } from '../../interfaces/TradeOperationInterface';
 import TradeOperation from '../../models/TradeOperation';
 import { replaceCommasWithDots } from '../../utils/replaceCommasWithDots';
+import CreateTradeOperationHistoryService from '../TradeOperationHistory/createTradeOperationHistoryService';
 
 class UpdateTradeOperationService {
   public static async execute(
@@ -12,11 +13,14 @@ class UpdateTradeOperationService {
     const tradeOperationsRepository =
       AppDataSource.getRepository(TradeOperation);
 
-    const cleanRequest = replaceCommasWithDots(request);
+    // Substitui as , com pontos
+    const cleanRequest = replaceCommasWithDots(
+      request,
+    ) as PayloadTradeOperationInterface;
 
+    // Desestruturaçao para utilizar os valores
     const {
       id,
-      authorId,
       market,
       active,
       direction,
@@ -28,21 +32,35 @@ class UpdateTradeOperationService {
       stop,
       result,
       observation,
+      percentual,
     } = cleanRequest;
 
+    // Checa se a operacao existe
     const tradeOperationToUpdate = await tradeOperationsRepository.findOne({
       where: {
         id,
       },
+      relations: ['history'],
     });
 
     if (!tradeOperationToUpdate) {
       throw new AppError('Trade operation could not be found');
     }
 
-    const updatedTradeOperation = {
+    // Salva a operacao encontrada para o histórico
+    const history = await CreateTradeOperationHistoryService.execute(
+      tradeOperationToUpdate,
+    );
+
+    if (!history) {
+      throw new AppError('Could not create history for update');
+    }
+
+    tradeOperationToUpdate.history.push(history);
+
+    // Cria um objeto com a operacao nova, valores novos
+    const updatedTradeOperation: Partial<TradeOperation> = {
       id,
-      author_id: authorId,
       market,
       active,
       direction,
@@ -52,15 +70,34 @@ class UpdateTradeOperationService {
       take_profit_one: parseFloat(takeProfitOne),
       take_profit_two: takeProfitTwo ? parseFloat(takeProfitTwo) : null,
       stop: parseFloat(stop),
-      result,
-      observation,
-    } as TradeOperation;
+      result: result || '',
+      percentual: percentual,
+      observation: observation || '',
+      version: tradeOperationToUpdate.version + 1,
+    };
 
-    const results = await tradeOperationsRepository.save(updatedTradeOperation);
+    // Clean it up so the invalid values are not sent to the DB
+    const cleanUpdatedTradeOperation = Object.fromEntries(
+      Object.entries(updatedTradeOperation).filter(
+        ([_, v]) => v != null && !Number.isNaN(v),
+      ),
+    );
 
-    updateOperationToGroup(request);
+    await tradeOperationsRepository.save(cleanUpdatedTradeOperation);
 
-    return results;
+    const afterUpdateTradeOperation = await tradeOperationsRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!afterUpdateTradeOperation) {
+      throw new AppError('Could not find operation after update');
+    }
+
+    updateOperationToGroup(afterUpdateTradeOperation);
+
+    return afterUpdateTradeOperation;
   }
 }
 

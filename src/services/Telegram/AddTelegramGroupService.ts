@@ -86,6 +86,10 @@ class AddTelegramGroupService {
       newMemberOnGroup,
     );
 
+    // Save the telegramID to the user
+    user.telegramId = telegramUserId;
+    await userRepository.save(user);
+
     return {
       success: true,
       telegramMember: createdNewMemberOnGroup,

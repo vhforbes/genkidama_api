@@ -15,6 +15,7 @@ class CreateTradeOperationService {
 
     const {
       authorId,
+      maxFollowers,
       market,
       active,
       direction,
@@ -31,6 +32,7 @@ class CreateTradeOperationService {
     const tradeOperation = tradeOperationsRepository.create({
       author_id: authorId,
       market,
+      maxFollowers,
       active,
       direction,
       entry_order_one: parseFloat(entryOrderOne),

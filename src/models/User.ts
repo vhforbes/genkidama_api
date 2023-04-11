@@ -42,6 +42,9 @@ class User {
   verified: boolean;
 
   @Column({ nullable: true })
+  telegramId: number;
+
+  @Column({ nullable: true })
   avatar: string;
 
   @CreateDateColumn()

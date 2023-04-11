@@ -32,4 +32,5 @@ export interface PayloadTradeOperationInterface {
   updatedAt?: string;
   result?: string;
   observation?: string;
+  percentual?: number;
 }
