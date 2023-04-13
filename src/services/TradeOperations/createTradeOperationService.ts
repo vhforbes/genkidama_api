@@ -17,7 +17,7 @@ class CreateTradeOperationService {
       authorId,
       maxFollowers,
       market,
-      active,
+      status,
       direction,
       entryOrderOne,
       entryOrderTwo,
@@ -33,7 +33,7 @@ class CreateTradeOperationService {
       author_id: authorId,
       market,
       maxFollowers,
-      active,
+      status,
       direction,
       entry_order_one: parseFloat(entryOrderOne),
       entry_order_two: entryOrderTwo ? parseFloat(entryOrderTwo) : null,
@@ -47,7 +47,7 @@ class CreateTradeOperationService {
 
     const results = await tradeOperationsRepository.save(tradeOperation);
 
-    newOperationToGroup(request);
+    newOperationToGroup(tradeOperation);
 
     return results;
   }

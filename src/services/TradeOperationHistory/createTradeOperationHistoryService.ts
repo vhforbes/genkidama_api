@@ -14,7 +14,7 @@ class CreateTradeOperationHistoryService {
 
     history.market = tradeOperationToUpdate.market;
     history.direction = tradeOperationToUpdate.direction;
-    history.active = tradeOperationToUpdate.active;
+    history.status = tradeOperationToUpdate.status;
     history.entry_order_one = tradeOperationToUpdate.entry_order_one;
     history.entry_order_two = tradeOperationToUpdate.entry_order_two;
     history.entry_order_three = tradeOperationToUpdate.entry_order_three;

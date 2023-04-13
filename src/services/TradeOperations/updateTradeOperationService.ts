@@ -22,7 +22,7 @@ class UpdateTradeOperationService {
     const {
       id,
       market,
-      active,
+      status,
       direction,
       entryOrderOne,
       entryOrderTwo,
@@ -62,13 +62,15 @@ class UpdateTradeOperationService {
     const updatedTradeOperation: Partial<TradeOperation> = {
       id,
       market,
-      active,
+      status,
       direction,
       entry_order_one: parseFloat(entryOrderOne),
-      entry_order_two: entryOrderTwo ? parseFloat(entryOrderTwo) : null,
-      entry_order_three: entryOrderThree ? parseFloat(entryOrderThree) : null,
+      entry_order_two: entryOrderTwo ? parseFloat(entryOrderTwo) : undefined,
+      entry_order_three: entryOrderThree
+        ? parseFloat(entryOrderThree)
+        : undefined,
       take_profit_one: parseFloat(takeProfitOne),
-      take_profit_two: takeProfitTwo ? parseFloat(takeProfitTwo) : null,
+      take_profit_two: takeProfitTwo ? parseFloat(takeProfitTwo) : undefined,
       stop: parseFloat(stop),
       result: result || '',
       percentual: percentual,

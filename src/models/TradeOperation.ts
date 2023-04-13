@@ -6,6 +6,8 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -93,6 +95,11 @@ class TradeOperation extends BaseEntity {
     (history: any) => history.tradeOperation,
   )
   history: TradeOperationHistory[];
+
+  // -------- JOIN USER --------
+  @ManyToMany(() => User, user => user.tradeOperations)
+  @JoinTable()
+  users: User[];
 }
 
 export default TradeOperation;

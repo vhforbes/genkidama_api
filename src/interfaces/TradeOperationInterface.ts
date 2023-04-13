@@ -2,7 +2,7 @@ export interface TradeOperationInterface {
   id: string;
   authorId: string;
   market: string;
-  active: boolean;
+  status: 'aguardando' | 'ativa' | 'fechada';
   direction: string;
   entryOrderOne: number;
   entryOrderTwo?: number;
@@ -20,7 +20,7 @@ export interface PayloadTradeOperationInterface {
   id: string;
   authorId: string;
   market: string;
-  active: boolean;
+  status: 'aguardando' | 'ativa' | 'fechada';
   direction: string;
   entryOrderOne: string;
   entryOrderTwo?: string;
