@@ -1,4 +1,4 @@
-export interface TradeOperationInterface {
+export interface ResponseTradeOperationInterface {
   id: string;
   authorId: string;
   market: string;
@@ -14,6 +14,10 @@ export interface TradeOperationInterface {
   updatedAt?: string;
   result?: string;
   observation?: string;
+  maxFollowers?: number;
+  tradingViewLink?: string;
+  currentFollowers?: number;
+  history?: ResponseTradeOperationInterface[];
 }
 
 export interface PayloadTradeOperationInterface {
@@ -32,5 +36,7 @@ export interface PayloadTradeOperationInterface {
   updatedAt?: string;
   result?: string;
   observation?: string;
+  maxFollowers?: number;
+  tradingViewLink?: string;
   percentual?: number;
 }

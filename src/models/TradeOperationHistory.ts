@@ -13,7 +13,7 @@ import TradeOperation from './TradeOperation';
 import User from './User';
 
 @Entity('tradeOperationsHistory')
-export class TradeOperationHistory extends BaseEntity {
+class TradeOperationHistory extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -92,3 +92,5 @@ export class TradeOperationHistory extends BaseEntity {
   @JoinColumn({ name: 'tradeOperationId' })
   tradeOperation: TradeOperation;
 }
+
+export default TradeOperationHistory;

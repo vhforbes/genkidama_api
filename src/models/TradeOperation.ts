@@ -14,7 +14,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import User from './User';
-import { TradeOperationHistory } from './TradeOperationHistory';
+import TradeOperationHistory from './TradeOperationHistory';
 
 @Entity('tradeOperations')
 class TradeOperation extends BaseEntity {
@@ -71,12 +71,6 @@ class TradeOperation extends BaseEntity {
   percentual: number;
 
   // -------- OTHERS --------
-  @Column({ default: 30 })
-  maxFollowers: number;
-
-  @OneToMany(() => User, (user: any) => user)
-  followers: User[];
-
   @Column({ nullable: true })
   tradingViewLink: string;
 
@@ -96,7 +90,10 @@ class TradeOperation extends BaseEntity {
   )
   history: TradeOperationHistory[];
 
-  // -------- JOIN USER --------
+  // -------- FOLLOWERS --------
+  @Column({ default: 30 })
+  maxFollowers: number;
+
   @ManyToMany(() => User, user => user.tradeOperations)
   @JoinTable()
   users: User[];

@@ -13,7 +13,7 @@ import MentoriaForm from './models/MentoriaForm';
 import TelegramMember from './models/TelegramMember';
 import ExclusiveVideo from './models/ExclusiveVideo';
 import BitgetUID from './models/BitgetAssociatedUids';
-import { TradeOperationHistory } from './models/TradeOperationHistory';
+import TradeOperationHistory from './models/TradeOperationHistory';
 
 dotenv.config();
 

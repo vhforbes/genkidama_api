@@ -11,7 +11,9 @@ class CreateTradeOperationService {
     const tradeOperationsRepository =
       AppDataSource.getRepository(TradeOperation);
 
-    const cleanRequest = replaceCommasWithDots(request);
+    const cleanRequest = replaceCommasWithDots(
+      request,
+    ) as PayloadTradeOperationInterface;
 
     const {
       authorId,
@@ -27,6 +29,7 @@ class CreateTradeOperationService {
       stop,
       result,
       observation,
+      tradingViewLink,
     } = cleanRequest;
 
     const tradeOperation = tradeOperationsRepository.create({
@@ -43,6 +46,7 @@ class CreateTradeOperationService {
       stop: parseFloat(stop),
       result,
       observation,
+      tradingViewLink,
     } as TradeOperation);
 
     const results = await tradeOperationsRepository.save(tradeOperation);

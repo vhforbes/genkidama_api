@@ -2,7 +2,7 @@ import { AppDataSource } from '../data-source';
 import TradeOperation from '../models/TradeOperation';
 
 interface Request {
-  active?: boolean;
+  status?: string;
   direction?: string;
 }
 

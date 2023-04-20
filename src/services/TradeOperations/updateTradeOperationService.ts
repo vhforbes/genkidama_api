@@ -33,6 +33,8 @@ class UpdateTradeOperationService {
       result,
       observation,
       percentual,
+      maxFollowers,
+      tradingViewLink,
     } = cleanRequest;
 
     // Checa se a operacao existe
@@ -76,6 +78,8 @@ class UpdateTradeOperationService {
       percentual: percentual,
       observation: observation || '',
       version: tradeOperationToUpdate.version + 1,
+      maxFollowers: maxFollowers,
+      tradingViewLink,
     };
 
     // Clean it up so the invalid values are not sent to the DB

@@ -10,6 +10,7 @@ import GetActiveTradeoperationsService from '../services/TradeOperations/getFilt
 import UpdateTradeOperationService from '../services/TradeOperations/updateTradeOperationService';
 import { arrayToCamel, objToCamel } from '../utils/responseToCamel';
 import AddUserToTradeOperation from '../services/TradeOperations/addUserToTradeOperationService';
+import GetTradeOperationHistory from '../services/TradeOperationHistory/getTradeOperationHistory';
 
 const tradeOperationsRouter = Router();
 
@@ -36,6 +37,8 @@ tradeOperationsRouter.get('/', async (req, res) => {
 
 tradeOperationsRouter.post('/', ensureAdmin, async (req, res) => {
   const request = req.body as PayloadTradeOperationInterface;
+
+  request.authorId = req.user.id;
 
   const requestResult = await CreateTradeOperationService.execute(request);
 
@@ -79,6 +82,14 @@ tradeOperationsRouter.post('/add-user', async (req, res) => {
     request.userId,
     request.tradeOperationId,
   );
+
+  res.json(requestResult);
+});
+
+tradeOperationsRouter.get('/history', async (req, res) => {
+  const { id } = req.query;
+
+  const requestResult = await GetTradeOperationHistory.execute(id as string);
 
   res.json(requestResult);
 });

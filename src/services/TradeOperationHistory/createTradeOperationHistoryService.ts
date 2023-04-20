@@ -1,6 +1,6 @@
 import { AppDataSource } from '../../data-source';
 import TradeOperation from '../../models/TradeOperation';
-import { TradeOperationHistory } from '../../models/TradeOperationHistory';
+import TradeOperationHistory from '../../models/TradeOperationHistory';
 
 class CreateTradeOperationHistoryService {
   public static async execute(
