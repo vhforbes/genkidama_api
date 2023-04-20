@@ -38,5 +38,5 @@ export interface PayloadTradeOperationInterface {
   observation?: string;
   maxFollowers?: number;
   tradingViewLink?: string;
-  percentual?: number;
+  percentual?: string;
 }

@@ -75,7 +75,7 @@ class UpdateTradeOperationService {
       take_profit_two: takeProfitTwo ? parseFloat(takeProfitTwo) : undefined,
       stop: parseFloat(stop),
       result: result || '',
-      percentual: percentual,
+      percentual: percentual ? parseFloat(percentual) : undefined,
       observation: observation || '',
       version: tradeOperationToUpdate.version + 1,
       maxFollowers: maxFollowers,
