@@ -1,11 +1,11 @@
 import AppError from '../../errors/AppError';
-import { TradeOperationInterface } from '../../interfaces/TradeOperationInterface';
+import { ResponseTradeOperationInterface } from '../../interfaces/TradeOperationInterface';
 import TradeOperationsRepository from '../../repositories/TradeOperationsRepository';
 import { arrayToCamel, objToCamel } from '../../utils/responseToCamel';
 
 interface TradeOperationWithHistory {
-  tradeOperation: TradeOperationInterface;
-  history: TradeOperationInterface[];
+  tradeOperation: ResponseTradeOperationInterface;
+  history: ResponseTradeOperationInterface[];
 }
 
 class GetTradeOperationHistory {
@@ -23,17 +23,17 @@ class GetTradeOperationHistory {
       throw new AppError('Unable to retrieve trade operation');
     }
 
-    const tradeOperation: TradeOperationInterface = <TradeOperationInterface>(
-      objToCamel(tradeOperationResponse)
-    );
+    const tradeOperation: ResponseTradeOperationInterface = <
+      ResponseTradeOperationInterface
+    >objToCamel(tradeOperationResponse);
 
     if (!tradeOperation.history) {
       throw new AppError('Unable to retrieve history of trade operation');
     }
 
-    const history: TradeOperationInterface[] = <TradeOperationInterface[]>(
-      arrayToCamel(tradeOperation?.history)
-    );
+    const history: ResponseTradeOperationInterface[] = <
+      ResponseTradeOperationInterface[]
+    >arrayToCamel(tradeOperation?.history);
 
     delete tradeOperation.history;
 
