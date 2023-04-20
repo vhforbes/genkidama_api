@@ -4,7 +4,7 @@ import TradeOperationsRepository from '../../repositories/TradeOperationsReposit
 import { arrayToCamel } from '../../utils/responseToCamel';
 
 interface Request {
-  active?: boolean;
+  status?: string;
   direction?: string;
   page?: string;
   limit?: string;
@@ -46,7 +46,7 @@ class GetFilteredTradeOperationsService {
     }
 
     const filter = {
-      active: query.active,
+      status: query.status,
       direction: query.direction,
     };
 

@@ -1,23 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
-  BaseEntity,
-  BeforeUpdate,
-  Column,
-  CreateDateColumn,
   Entity,
-  JoinColumn,
-  JoinTable,
-  ManyToMany,
+  Column,
   ManyToOne,
-  OneToMany,
+  JoinColumn,
   PrimaryGeneratedColumn,
+  CreateDateColumn,
   UpdateDateColumn,
+  BaseEntity,
 } from 'typeorm';
+import TradeOperation from './TradeOperation';
 import User from './User';
-import TradeOperationHistory from './TradeOperationHistory';
 
-@Entity('tradeOperations')
-class TradeOperation extends BaseEntity {
+@Entity('tradeOperationsHistory')
+class TradeOperationHistory extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -71,6 +67,12 @@ class TradeOperation extends BaseEntity {
   percentual: number;
 
   // -------- OTHERS --------
+  @Column({ default: 30 })
+  maxFollowers: number;
+
+  @Column('simple-array', { nullable: true })
+  followers: number[];
+
   @Column({ nullable: true })
   tradingViewLink: string;
 
@@ -83,20 +85,12 @@ class TradeOperation extends BaseEntity {
   @Column({ default: 1 })
   version: number;
 
-  // -------- JOIN HISTORY --------
-  @OneToMany(
-    () => TradeOperationHistory,
-    (history: any) => history.tradeOperation,
-  )
-  history: TradeOperationHistory[];
-
-  // -------- FOLLOWERS --------
-  @Column({ default: 30 })
-  maxFollowers: number;
-
-  @ManyToMany(() => User, user => user.tradeOperations)
-  @JoinTable()
-  users: User[];
+  // -------- JOIN PARENT --------
+  @ManyToOne(() => TradeOperation, tradeOperation => tradeOperation.history, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'tradeOperationId' })
+  tradeOperation: TradeOperation;
 }
 
-export default TradeOperation;
+export default TradeOperationHistory;

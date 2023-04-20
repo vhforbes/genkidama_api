@@ -13,6 +13,7 @@ import MentoriaForm from './models/MentoriaForm';
 import TelegramMember from './models/TelegramMember';
 import ExclusiveVideo from './models/ExclusiveVideo';
 import BitgetUID from './models/BitgetAssociatedUids';
+import TradeOperationHistory from './models/TradeOperationHistory';
 
 dotenv.config();
 
@@ -30,6 +31,7 @@ export const AppDataSource = new DataSource({
     Subscription,
     PaypalAccessToken,
     TradeOperation,
+    TradeOperationHistory,
     MentoriaForm,
     TelegramMember,
     BitgetUID,

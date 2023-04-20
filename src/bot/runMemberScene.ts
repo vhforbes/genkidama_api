@@ -4,6 +4,8 @@ import AddTelegramGroupService from '../services/Telegram/AddTelegramGroupServic
 import { Conversation } from './helpers';
 import { clearConversation } from './initializeBot';
 
+const groupId = process.env.GROUP_ID as string;
+
 const runMemberScene = (
   conversation: Conversation,
   msg: TelegramBot.Message,
@@ -39,7 +41,7 @@ const runMemberScene = (
         return;
       }
 
-      const { invite_link } = await bot.createChatInviteLink(-1001875967546);
+      const { invite_link } = await bot.createChatInviteLink(groupId);
 
       bot.sendMessage(
         chatId,

@@ -4,11 +4,14 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import Subscription from './Subscription';
+import TradeOperation from './TradeOperation';
 
 // Decorator => A classe é um parametro sendo passado para o decorator Entity
 @Entity('users')
@@ -42,6 +45,9 @@ class User {
   verified: boolean;
 
   @Column({ nullable: true })
+  telegramId: number;
+
+  @Column({ nullable: true })
   avatar: string;
 
   @CreateDateColumn()
@@ -49,6 +55,11 @@ class User {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  // Relate the trade operation to the user
+  @ManyToMany(() => TradeOperation)
+  @JoinTable()
+  tradeOperations: TradeOperation[];
 }
 
 export default User;

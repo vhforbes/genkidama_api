@@ -1,8 +1,8 @@
-export interface TradeOperationInterface {
+export interface ResponseTradeOperationInterface {
   id: string;
   authorId: string;
   market: string;
-  active: boolean;
+  status: 'aguardando' | 'ativa' | 'fechada';
   direction: string;
   entryOrderOne: number;
   entryOrderTwo?: number;
@@ -14,13 +14,17 @@ export interface TradeOperationInterface {
   updatedAt?: string;
   result?: string;
   observation?: string;
+  maxFollowers?: number;
+  tradingViewLink?: string;
+  currentFollowers?: number;
+  history?: ResponseTradeOperationInterface[];
 }
 
 export interface PayloadTradeOperationInterface {
   id: string;
   authorId: string;
   market: string;
-  active: boolean;
+  status: 'aguardando' | 'ativa' | 'fechada';
   direction: string;
   entryOrderOne: string;
   entryOrderTwo?: string;
@@ -32,4 +36,7 @@ export interface PayloadTradeOperationInterface {
   updatedAt?: string;
   result?: string;
   observation?: string;
+  maxFollowers?: number;
+  tradingViewLink?: string;
+  percentual?: string;
 }

@@ -11,12 +11,15 @@ class CreateTradeOperationService {
     const tradeOperationsRepository =
       AppDataSource.getRepository(TradeOperation);
 
-    const cleanRequest = replaceCommasWithDots(request);
+    const cleanRequest = replaceCommasWithDots(
+      request,
+    ) as PayloadTradeOperationInterface;
 
     const {
       authorId,
+      maxFollowers,
       market,
-      active,
+      status,
       direction,
       entryOrderOne,
       entryOrderTwo,
@@ -26,12 +29,14 @@ class CreateTradeOperationService {
       stop,
       result,
       observation,
+      tradingViewLink,
     } = cleanRequest;
 
     const tradeOperation = tradeOperationsRepository.create({
       author_id: authorId,
       market,
-      active,
+      maxFollowers,
+      status,
       direction,
       entry_order_one: parseFloat(entryOrderOne),
       entry_order_two: entryOrderTwo ? parseFloat(entryOrderTwo) : null,
@@ -41,11 +46,12 @@ class CreateTradeOperationService {
       stop: parseFloat(stop),
       result,
       observation,
+      tradingViewLink,
     } as TradeOperation);
 
     const results = await tradeOperationsRepository.save(tradeOperation);
 
-    newOperationToGroup(request);
+    newOperationToGroup(tradeOperation);
 
     return results;
   }
