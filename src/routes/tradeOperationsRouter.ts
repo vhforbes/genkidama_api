@@ -9,8 +9,11 @@ import CreateTradeOperationService from '../services/TradeOperations/createTrade
 import GetActiveTradeoperationsService from '../services/TradeOperations/getFilteredOperationsService';
 import UpdateTradeOperationService from '../services/TradeOperations/updateTradeOperationService';
 import { arrayToCamel, objToCamel } from '../utils/responseToCamel';
-import AddUserToTradeOperation from '../services/TradeOperations/addUserToTradeOperationService';
+import AddUserToTradeOperation from '../services/TradeOperations/follow/addUserToTradeOperationService';
+import AddTradeOperationToUser from '../services/TradeOperations/follow/addTradeOperationToUser';
 import GetTradeOperationHistory from '../services/TradeOperationHistory/getTradeOperationHistory';
+import RemoveUserFromTradeOperation from '../services/TradeOperations/follow/removeUserFromTradeOperationService';
+import RemoveTradeOperationFromUser from '../services/TradeOperations/follow/removeTradeOperationFromUserService';
 
 const tradeOperationsRouter = Router();
 
@@ -75,15 +78,36 @@ tradeOperationsRouter.delete('/', ensureAdmin, async (req, res) => {
   res.json(objToCamel(result));
 });
 
-tradeOperationsRouter.post('/add-user', async (req, res) => {
+tradeOperationsRouter.post('/follow', async (req, res) => {
   const request = req.body as { userId: string; tradeOperationId: string };
 
-  const requestResult = await AddUserToTradeOperation.execute(
+  const tradeOperation = await AddUserToTradeOperation.execute(
     request.userId,
     request.tradeOperationId,
   );
 
-  res.json(requestResult);
+  const user = await AddTradeOperationToUser.execute(
+    request.userId,
+    request.tradeOperationId,
+  );
+
+  res.json({ tradeOperation, user });
+});
+
+tradeOperationsRouter.post('/unfollow', async (req, res) => {
+  const request = req.body as { userId: string; tradeOperationId: string };
+
+  const tradeOperation = await RemoveUserFromTradeOperation.execute(
+    request.userId,
+    request.tradeOperationId,
+  );
+
+  const user = await RemoveTradeOperationFromUser.execute(
+    request.userId,
+    request.tradeOperationId,
+  );
+
+  res.json({ tradeOperation, user });
 });
 
 tradeOperationsRouter.get('/history', async (req, res) => {

@@ -94,7 +94,10 @@ class TradeOperation extends BaseEntity {
   @Column({ default: 30 })
   maxFollowers: number;
 
-  @ManyToMany(() => User, user => user.tradeOperations)
+  @Column({ default: 0 })
+  currentFollowers: number;
+
+  @ManyToMany(() => User)
   @JoinTable()
   users: User[];
 }

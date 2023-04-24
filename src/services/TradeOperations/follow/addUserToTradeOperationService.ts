@@ -1,7 +1,7 @@
-import { AppDataSource } from '../../data-source';
-import AppError from '../../errors/AppError';
-import TradeOperation from '../../models/TradeOperation';
-import User from '../../models/User';
+import AppError from '../../../errors/AppError';
+import TradeOperation from '../../../models/TradeOperation';
+import User from '../../../models/User';
+import { AppDataSource } from '../../../data-source';
 
 class AddUserToTradeOperation {
   public static async execute(
@@ -14,7 +14,7 @@ class AddUserToTradeOperation {
 
     const user = await userRepository.findOne({
       where: { id: userId },
-      relations: ['tradeOperations'],
+      // relations: ['tradeOperations'],
     });
 
     const tradeOperation = await tradeOperationRepository.findOne({
@@ -30,10 +30,18 @@ class AddUserToTradeOperation {
       throw new AppError('trade operation not found');
     }
 
-    user.tradeOperations = [...user.tradeOperations, tradeOperation];
+    const isAlreadyFollowing = tradeOperation?.users.filter(
+      currentUser => currentUser.id === userId,
+    );
+
+    if (isAlreadyFollowing?.length !== 0) {
+      throw new AppError('You are already following this operation');
+    }
+
+    tradeOperation.currentFollowers += 1;
+
     tradeOperation.users = [...tradeOperation.users, user];
 
-    await userRepository.save(user);
     await tradeOperationRepository.save(tradeOperation);
 
     return tradeOperation;

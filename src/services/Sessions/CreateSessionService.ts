@@ -30,15 +30,20 @@ class CreateSessionService {
     const userRepository = AppDataSource.getRepository(User);
     const subscriptionRepository = AppDataSource.getRepository(Subscription);
 
+    const userPassword = await userRepository.findOne({
+      where: { email },
+      select: ['password'],
+    });
+
     const user = await userRepository.findOne({
       where: { email },
     });
 
-    if (!user) {
+    if (!user || !userPassword) {
       throw new AppError('Invalid user or password', 401);
     }
 
-    const validPassword = await compare(password, user.password);
+    const validPassword = await compare(password, userPassword.password);
 
     if (!validPassword) {
       throw new AppError('Invalid user or password', 401);
