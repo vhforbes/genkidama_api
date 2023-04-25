@@ -1,3 +1,4 @@
+import { followingSucessfully } from '../../../bot/tradeOperationsBot/followingSucessfully';
 import { AppDataSource } from '../../../data-source';
 import AppError from '../../../errors/AppError';
 import TradeOperation from '../../../models/TradeOperation';
@@ -32,6 +33,8 @@ class AddTradeOperationToUser {
     user.tradeOperations = [...user.tradeOperations, tradeOperation];
 
     await userRepository.save(user);
+
+    followingSucessfully(tradeOperation, user.telegramId);
 
     return user;
   }
