@@ -17,6 +17,12 @@ class AddUserToTradeOperation {
       // relations: ['tradeOperations'],
     });
 
+    if (!user?.telegramId) {
+      throw new AppError(
+        'Não encotramos seu ID do telegram... Fale com o Mestre Kame',
+      );
+    }
+
     const tradeOperation = await tradeOperationRepository.findOne({
       where: { id: tradeOperationId },
       relations: ['users'],
