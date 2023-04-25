@@ -22,12 +22,16 @@ class AddUserToTradeOperation {
       relations: ['users'],
     });
 
+    if (tradeOperation?.currentFollowers === tradeOperation?.maxFollowers) {
+      throw new AppError('A operação está cheia');
+    }
+
     if (!user) {
-      throw new AppError('user not found');
+      throw new AppError('User not found');
     }
 
     if (!tradeOperation) {
-      throw new AppError('trade operation not found');
+      throw new AppError('Trade operation not found');
     }
 
     const isAlreadyFollowing = tradeOperation?.users.filter(

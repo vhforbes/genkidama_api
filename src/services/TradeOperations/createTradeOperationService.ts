@@ -28,13 +28,14 @@ class CreateTradeOperationService {
       takeProfitTwo,
       stop,
       result,
+      percentual,
       observation,
       tradingViewLink,
     } = cleanRequest;
 
     const tradeOperation = tradeOperationsRepository.create({
       author_id: authorId,
-      market,
+      market: market.trimEnd(),
       maxFollowers,
       status,
       direction,
@@ -46,6 +47,7 @@ class CreateTradeOperationService {
       stop: parseFloat(stop),
       result,
       observation,
+      percentual: percentual ? parseFloat(percentual) : null,
       tradingViewLink,
     } as TradeOperation);
 

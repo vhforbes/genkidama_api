@@ -47,6 +47,7 @@ class UpdatePasswordService {
 
     const hashedPassword = await hash(newPassword, 8);
 
+    // MAY NOT WORK BECAUSE OF THE SELECT
     user.password = hashedPassword;
 
     const updatedUser = await userRepository.save(user);

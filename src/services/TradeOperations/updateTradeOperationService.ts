@@ -42,7 +42,7 @@ class UpdateTradeOperationService {
       where: {
         id,
       },
-      relations: ['history'],
+      relations: ['history', 'users'],
     });
 
     if (!tradeOperationToUpdate) {
@@ -63,7 +63,7 @@ class UpdateTradeOperationService {
     // Cria um objeto com a operacao nova, valores novos
     const updatedTradeOperation: Partial<TradeOperation> = {
       id,
-      market,
+      market: market?.trimEnd(),
       status,
       direction,
       entry_order_one: parseFloat(entryOrderOne),
@@ -101,7 +101,10 @@ class UpdateTradeOperationService {
       throw new AppError('Could not find operation after update');
     }
 
-    updateOperationToGroup(afterUpdateTradeOperation);
+    updateOperationToGroup(
+      afterUpdateTradeOperation,
+      tradeOperationToUpdate.users,
+    );
 
     return afterUpdateTradeOperation;
   }

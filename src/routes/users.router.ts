@@ -28,7 +28,7 @@ usersRouter.get('/', ensureAutenticated, async (req, res) => {
     where: {
       id: userId,
     },
-    relations: { subscription: true },
+    relations: { subscription: true, tradeOperations: true },
   });
 
   // @ts-expect-error

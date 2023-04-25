@@ -32,6 +32,7 @@ tradeOperationsRouter.get('/', async (req, res) => {
       order: {
         updated_at: 'DESC',
       },
+      relations: ['users'],
     });
 
     res.json(arrayToCamel(tradeOperations));
@@ -82,12 +83,12 @@ tradeOperationsRouter.post('/follow', async (req, res) => {
   const request = req.body as { userId: string; tradeOperationId: string };
 
   const tradeOperation = await AddUserToTradeOperation.execute(
-    request.userId,
+    req.user.id,
     request.tradeOperationId,
   );
 
   const user = await AddTradeOperationToUser.execute(
-    request.userId,
+    req.user.id,
     request.tradeOperationId,
   );
 
@@ -98,12 +99,12 @@ tradeOperationsRouter.post('/unfollow', async (req, res) => {
   const request = req.body as { userId: string; tradeOperationId: string };
 
   const tradeOperation = await RemoveUserFromTradeOperation.execute(
-    request.userId,
+    req.user.id,
     request.tradeOperationId,
   );
 
   const user = await RemoveTradeOperationFromUser.execute(
-    request.userId,
+    req.user.id,
     request.tradeOperationId,
   );
 

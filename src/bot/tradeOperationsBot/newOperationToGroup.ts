@@ -6,39 +6,22 @@ const groupId = process.env.GROUP_ID as string;
 
 export const newOperationToGroup = async (tradeOperation: TradeOperation) => {
   const {
+    id,
     market,
     direction,
-    entry_order_one = `$ ${tradeOperation.entry_order_one}`,
-    entry_order_two = '-',
-    entry_order_three = '-',
-    take_profit_one,
-    take_profit_two = '-',
     status,
-    stop,
-
-    observation = '',
+    maxFollowers,
+    // observation = '',
   } = tradeOperation;
 
-  // let entryOrdersMessage = `${entryOrderTwo ? entryOrderTwo : '-'}`;
+  const operationUrl = `www.genkidama.me/operations/${id}`;
 
   const messageHtml = `
-      <b>NOVA OPERAÇÃO</b>: ${market} - ${direction}\n
-      
-      ${status}
-
-      ${observation && `<b>Obs:  ${observation}</b>\n`}
-      <b>ENTRADAS:</b>
-      1. $ ${entry_order_one}
-      2. $ ${entry_order_two}
-      3. $ ${entry_order_three}
-  
-      <b>STOP:</b>
-      $ ${stop}
-  
-      <b>TAKE PROFIT</b>
-      1. $ ${take_profit_one}
-      2. $ ${take_profit_two}
-    `;
+<b>NOVA OPERAÇÃO</b>: 
+<b>${market}</b> | ${direction} | ${status}
+${`<b>Máximo de seguidores: ${maxFollowers}</b>\n`}
+${`<a href="${operationUrl}">Acessar operação</a>`}
+`;
 
   await bot.sendMessage(groupId, messageHtml, { parse_mode: 'HTML' });
 };

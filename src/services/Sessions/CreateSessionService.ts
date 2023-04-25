@@ -37,6 +37,7 @@ class CreateSessionService {
 
     const user = await userRepository.findOne({
       where: { email },
+      relations: ['tradeOperations'],
     });
 
     if (!user || !userPassword) {
