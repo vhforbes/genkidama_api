@@ -11,6 +11,8 @@ interface Request {
   email: string;
 }
 
+const frontEndUrl = process.env.FRONTEND_URL;
+
 interface Response {}
 
 class SendPasswordResetLinkSerivce {
@@ -30,7 +32,7 @@ class SendPasswordResetLinkSerivce {
       expiresIn: resetPassword.jwt.expiresIn,
     });
 
-    const recoveryLink = `http://localhost:3000/users/recover?token=${token}`;
+    const recoveryLink = `${frontEndUrl}/users/recover?token=${token}`;
 
     try {
       await transporter.sendMail({
@@ -41,7 +43,7 @@ class SendPasswordResetLinkSerivce {
         html: `
         <h1>Vamos recuperar sua senha!</h1>
         <p>Favor redefina sua senhano link abaixo:</p>
-        <a href="${recoveryLink}">Verify email</a>`, // html body
+        <a href="${recoveryLink}">Clique aqui!</a>`, // html body
       });
     } catch (error) {
       // eslint-disable-next-line no-console
