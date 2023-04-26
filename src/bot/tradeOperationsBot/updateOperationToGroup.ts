@@ -42,7 +42,6 @@ $ ${stop}
 `;
 
   users.forEach(async (user: User) => {
-    console.log('sending to user', user.telegramId);
     await bot.sendMessage(user.telegramId, messageHtml, { parse_mode: 'HTML' });
   });
 };

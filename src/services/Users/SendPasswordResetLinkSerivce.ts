@@ -36,7 +36,7 @@ class SendPasswordResetLinkSerivce {
       await transporter.sendMail({
         from: '"Genkidama" <admin@genkidama.me>', // sender address
         to: 'vhforbes@gmail.com', // list of receivers
-        subject: 'Bem vindo a Genkidama!', // Subject line
+        subject: 'Recupere sua senha!', // Subject line
         text: token, // plain text body
         html: `
         <h1>Vamos recuperar sua senha!</h1>
