@@ -42,7 +42,7 @@ class SendPasswordResetLinkSerivce {
         text: token, // plain text body
         html: `
         <h1>Vamos recuperar sua senha!</h1>
-        <p>Favor redefina sua senhano link abaixo:</p>
+        <p>Favor redefina sua senha no link abaixo:</p>
         <a href="${recoveryLink}">Clique aqui!</a>`, // html body
       });
     } catch (error) {
