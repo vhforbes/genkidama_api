@@ -9,11 +9,13 @@ import {
 } from './helpers';
 import runMemberScene from './runMemberScene';
 
+// char id caio 1171976785
+
 const botToken = process.env.BOT_TOKEN as string;
 
-// export const groupId = parseInt(process.env.GROUP_ID as string, 10);
+export const groupId = parseInt(process.env.GROUP_ID as string, 10);
 
-export const groupId = -1001875967546;
+// export const groupId = process.env.GROUP_ID as string;
 
 export const bot = new TelegramBot(botToken, { polling: true });
 
@@ -135,22 +137,22 @@ export const startBot = async () => {
   });
 
   bot.onText(/\/ban/, async msg => {
-    console.log('fix this');
+    console.log(msg.chat.id);
+    // @ts-expect-error
+    const chatMembersNumber = await bot.getChatMemberCount(groupId);
 
-    // const chatMembersNumber = await bot.getChatMemberCount(groupId);
+    const response = await BanFromTelegramGroupService.execute({
+      chatMembersNumber,
+    });
 
-    // const response = await BanFromTelegramGroupService.execute({
-    //   chatMembersNumber,
-    // });
+    if (response?.length === 0) {
+      bot.sendMessage(msg.chat.id, 'A lista está atualizada');
+      return;
+    }
 
-    // if (!response) {
-    //   bot.sendMessage(msg.chat.id, 'A lista está atualizada');
-    //   return;
-    // }
-
-    // response.forEach(memberToBan => {
-    //   bot.banChatMember(groupId, `${memberToBan}`);
-    //   bot.sendMessage(msg.chat.id, `Banned user: ${memberToBan}`);
-    // });
+    response.forEach(memberToBan => {
+      bot.banChatMember(groupId, `${memberToBan}`);
+      bot.sendMessage(msg.chat.id, `Banned user: ${memberToBan}`);
+    });
   });
 };

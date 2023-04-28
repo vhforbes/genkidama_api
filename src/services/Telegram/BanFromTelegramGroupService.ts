@@ -1,7 +1,6 @@
 import { AppDataSource } from '../../data-source';
 import { roles } from '../../enums/roles';
 import Subscription from '../../models/Subscription';
-import TelegramMember from '../../models/TelegramMember';
 import User from '../../models/User';
 
 interface Request {
@@ -13,39 +12,39 @@ interface Request {
 class BanFromTelegramGroupService {
   public static async execute({
     chatMembersNumber,
-  }: Request): Promise<number[] | null> {
+  }: Request): Promise<number[]> {
     const subscriptionRepository = AppDataSource.getRepository(Subscription);
     const userRepository = AppDataSource.getRepository(User);
-
-    const telegramMemberRepository =
-      AppDataSource.getRepository(TelegramMember);
 
     const subscribersNumber = await subscriptionRepository.count({
       where: { status: 'ACTIVE' },
     });
 
     const roleAssignedNumber = await userRepository.count({
-      where: { role: roles.admin || roles.member },
+      where: { role: roles.admin || roles.member || roles.subscriber },
     });
 
     const totalValidTelegramMembers = subscribersNumber + roleAssignedNumber;
 
+    // + 1 is the BOT
     if (chatMembersNumber === totalValidTelegramMembers + 1) {
-      return null;
+      return [];
     }
 
-    const members = await telegramMemberRepository.find({
-      relations: { subscription: true },
-    });
+    const users = await userRepository.find();
 
     const chatIdsToBan: number[] = [];
 
-    for (let i = 0; i < members.length; i += 1) {
-      const member = members[i];
+    for (let i = 0; i < users.length; i += 1) {
+      const user = users[i];
 
       // THIS SHIT IS BROKEN
-      if (member.subscription.status !== 'ACTIVE') {
-        chatIdsToBan.push(member.telegram_id);
+      if (
+        user.role !== roles.admin &&
+        user.role !== roles.member &&
+        user.role !== roles.subscriber
+      ) {
+        chatIdsToBan.push(user.telegramId);
       }
     }
 
