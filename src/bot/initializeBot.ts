@@ -137,7 +137,10 @@ export const startBot = async () => {
   });
 
   bot.onText(/\/ban/, async msg => {
-    console.log(msg.chat.id);
+    const chatId = msg.chat.id;
+
+    if (chatId === groupId) return;
+
     // @ts-expect-error
     const chatMembersNumber = await bot.getChatMemberCount(groupId);
 
