@@ -1,5 +1,4 @@
 import { AppDataSource } from '../../data-source';
-import { roles } from '../../enums/roles';
 import AppError from '../../errors/AppError';
 import BitgetUID from '../../models/BitgetAssociatedUids';
 import User from '../../models/User';
@@ -35,7 +34,7 @@ class UpdateUserService {
       });
 
       if (existsOnDB) {
-        userToUpdate.role = roles.bitget;
+        userToUpdate.bitgetPartner = true;
       }
     }
 

@@ -1,5 +1,7 @@
 import { AppDataSource } from '../../data-source';
+import AppError from '../../errors/AppError';
 import BitgetUID from '../../models/BitgetAssociatedUids';
+import User from '../../models/User';
 
 interface Request {
   uidList: string[];
@@ -8,6 +10,9 @@ interface Request {
 class UpdateBitgetAssociateService {
   public static async execute({ uidList }: Request): Promise<void> {
     const bitgetUIDRepository = AppDataSource.getRepository(BitgetUID);
+    const userRepository = AppDataSource.getRepository(User);
+
+    const users = await userRepository.find();
 
     uidList.forEach(async uid => {
       const alreadyAdded = await bitgetUIDRepository.findOne({
@@ -20,6 +25,29 @@ class UpdateBitgetAssociateService {
         });
 
         await bitgetUIDRepository.save(newAssociateEntry);
+      }
+    });
+
+    users.forEach(async user => {
+      if (!user.bitgetPartner && BitgetUID) {
+        const existsOnDB = await bitgetUIDRepository.findOne({
+          where: {
+            BitgetUID: user.bitgetUID,
+          },
+        });
+
+        if (existsOnDB) {
+          const userToUpdate = await userRepository.findOne({
+            where: { id: user.id },
+          });
+
+          if (!userToUpdate) {
+            throw new AppError('User not found', 400);
+          }
+
+          userToUpdate.bitgetPartner = true;
+          userRepository.save(userToUpdate);
+        }
       }
     });
   }
