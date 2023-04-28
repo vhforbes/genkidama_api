@@ -14,6 +14,7 @@ import SendPasswordResetLinkSerivce from '../services/Users/SendPasswordResetLin
 import UpdateUserAvatarService from '../services/Users/UpdateUserAvatarService';
 import UpdateUserService from '../services/Users/UpdateUserService';
 import VerifyEmailSerice from '../services/Users/VerifyEmailSerice';
+import AppError from '../errors/AppError';
 
 const usersRouter = Router();
 const upload = multer(uploadConfig);
@@ -23,6 +24,10 @@ usersRouter.get('/', ensureAutenticated, async (req, res) => {
   const userId = req.user.id;
 
   const userRepository = AppDataSource.getRepository(User);
+
+  if (!userId) {
+    throw new AppError('No user ID provided');
+  }
 
   const user = await userRepository.findOne({
     where: {
