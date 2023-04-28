@@ -43,6 +43,7 @@ class BanFromTelegramGroupService {
     for (let i = 0; i < members.length; i += 1) {
       const member = members[i];
 
+      // THIS SHIT IS BROKEN
       if (member.subscription.status !== 'ACTIVE') {
         chatIdsToBan.push(member.telegram_id);
       }

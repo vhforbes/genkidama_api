@@ -135,21 +135,23 @@ export const startBot = async () => {
   });
 
   bot.onText(/\/ban/, async msg => {
-    // @ts-expect-error
-    const chatMembersNumber = await bot.getChatMemberCount(groupId);
 
-    const response = await BanFromTelegramGroupService.execute({
-      chatMembersNumber,
-    });
 
-    if (!response) {
-      bot.sendMessage(msg.chat.id, 'A lista está atualizada');
-      return;
-    }
+    console.log('FIX THIS')
+  //   const chatMembersNumber = await bot.getChatMemberCount(groupId);
 
-    response.forEach(memberToBan => {
-      bot.banChatMember(groupId, `${memberToBan}`);
-      bot.sendMessage(msg.chat.id, `Banned user: ${memberToBan}`);
-    });
-  });
+  //   const response = await BanFromTelegramGroupService.execute({
+  //     chatMembersNumber,
+  //   });
+
+  //   if (!response) {
+  //     bot.sendMessage(msg.chat.id, 'A lista está atualizada');
+  //     return;
+  //   }
+
+  //   response.forEach(memberToBan => {
+  //     bot.banChatMember(groupId, `${memberToBan}`);
+  //     bot.sendMessage(msg.chat.id, `Banned user: ${memberToBan}`);
+  //   });
+  // });
 };
