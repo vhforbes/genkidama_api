@@ -135,23 +135,22 @@ export const startBot = async () => {
   });
 
   bot.onText(/\/ban/, async msg => {
+    console.log('fix this');
 
+    // const chatMembersNumber = await bot.getChatMemberCount(groupId);
 
-    console.log('FIX THIS')
-  //   const chatMembersNumber = await bot.getChatMemberCount(groupId);
+    // const response = await BanFromTelegramGroupService.execute({
+    //   chatMembersNumber,
+    // });
 
-  //   const response = await BanFromTelegramGroupService.execute({
-  //     chatMembersNumber,
-  //   });
+    // if (!response) {
+    //   bot.sendMessage(msg.chat.id, 'A lista está atualizada');
+    //   return;
+    // }
 
-  //   if (!response) {
-  //     bot.sendMessage(msg.chat.id, 'A lista está atualizada');
-  //     return;
-  //   }
-
-  //   response.forEach(memberToBan => {
-  //     bot.banChatMember(groupId, `${memberToBan}`);
-  //     bot.sendMessage(msg.chat.id, `Banned user: ${memberToBan}`);
-  //   });
-  // });
+    // response.forEach(memberToBan => {
+    //   bot.banChatMember(groupId, `${memberToBan}`);
+    //   bot.sendMessage(msg.chat.id, `Banned user: ${memberToBan}`);
+    // });
+  });
 };
