@@ -10,7 +10,6 @@ import ConfirmEmailToken from './models/ConfirmEmailToken';
 import PaypalAccessToken from './models/PayPalAccessToken';
 import TradeOperation from './models/TradeOperation';
 import MentoriaForm from './models/MentoriaForm';
-import TelegramMember from './models/TelegramMember';
 import ExclusiveVideo from './models/ExclusiveVideo';
 import BitgetUID from './models/BitgetAssociatedUids';
 import TradeOperationHistory from './models/TradeOperationHistory';
@@ -33,7 +32,6 @@ export const AppDataSource = new DataSource({
     TradeOperation,
     TradeOperationHistory,
     MentoriaForm,
-    TelegramMember,
     BitgetUID,
   ],
   migrations: [

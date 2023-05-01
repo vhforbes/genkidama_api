@@ -44,7 +44,6 @@ paypalRouter.post('/', async (req, res) => {
 
     default:
       throw new AppError(`Webhhok event ${event_type} not mapped`, 200);
-      break;
   }
 
   res.json({ serviceResponse });
