@@ -19,7 +19,7 @@ class GetPaypalAccessToken {
     }
 
     const response = await paypalTokenApi({
-      url: 'https://api.sandbox.paypal.com/v1/oauth2/token',
+      url: 'https://api.paypal.com/v1/oauth2/token',
       method: 'post',
       headers: {
         Accept: 'application/json',

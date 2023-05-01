@@ -6,7 +6,7 @@ import GetPaypalAccessToken from '../services/Paypal/GetPaypalAccessToken';
 
 const paypalPrivateApi = axios.create({});
 
-paypalPrivateApi.defaults.baseURL = 'https://api.sandbox.paypal.com/v1/';
+paypalPrivateApi.defaults.baseURL = 'https://api.paypal.com/v1/';
 
 paypalPrivateApi.interceptors.request.use(
   async config => {
