@@ -1,35 +1,12 @@
 import { AppDataSource } from '../../data-source';
 import { roles } from '../../enums/roles';
-import Subscription from '../../models/Subscription';
 import User from '../../models/User';
-
-interface Request {
-  chatMembersNumber: number;
-}
 
 // EMAIL SERVICE TO-BE IMPLEMENTED WHEN EMAIL ONLINE
 
 class BanFromTelegramGroupService {
-  public static async execute({
-    chatMembersNumber,
-  }: Request): Promise<number[]> {
-    const subscriptionRepository = AppDataSource.getRepository(Subscription);
+  public static async execute(): Promise<number[]> {
     const userRepository = AppDataSource.getRepository(User);
-
-    const subscribersNumber = await subscriptionRepository.count({
-      where: { status: 'ACTIVE' },
-    });
-
-    const roleAssignedNumber = await userRepository.count({
-      where: { role: roles.admin || roles.member || roles.subscriber },
-    });
-
-    const totalValidTelegramMembers = subscribersNumber + roleAssignedNumber;
-
-    // + 1 is the BOT
-    if (chatMembersNumber === totalValidTelegramMembers + 1) {
-      return [];
-    }
 
     const users = await userRepository.find();
 
@@ -38,13 +15,17 @@ class BanFromTelegramGroupService {
     for (let i = 0; i < users.length; i += 1) {
       const user = users[i];
 
-      // THIS SHIT IS BROKEN
       if (
         user.role !== roles.admin &&
         user.role !== roles.member &&
-        user.role !== roles.subscriber
+        user.subscription?.status !== 'ACTIVE' &&
+        user.onTelegramGroup
       ) {
         chatIdsToBan.push(user.telegramId);
+        user.onTelegramGroup = false;
+
+        // eslint-disable-next-line no-await-in-loop
+        await userRepository.save(user);
       }
     }
 

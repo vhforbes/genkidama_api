@@ -37,6 +37,7 @@ export const startBot = async () => {
   // Todas mensagens de texto que o bot recebe, serão processadas aqui de acordo com a conversa atual
   bot.on('message', msg => {
     const chatId = msg.chat.id;
+
     let conversation = findCurrentConversation(chatId, activeConversations);
 
     // Ignore massages from group
@@ -141,12 +142,7 @@ export const startBot = async () => {
 
     if (chatId === groupId) return;
 
-    // @ts-expect-error
-    const chatMembersNumber = await bot.getChatMemberCount(groupId);
-
-    const response = await BanFromTelegramGroupService.execute({
-      chatMembersNumber,
-    });
+    const response = await BanFromTelegramGroupService.execute();
 
     if (response?.length === 0) {
       bot.sendMessage(msg.chat.id, 'A lista está atualizada');

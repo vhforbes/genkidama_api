@@ -47,6 +47,9 @@ class User {
   @Column({ default: false })
   bitgetPartner: boolean;
 
+  @Column({ default: false })
+  onTelegramGroup: boolean;
+
   @Column({ nullable: true })
   telegramId: number;
 
