@@ -50,8 +50,8 @@ class User {
   @Column({ default: false })
   onTelegramGroup: boolean;
 
-  @Column({ nullable: true })
-  telegramId: number;
+  @Column({ nullable: true, type: 'bigint' })
+  telegramId: bigint;
 
   @Column({ nullable: true })
   avatar: string;
