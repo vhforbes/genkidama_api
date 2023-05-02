@@ -44,7 +44,8 @@ $ ${stop}
 
   users.forEach(async (user: User) => {
     if (!user.telegramId) {
-      throw new AppError('Cant to user without telegram id');
+      console.error('Cant to user without telegram id');
+      return;
     }
 
     await bot.sendMessage(user.telegramId, messageHtml, { parse_mode: 'HTML' });
