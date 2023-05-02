@@ -14,12 +14,11 @@ class AddUserToTradeOperation {
 
     const user = await userRepository.findOne({
       where: { id: userId },
-      // relations: ['tradeOperations'],
     });
 
     if (!user?.telegramId) {
       throw new AppError(
-        'Não encotramos seu ID do telegram... Fale com o Mestre Kame',
+        'Não encotramos seu ID do telegram... Fale com o @MestreKamee_bot',
       );
     }
 
