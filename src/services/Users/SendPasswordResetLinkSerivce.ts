@@ -13,12 +13,8 @@ interface Request {
 
 const frontEndUrl = process.env.FRONTEND_URL;
 
-interface Response {}
-
 class SendPasswordResetLinkSerivce {
-  public static async execute({
-    email,
-  }: Request): Promise<Response | undefined> {
+  public static async execute({ email }: Request): Promise<void> {
     const userRepository = AppDataSource.getRepository(User);
 
     const user = await userRepository.findOne({
@@ -26,7 +22,11 @@ class SendPasswordResetLinkSerivce {
     });
 
     // Do nothing if there is no user
-    if (!user) return;
+    if (!user) {
+      throw new AppError(
+        'Usuário não encontrado para envio do email de recuperação.',
+      );
+    }
 
     let token = sign({ email }, resetPassword.jwt.secret, {
       expiresIn: resetPassword.jwt.expiresIn,
