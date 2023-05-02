@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import AppError from '../../errors/AppError';
 import TradeOperation from '../../models/TradeOperation';
 import User from '../../models/User';
 import { bot } from '../initializeBot';
@@ -44,7 +43,9 @@ $ ${stop}
 
   users.forEach(async (user: User) => {
     if (!user.telegramId) {
-      console.error('Cant to user without telegram id');
+      console.error(
+        `Cant send operantion to ${user.email} without telegram id`,
+      );
       return;
     }
 

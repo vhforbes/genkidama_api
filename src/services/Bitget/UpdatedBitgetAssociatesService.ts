@@ -46,6 +46,7 @@ class UpdateBitgetAssociateService {
           }
 
           userToUpdate.bitgetPartner = true;
+          userToUpdate.role = 'BITGET';
 
           await userRepository.save(userToUpdate);
         }

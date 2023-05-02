@@ -36,6 +36,10 @@ class UpdateUserService {
       if (existsOnDB) {
         userToUpdate.bitgetPartner = true;
       }
+
+      if (existsOnDB && !userToUpdate.role) {
+        userToUpdate.role = 'BITGET';
+      }
     }
 
     userToUpdate.bitgetUID = bitgetUID;
