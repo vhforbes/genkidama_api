@@ -29,7 +29,7 @@ class UpdateBitgetAssociateService {
     });
 
     users.forEach(async user => {
-      if (!user.bitgetPartner && BitgetUID) {
+      if (!user.bitgetPartner && user.bitgetUID) {
         const existsOnDB = await bitgetUIDRepository.findOne({
           where: {
             BitgetUID: user.bitgetUID,
@@ -46,7 +46,8 @@ class UpdateBitgetAssociateService {
           }
 
           userToUpdate.bitgetPartner = true;
-          userRepository.save(userToUpdate);
+
+          await userRepository.save(userToUpdate);
         }
       }
     });
