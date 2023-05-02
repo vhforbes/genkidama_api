@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import AppError from '../../errors/AppError';
 import TradeOperation from '../../models/TradeOperation';
 import User from '../../models/User';
 import { bot } from '../initializeBot';
@@ -42,6 +43,10 @@ $ ${stop}
 `;
 
   users.forEach(async (user: User) => {
+    if (!user.telegramId) {
+      throw new AppError('Cant to user without telegram id');
+    }
+
     await bot.sendMessage(user.telegramId, messageHtml, { parse_mode: 'HTML' });
   });
 };

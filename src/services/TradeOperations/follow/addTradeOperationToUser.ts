@@ -30,6 +30,10 @@ class AddTradeOperationToUser {
       throw new AppError('trade operation not found');
     }
 
+    if (!user.telegramId) {
+      throw new AppError('Cant to follow if user dont have telegram id');
+    }
+
     user.tradeOperations = [...user.tradeOperations, tradeOperation];
 
     await userRepository.save(user);
