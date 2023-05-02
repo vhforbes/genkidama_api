@@ -45,8 +45,11 @@ class UpdateBitgetAssociateService {
             throw new AppError('User not found', 400);
           }
 
+          if (!userToUpdate.role) {
+            userToUpdate.role = 'BITGET';
+          }
+
           userToUpdate.bitgetPartner = true;
-          userToUpdate.role = 'BITGET';
 
           await userRepository.save(userToUpdate);
         }
