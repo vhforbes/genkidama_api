@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import CreateMentoriaFormService from '../services/Forms/CreateMentoriaFormService';
+import { alertLiveStart } from '../bot/livesBot/alertLiveStatus';
 const formsRouter = Router();
 
 formsRouter.post('/mentoria', async (req, res) => {
@@ -14,6 +15,12 @@ formsRouter.post('/mentoria', async (req, res) => {
   });
 
   return res.json(response);
+});
+
+formsRouter.post('/startlive', async (req, res) => {
+  await alertLiveStart();
+
+  return res.json({ status: 'live started' });
 });
 
 export default formsRouter;

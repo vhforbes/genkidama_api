@@ -12,14 +12,14 @@ export const updateOperationToGroup = async (
   const {
     market,
     direction,
-    entry_order_one = `$ ${tradeOperation.entry_order_one}`,
-    entry_order_two = '-',
-    entry_order_three = '-',
-    take_profit_one,
-    take_profit_two = '-',
+    // entry_order_one = `$ ${tradeOperation.entry_order_one}`,
+    // entry_order_two = '-',
+    // entry_order_three = '-',
+    // take_profit_one,
+    // take_profit_two = '-',
     result = '',
     status,
-    stop,
+    // stop,
     observation,
   } = tradeOperation;
 
@@ -27,18 +27,6 @@ export const updateOperationToGroup = async (
 <b>OPERAÇÃO ATUALIZADA</b>: 
 <b>${market}</b> | ${direction} | ${status} | ${result || ''}
 ${`<b>Obs:  ${observation}</b>\n`}
-
-<b>ENTRADAS:</b>
-1. $ ${entry_order_one}
-2. $ ${entry_order_two}
-3. $ ${entry_order_three}
-
-<b>STOP:</b>
-$ ${stop}
-
-<b>TAKE PROFIT</b>
-1. $ ${take_profit_one}
-2. $ ${take_profit_two}
 `;
 
   users.forEach(async (user: User) => {
@@ -52,3 +40,16 @@ $ ${stop}
     await bot.sendMessage(user.telegramId, messageHtml, { parse_mode: 'HTML' });
   });
 };
+
+// IF NEEDED IN THE FUTURE 03/05
+// <b>ENTRADAS:</b>
+// 1. $ ${entry_order_one}
+// 2. $ ${entry_order_two}
+// 3. $ ${entry_order_three}
+
+// <b>STOP:</b>
+// $ ${stop}
+
+// <b>TAKE PROFIT</b>
+// 1. $ ${take_profit_one}
+// 2. $ ${take_profit_two}
