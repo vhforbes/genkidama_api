@@ -16,38 +16,39 @@ class UpdateUserService {
     const userRepository = AppDataSource.getRepository(User);
     const bitgetUIDRepository = AppDataSource.getRepository(BitgetUID);
 
-    const userToUpdate = await userRepository.findOne({
+    const user = await userRepository.findOne({
       where: {
         id,
       },
     });
 
-    if (!userToUpdate) {
+    if (!user) {
       throw new AppError('User not found', 400);
     }
 
+    user.name = name;
+
     if (bitgetUID) {
-      const existsOnDB = await bitgetUIDRepository.findOne({
+      user.bitgetUID = bitgetUID;
+
+      const isBitgetPartner = await bitgetUIDRepository.findOne({
         where: {
           BitgetUID: bitgetUID,
         },
       });
 
-      if (existsOnDB) {
-        userToUpdate.bitgetPartner = true;
+      if (isBitgetPartner) {
+        user.bitgetPartner = true;
       }
 
-      if (existsOnDB && !userToUpdate.role) {
-        userToUpdate.role = 'BITGET';
+      if (isBitgetPartner && !user.role) {
+        user.role = 'BITGET';
       }
     }
 
-    userToUpdate.bitgetUID = bitgetUID;
-    userToUpdate.name = name;
+    await userRepository.save(user);
 
-    await userRepository.save(userToUpdate);
-
-    return userToUpdate;
+    return user;
   }
 }
 
