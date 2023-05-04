@@ -10,7 +10,7 @@ const groupId = process.env.GROUP_ID as string;
 export const newOperationToGroup = async (tradeOperation: TradeOperation) => {
   const userRepository = AppDataSource.getRepository(User);
 
-  const users = await userRepository.find();
+  const users = await userRepository.find({ relations: ['subscription'] });
 
   const {
     id,
