@@ -1,7 +1,8 @@
+import { IsNull, Not } from 'typeorm';
 import { AppDataSource } from '../../data-source';
-import AppError from '../../errors/AppError';
 import BitgetUID from '../../models/BitgetAssociatedUids';
 import User from '../../models/User';
+import { roles } from '../../enums/roles';
 
 interface Request {
   uidList: string[];
@@ -12,9 +13,14 @@ class UpdateBitgetAssociateService {
     const bitgetUIDRepository = AppDataSource.getRepository(BitgetUID);
     const userRepository = AppDataSource.getRepository(User);
 
-    const users = await userRepository.find();
+    const usersWithUID = await userRepository.find({
+      where: {
+        bitgetUID: Not(IsNull()),
+        bitgetPartner: false,
+      },
+    });
 
-    const updatesUids = async () => {
+    const updatesUidsOnDb = async () => {
       uidList.forEach(async uid => {
         const alreadyAdded = await bitgetUIDRepository.findOne({
           where: { BitgetUID: uid },
@@ -30,39 +36,21 @@ class UpdateBitgetAssociateService {
       });
     };
 
-    const checkIfUserHasUidInDb = async () => {
-      users.forEach(async user => {
-        if (!user.bitgetPartner && user.bitgetUID) {
-          const existsOnDB = await bitgetUIDRepository.findOne({
-            where: {
-              BitgetUID: user.bitgetUID,
-            },
-          });
+    const updateUsersPartnerStatus = async () => {
+      usersWithUID.forEach(async user => {
+        if (uidList.includes(user.bitgetUID)) {
+          const updatedUser = user;
 
-          if (existsOnDB) {
-            const userToUpdate = await userRepository.findOne({
-              where: { id: user.id },
-            });
+          updatedUser.bitgetPartner = true;
+          updatedUser.role = roles.bitget;
 
-            if (!userToUpdate) {
-              throw new AppError('User not found', 400);
-            }
-
-            if (!userToUpdate.role) {
-              userToUpdate.role = 'BITGET';
-            }
-
-            userToUpdate.bitgetPartner = true;
-
-            await userRepository.save(userToUpdate);
-          }
+          await userRepository.save(updatedUser);
         }
       });
     };
 
-    await updatesUids();
-
-    await checkIfUserHasUidInDb();
+    await updatesUidsOnDb();
+    await updateUsersPartnerStatus();
   }
 }
 

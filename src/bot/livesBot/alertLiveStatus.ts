@@ -2,7 +2,9 @@
 import { AppDataSource } from '../../data-source';
 import { roles } from '../../enums/roles';
 import User from '../../models/User';
+import UsersRepository from '../../repositories/UsersRepository';
 import { bot } from '../initializeBot';
+import sendMessageToUsers from '../utils/sendMessageToUsers';
 
 const groupId = process.env.GROUP_ID as string;
 
@@ -35,27 +37,14 @@ Lembre-se de desligar o microfone quando não estiver falando!
 };
 
 export const alertLiveClose = async () => {
-  const userRepository = AppDataSource.getRepository(User);
-
-  const users = await userRepository.find({ relations: ['subscription'] });
+  const users = await UsersRepository.memberList();
 
   const messageHtml = `
-<b>--- LIVE ENCERRADA ---b>
+<b> --- LIVE ENCERRADA --- </b>
 OBRIGADO PELA PARTICIPAÇÃO
 `;
 
-  users.forEach(async (user: User) => {
-    if (
-      user.telegramId &&
-      (user.subscription?.status === 'ACTIVE' ||
-        user.role === roles.member ||
-        user.role === roles.admin)
-    ) {
-      await bot.sendMessage(user.telegramId, messageHtml, {
-        parse_mode: 'HTML',
-      });
-    }
-  });
+  await sendMessageToUsers({ users, messageHtml });
 
   await bot.sendMessage(groupId, messageHtml, { parse_mode: 'HTML' });
 };
