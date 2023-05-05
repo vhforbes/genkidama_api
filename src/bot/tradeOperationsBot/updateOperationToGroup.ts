@@ -29,6 +29,8 @@ export const updateOperationToGroup = async (
 ${`<b>Obs:  ${observation}</b>\n`}
 `;
 
+  // SOMENTE PARA QUEM SEGUE A OPERACAOOOOO
+
   users.forEach(async (user: User) => {
     if (!user.telegramId) {
       console.error(

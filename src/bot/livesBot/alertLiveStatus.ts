@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { AppDataSource } from '../../data-source';
+import { roles } from '../../enums/roles';
 import User from '../../models/User';
 import { bot } from '../initializeBot';
 
@@ -18,14 +19,16 @@ Lembre-se de desligar o microfone quando não estiver falando!
 `;
 
   users.forEach(async (user: User) => {
-    if (!user.telegramId) {
-      console.error(
-        `Cant send live alert to ${user.email} without telegram id`,
-      );
-      return;
+    if (
+      user.telegramId &&
+      (user.subscription?.status === 'ACTIVE' ||
+        user.role === roles.member ||
+        user.role === roles.admin)
+    ) {
+      await bot.sendMessage(user.telegramId, messageHtml, {
+        parse_mode: 'HTML',
+      });
     }
-
-    await bot.sendMessage(user.telegramId, messageHtml, { parse_mode: 'HTML' });
   });
 
   await bot.sendMessage(groupId, messageHtml, { parse_mode: 'HTML' });
@@ -42,14 +45,16 @@ OBRIGADO PELA PARTICIPAÇÃO
 `;
 
   users.forEach(async (user: User) => {
-    if (!user.telegramId) {
-      console.error(
-        `Cant send live alert to ${user.email} without telegram id`,
-      );
-      return;
+    if (
+      user.telegramId &&
+      (user.subscription?.status === 'ACTIVE' ||
+        user.role === roles.member ||
+        user.role === roles.admin)
+    ) {
+      await bot.sendMessage(user.telegramId, messageHtml, {
+        parse_mode: 'HTML',
+      });
     }
-
-    await bot.sendMessage(user.telegramId, messageHtml, { parse_mode: 'HTML' });
   });
 
   await bot.sendMessage(groupId, messageHtml, { parse_mode: 'HTML' });
