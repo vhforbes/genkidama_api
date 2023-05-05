@@ -37,7 +37,7 @@ export const alertLiveClose = async () => {
   const users = await userRepository.find({ relations: ['subscription'] });
 
   const messageHtml = `
-<b>--------- LIVE ENCERRADA ---------</b>
+<b>--- LIVE ENCERRADA ---b>
 OBRIGADO PELA PARTICIPAÇÃO
 `;
 
