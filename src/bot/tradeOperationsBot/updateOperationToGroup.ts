@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import TradeOperation from '../../models/TradeOperation';
 import User from '../../models/User';
-import { bot } from '../initializeBot';
+import sendMessageToUsers from '../utils/sendMessageToUsers';
 
 // const groupId = process.env.GROUP_ID as string;
 
@@ -29,18 +29,7 @@ export const updateOperationToGroup = async (
 ${`<b>Obs:  ${observation}</b>\n`}
 `;
 
-  // SOMENTE PARA QUEM SEGUE A OPERACAOOOOO
-
-  users.forEach(async (user: User) => {
-    if (!user.telegramId) {
-      console.error(
-        `Cant send operantion to ${user.email} without telegram id`,
-      );
-      return;
-    }
-
-    await bot.sendMessage(user.telegramId, messageHtml, { parse_mode: 'HTML' });
-  });
+  await sendMessageToUsers({ users, messageHtml });
 };
 
 // IF NEEDED IN THE FUTURE 03/05

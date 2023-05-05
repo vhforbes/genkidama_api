@@ -3,6 +3,7 @@ import { AppDataSource } from '../../data-source';
 import AppError from '../../errors/AppError';
 import { PayloadTradeOperationInterface } from '../../interfaces/TradeOperationInterface';
 import TradeOperation from '../../models/TradeOperation';
+import User from '../../models/User';
 import { replaceCommasWithDots } from '../../utils/replaceCommasWithDots';
 import CreateTradeOperationHistoryService from '../TradeOperationHistory/createTradeOperationHistoryService';
 
@@ -101,10 +102,12 @@ class UpdateTradeOperationService {
       throw new AppError('Could not find operation after update');
     }
 
-    updateOperationToGroup(
-      afterUpdateTradeOperation,
-      tradeOperationToUpdate.users,
+    // Avoids breaking if there is no telegramID
+    const usersWithTelegramID = tradeOperationToUpdate.users.filter(
+      (user: User) => user.telegramId !== null,
     );
+
+    updateOperationToGroup(afterUpdateTradeOperation, usersWithTelegramID);
 
     return afterUpdateTradeOperation;
   }
