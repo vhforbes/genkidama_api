@@ -1,6 +1,9 @@
 import { Router } from 'express';
 import CreateMentoriaFormService from '../services/Forms/CreateMentoriaFormService';
-import { alertLiveStart } from '../bot/livesBot/alertLiveStatus';
+import {
+  alertLiveClose,
+  alertLiveStart,
+} from '../bot/livesBot/alertLiveStatus';
 const formsRouter = Router();
 
 formsRouter.post('/mentoria', async (req, res) => {
@@ -21,6 +24,12 @@ formsRouter.post('/startlive', async (req, res) => {
   await alertLiveStart();
 
   return res.json({ status: 'live started' });
+});
+
+formsRouter.post('/closelive', async (req, res) => {
+  await alertLiveClose();
+
+  return res.json({ status: 'live ended' });
 });
 
 export default formsRouter;
