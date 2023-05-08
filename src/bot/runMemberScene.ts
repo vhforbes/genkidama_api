@@ -3,6 +3,7 @@ import TelegramBot from 'node-telegram-bot-api';
 import AddTelegramGroupService from '../services/Telegram/AddTelegramGroupService';
 import { Conversation } from './helpers';
 import { clearConversation } from './initializeBot';
+import { rules } from './html/rules';
 
 const groupId = process.env.GROUP_ID as string;
 
@@ -39,6 +40,8 @@ const runMemberScene = (
         clearConversation(chatId);
         return;
       }
+
+      bot.sendMessage(msg.chat.id, rules);
 
       const { invite_link } = await bot.createChatInviteLink(groupId);
 

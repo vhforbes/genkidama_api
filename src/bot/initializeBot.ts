@@ -8,6 +8,7 @@ import {
   MemberScene,
 } from './helpers';
 import runMemberScene from './runMemberScene';
+import { rules } from './html/rules';
 
 // char id caio 1171976785
 
@@ -19,7 +20,7 @@ export const groupId = parseInt(process.env.GROUP_ID as string, 10);
 
 export const bot = new TelegramBot(botToken, { polling: true });
 
-const allCommands = ['/membro', '/ajuda', '/sair', '/ban'];
+const allCommands = ['/membro', '/ajuda', '/sair', '/ban', '/regras'];
 
 // Salvar no banco e fazer um request em algum momento?
 let activeConversations: Array<Conversation> = [];
@@ -152,6 +153,14 @@ export const startBot = async () => {
     response.forEach(memberToBan => {
       bot.banChatMember(groupId, `${memberToBan}`);
       bot.sendMessage(msg.chat.id, `Banned user: ${memberToBan}`);
+    });
+  });
+
+  bot.onText(/\/regras/, msg => {
+    const chatId = msg.chat.id;
+
+    bot.sendMessage(chatId, rules, {
+      parse_mode: 'HTML',
     });
   });
 };
