@@ -36,6 +36,7 @@ class UpdateTradeOperationService {
       percentual,
       maxFollowers,
       tradingViewLink,
+      stopDistance,
     } = cleanRequest;
 
     // Checa se a operacao existe
@@ -77,6 +78,7 @@ class UpdateTradeOperationService {
       stop: parseFloat(stop),
       result: result || '',
       percentual: percentual ? parseFloat(percentual) : undefined,
+      stopDistance: stopDistance ? parseFloat(stopDistance) : undefined,
       observation: observation || '',
       version: tradeOperationToUpdate.version + 1,
       maxFollowers: maxFollowers,

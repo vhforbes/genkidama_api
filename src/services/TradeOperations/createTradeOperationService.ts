@@ -31,6 +31,7 @@ class CreateTradeOperationService {
       percentual,
       observation,
       tradingViewLink,
+      stopDistance,
     } = cleanRequest;
 
     const tradeOperation = tradeOperationsRepository.create({
@@ -48,6 +49,7 @@ class CreateTradeOperationService {
       result,
       observation,
       percentual: percentual ? parseFloat(percentual) : null,
+      stopDistance: stopDistance ? parseFloat(stopDistance) : null,
       tradingViewLink,
     } as TradeOperation);
 

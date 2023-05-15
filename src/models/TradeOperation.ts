@@ -63,6 +63,9 @@ class TradeOperation extends BaseEntity {
   @Column({ type: 'float' })
   stop: number;
 
+  @Column({ type: 'float', nullable: true })
+  stopDistance: number;
+
   // -------- RESULTS --------
   @Column({ nullable: true })
   result: string;

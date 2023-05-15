@@ -17,6 +17,8 @@ export interface ResponseTradeOperationInterface {
   maxFollowers?: number;
   tradingViewLink?: string;
   currentFollowers?: number;
+  percentual?: string;
+  stopDistance?: string;
   history?: ResponseTradeOperationInterface[];
 }
 
@@ -39,4 +41,5 @@ export interface PayloadTradeOperationInterface {
   maxFollowers?: number;
   tradingViewLink?: string;
   percentual?: string;
+  stopDistance?: string;
 }
