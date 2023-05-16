@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Router } from 'express';
-import AppError from '../errors/AppError';
 import { PayloadTradeOperationInterface } from '../interfaces/TradeOperationInterface';
 import { ensureAdmin } from '../middlewares/ensureAdmin';
 import { ensureAutenticated } from '../middlewares/ensureAuthenticated';
@@ -14,6 +13,7 @@ import AddTradeOperationToUser from '../services/TradeOperations/follow/addTrade
 import GetTradeOperationHistory from '../services/TradeOperationHistory/getTradeOperationHistory';
 import RemoveUserFromTradeOperation from '../services/TradeOperations/follow/removeUserFromTradeOperationService';
 import RemoveTradeOperationFromUser from '../services/TradeOperations/follow/removeTradeOperationFromUserService';
+import DeleteTradeOperationService from '../services/TradeOperations/deleteTradeOperationService';
 
 const tradeOperationsRouter = Router();
 
@@ -58,23 +58,11 @@ tradeOperationsRouter.put('/', ensureAdmin, async (req, res) => {
 });
 
 tradeOperationsRouter.delete('/', ensureAdmin, async (req, res) => {
-  const tradeOperationsRepository = TradeOperationsRepository;
-
   const { id } = req.query;
 
-  const tradeOperation = await tradeOperationsRepository.findOne({
-    where: {
-      id: id as string,
-    },
+  const result = await DeleteTradeOperationService.execute({
+    id: id as string,
   });
-
-  if (!tradeOperation) {
-    throw new AppError('Could not find trade operation to delete');
-  }
-
-  const result = await tradeOperationsRepository.remove(tradeOperation);
-
-  result.id = id as string;
 
   res.json(objToCamel(result));
 });
