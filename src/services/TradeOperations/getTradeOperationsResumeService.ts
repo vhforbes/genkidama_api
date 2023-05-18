@@ -6,6 +6,8 @@ import AppError from '../../errors/AppError';
 interface TradeOperationsResume {
   totalOperations: number;
   gainPercentage: number;
+  lossPercentage: number;
+  evenPercentage: number;
   totalProfitPercentage: number;
 }
 
@@ -40,7 +42,16 @@ class GetTradeOperationsResumeService {
     const gainOperations = trades.filter(
       trade => trade.result === 'gain',
     ).length;
+    const lossOperations = trades.filter(
+      trade => trade.result === 'loss',
+    ).length;
+    const evenOperations = trades.filter(
+      trade => trade.result === 'even',
+    ).length;
+
     const gainPercentage = (gainOperations / totalOperations) * 100;
+    const lossPercentage = (lossOperations / totalOperations) * 100;
+    const evenPercentage = (evenOperations / totalOperations) * 100;
 
     const totalProfitPercentage = trades.reduce(
       (sum, trade) => sum + trade.percentual,
@@ -50,6 +61,8 @@ class GetTradeOperationsResumeService {
     return {
       totalOperations,
       gainPercentage,
+      lossPercentage,
+      evenPercentage,
       totalProfitPercentage,
     };
   }
