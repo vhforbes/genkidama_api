@@ -14,6 +14,7 @@ import GetTradeOperationHistory from '../services/TradeOperationHistory/getTrade
 import RemoveUserFromTradeOperation from '../services/TradeOperations/follow/removeUserFromTradeOperationService';
 import RemoveTradeOperationFromUser from '../services/TradeOperations/follow/removeTradeOperationFromUserService';
 import DeleteTradeOperationService from '../services/TradeOperations/deleteTradeOperationService';
+import GetTradeOperationsResumeService from '../services/TradeOperations/getTradeOperationsResumeService';
 
 const tradeOperationsRouter = Router();
 
@@ -103,6 +104,16 @@ tradeOperationsRouter.get('/history', async (req, res) => {
   const { id } = req.query;
 
   const requestResult = await GetTradeOperationHistory.execute(id as string);
+
+  res.json(requestResult);
+});
+
+tradeOperationsRouter.get('/resume', async (req, res) => {
+  const { period } = req.query;
+
+  const requestResult = await GetTradeOperationsResumeService.execute({
+    periodInDays: parseInt(period as string, 10),
+  });
 
   res.json(requestResult);
 });
