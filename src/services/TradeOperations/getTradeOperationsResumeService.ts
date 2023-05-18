@@ -31,6 +31,7 @@ class GetTradeOperationsResumeService {
     const trades = await tradeRepo.find({
       where: {
         created_at: Between(fromDate, new Date()),
+        status: 'fechada',
       },
     });
 
