@@ -11,7 +11,7 @@ export const newOperationToGroup = async (tradeOperation: TradeOperation) => {
     id,
     market,
     // direction,
-    status,
+    // status,
     maxFollowers,
     // observation = '',
   } = tradeOperation;
@@ -20,7 +20,7 @@ export const newOperationToGroup = async (tradeOperation: TradeOperation) => {
 
   const messageHtml = `
 <b>NOVA OPERAÇÃO</b>: 
-<b>${market}</b> | ${status}
+<b>${market}</b>
 ${`<b>Máximo de seguidores: ${maxFollowers}</b>\n`}
 ${`<a href="${operationUrl}">Acessar operação</a>`}
 `;
