@@ -16,7 +16,7 @@ class GetTradeOperationHistory {
       where: {
         id,
       },
-      relations: ['history'],
+      relations: ['history', 'history.tradeOperation'],
     });
 
     if (!tradeOperationResponse) {

@@ -71,7 +71,7 @@ class TradeOperationHistory extends BaseEntity {
   maxFollowers: number;
 
   @Column('simple-array', { nullable: true })
-  followers: number[];
+  currentFollowers: number;
 
   @Column({ nullable: true })
   tradingViewLink: string;
