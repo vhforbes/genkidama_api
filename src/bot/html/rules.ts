@@ -23,5 +23,7 @@ export const rules = `
 
 9 - Assista a todos os vídeos da plataforma, você assim absorve conhecimento e se nivela aos demais participantes da comunidade, conseguindo tirar maior proveito dos sinais e lives.
 
-10 - Seja muito bem vindo, estamos aqui para ganhar dinheiro e melhorar como traders. Obrigado por fazer parte deste projeto! Seja responsável e aproveite.
+10 - É proibido o compartilhamento de PNLs. Salvo como exceção caso tenha compartilhado a operação de forma clara para todo o grupo anteriormente.
+
+11 - Seja muito bem vindo, estamos aqui para ganhar dinheiro e melhorar como traders. Obrigado por fazer parte deste projeto! Seja responsável e aproveite.
 `;
