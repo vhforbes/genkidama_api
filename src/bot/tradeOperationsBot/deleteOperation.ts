@@ -19,6 +19,4 @@ export const deleteOperation = async (tradeOperation: TradeOperation) => {
 
   await sendMessageToUsers({ users, messageHtml });
   await sendMessageToGroup(messageHtml);
-
-  await bot.sendMessage(groupId, messageHtml, { parse_mode: 'HTML' });
 };
