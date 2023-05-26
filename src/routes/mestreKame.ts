@@ -9,7 +9,20 @@ import sendMessageToGroup from '../bot/utils/sendMessageToGroup';
 const mestreKameRouter = Router();
 
 mestreKameRouter.post(
-  '/broadcast',
+  '/broadcastToGroup',
+  ensureAutenticated,
+  ensureAdmin,
+  async (req, res) => {
+    const { message } = req.body;
+
+    await sendMessageToGroup(message);
+
+    return res.json('message sent');
+  },
+);
+
+mestreKameRouter.post(
+  '/broadcastToUsers',
   ensureAutenticated,
   ensureAdmin,
   async (req, res) => {
@@ -25,8 +38,6 @@ mestreKameRouter.post(
       users,
       messageHtml: message as string,
     });
-
-    await sendMessageToGroup(message);
 
     return res.json('message sent');
   },
