@@ -15,6 +15,8 @@ import UpdateUserAvatarService from '../services/Users/UpdateUserAvatarService';
 import UpdateUserService from '../services/Users/UpdateUserService';
 import VerifyEmailSerice from '../services/Users/VerifyEmailSerice';
 import AppError from '../errors/AppError';
+import { ensureAdmin } from '../middlewares/ensureAdmin';
+import SetUserMemberService from '../services/Users/SetUserMemberService';
 
 const usersRouter = Router();
 const upload = multer(uploadConfig);
@@ -76,6 +78,22 @@ usersRouter.patch(
 
     // @ts-expect-error
     delete user.password;
+
+    res.json(user);
+  },
+);
+
+usersRouter.patch(
+  '/set-member',
+  ensureAutenticated,
+  ensureAdmin,
+  async (req, res) => {
+    const { email, isMember } = req.body;
+
+    const user = await SetUserMemberService.execute({
+      email,
+      isMember,
+    });
 
     res.json(user);
   },
