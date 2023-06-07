@@ -8,7 +8,9 @@ class BanFromTelegramGroupService {
   public static async execute(): Promise<number[]> {
     const userRepository = AppDataSource.getRepository(User);
 
-    const users = await userRepository.find();
+    const users = await userRepository.find({
+      relations: { subscription: true },
+    });
 
     const chatIdsToBan: number[] = [];
 

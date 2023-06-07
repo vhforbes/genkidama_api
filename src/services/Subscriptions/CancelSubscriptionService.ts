@@ -39,7 +39,7 @@ class CancelSubscriptionService {
     if (subscription.status === 'ACTIVE') {
       const cancelResponse = await paypalPrivateApi.post(
         `/billing/subscriptions/${subscription.paypal_subscription_id}/cancel`,
-        { reason: 'watever' },
+        { reason: cancelationReason },
       );
 
       if (cancelResponse.status === 204) {
