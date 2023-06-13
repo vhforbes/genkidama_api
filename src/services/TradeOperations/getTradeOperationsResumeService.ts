@@ -32,10 +32,12 @@ class GetTradeOperationsResumeService {
     // Fetch all trade operations within this period
     const trades = await tradeRepo.find({
       where: {
-        created_at: Between(fromDate, new Date()),
+        updated_at: Between(fromDate, new Date()),
         status: 'fechada',
       },
     });
+
+    console.log(trades);
 
     const totalOperations = trades.length;
 
