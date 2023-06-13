@@ -1,4 +1,4 @@
-import { Between } from 'typeorm';
+import { Between, IsNull, Not } from 'typeorm';
 import { AppDataSource } from '../../data-source';
 import TradeOperation from '../../models/TradeOperation';
 import AppError from '../../errors/AppError';
@@ -34,6 +34,7 @@ class GetTradeOperationsResumeService {
       where: {
         updated_at: Between(fromDate, new Date()),
         status: 'fechada',
+        result: Not(IsNull()),
       },
     });
 
