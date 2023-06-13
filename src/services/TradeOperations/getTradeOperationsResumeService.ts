@@ -39,6 +39,8 @@ class GetTradeOperationsResumeService {
 
     const totalOperations = trades.length;
 
+    console.log(totalOperations);
+
     const gainOperations = trades.filter(
       trade => trade.result === 'gain',
     ).length;

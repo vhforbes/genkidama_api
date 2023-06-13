@@ -38,8 +38,6 @@ usersRouter.get('/', ensureAutenticated, async (req, res) => {
     relations: { subscription: true, tradeOperations: true },
   });
 
-  console.log(user);
-
   // @ts-expect-error
   delete user.password;
 
