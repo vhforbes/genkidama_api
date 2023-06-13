@@ -47,8 +47,6 @@ class GetTradeOperationsResumeService {
 
     const totalOperations = trades.length;
 
-    console.log(trades);
-
     const gainOperations = trades.filter(
       trade => trade.result === 'gain',
     ).length;
@@ -58,13 +56,6 @@ class GetTradeOperationsResumeService {
     const evenOperations = trades.filter(
       trade => trade.result === 'even',
     ).length;
-
-    console.log('GAIN: ', gainOperations);
-    console.log('------------------------------');
-    console.log('LOSS: ', lossOperations);
-    console.log('------------------------------');
-    console.log('EVEN: ', evenOperations);
-    console.log('------------------------------');
 
     const gainPercentage = (gainOperations / totalOperations) * 100;
     const lossPercentage = (lossOperations / totalOperations) * 100;
