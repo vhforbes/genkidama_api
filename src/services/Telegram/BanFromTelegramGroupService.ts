@@ -23,11 +23,12 @@ class BanFromTelegramGroupService {
         user.subscription?.status !== 'ACTIVE' &&
         user.onTelegramGroup
       ) {
-        chatIdsToBan.push(user.telegramId);
-        user.onTelegramGroup = false;
+        console.log('BANIDO', user.email, user.telegramId);
+        // chatIdsToBan.push(user.telegramId);
+        // user.onTelegramGroup = false;
 
-        // eslint-disable-next-line no-await-in-loop
-        await userRepository.save(user);
+        // // eslint-disable-next-line no-await-in-loop
+        // await userRepository.save(user);
       }
     }
 
