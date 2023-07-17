@@ -30,7 +30,12 @@ subscriptionsRouter.post('/create', ensureAutenticated, async (req, res) => {
 subscriptionsRouter.post('/cancel', ensureAutenticated, async (req, res) => {
   const { paypalSubscriptionId, cancelationReason } = req.body;
 
+  console.log('PAYPALSUBID: ', paypalSubscriptionId);
+
+  const userId = req.user.id;
+
   const canceledSubscription = await CancelSubscriptionService.execute({
+    userId,
     paypalSubscriptionId: paypalSubscriptionId as string,
     cancelationReason: cancelationReason as string,
   });
