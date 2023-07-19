@@ -13,9 +13,11 @@ paypalRouter.post('/', async (req, res) => {
 
   switch (event_type) {
     case 'BILLING.SUBSCRIPTION.CANCELLED':
-      serviceResponse = await CancelSubscriptionService.execute({
-        paypalSubscriptionId: resource.id,
-      });
+      // serviceResponse = await CancelSubscriptionService.execute({
+      //   paypalSubscriptionId: resource.id,
+      // });
+
+      console.log(resource);
 
       break;
 

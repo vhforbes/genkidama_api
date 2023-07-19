@@ -12,13 +12,6 @@ interface Request {
   cancelationReason?: string;
 }
 
-/*
-  [] Receive webhook
-  [] Validate webhook validity
-  [] Sort event type
-  [] Create or Update Subscription
-*/
-
 class CancelSubscriptionService {
   public static async execute({
     userId,
@@ -27,6 +20,10 @@ class CancelSubscriptionService {
   }: Request): Promise<{}> {
     const subscriptionRepository = AppDataSource.getRepository(Subscription);
     const userRepository = AppDataSource.getRepository(User);
+
+    if (!userId) {
+      throw new AppError('No User ID');
+    }
 
     const user = await userRepository.findOne({
       where: {
