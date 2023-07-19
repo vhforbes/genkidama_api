@@ -11,6 +11,8 @@ paypalRouter.post('/', async (req, res) => {
 
   let serviceResponse = null;
 
+  console.log(resource);
+
   switch (event_type) {
     case 'BILLING.SUBSCRIPTION.CANCELLED':
       // serviceResponse = await CancelSubscriptionService.execute({
@@ -22,25 +24,25 @@ paypalRouter.post('/', async (req, res) => {
       break;
 
     case 'BILLING.SUBSCRIPTION.EXPIRED':
-      serviceResponse = await CancelSubscriptionService.execute({
-        paypalSubscriptionId: resource.id,
-      });
+      // serviceResponse = await CancelSubscriptionService.execute({
+      //   paypalSubscriptionId: resource.id,
+      // });
 
       break;
 
     case 'BILLING.SUBSCRIPTION.UPDATED':
-      serviceResponse = await UpdateSubscriptionService.execute({
-        paypalSubscriptionId: resource.id,
-        current_period_end: resource.final_payment_due_date,
-      });
+      // serviceResponse = await UpdateSubscriptionService.execute({
+      //   paypalSubscriptionId: resource.id,
+      //   current_period_end: resource.final_payment_due_date,
+      // });
 
       break;
 
     case 'BILLING.SUBSCRIPTION.RE-ACTIVATED':
-      serviceResponse = await UpdateSubscriptionService.execute({
-        paypalSubscriptionId: resource.id,
-        current_period_end: resource.final_payment_due_date,
-      });
+      // serviceResponse = await UpdateSubscriptionService.execute({
+      //   paypalSubscriptionId: resource.id,
+      //   current_period_end: resource.final_payment_due_date,
+      // });
 
       break;
 
