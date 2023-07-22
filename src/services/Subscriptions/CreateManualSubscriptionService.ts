@@ -64,7 +64,7 @@ class CreateManualSubscriptionService {
 
     const subscription = subscriptionRepository.create({
       user_id: user.id,
-      paypal_subscription_id: 'subscriptionID',
+      email: user.email,
       status: 'ACTIVE',
       type,
       current_period_start: dateNow,

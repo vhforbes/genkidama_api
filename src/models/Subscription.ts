@@ -12,8 +12,11 @@ class Subscription {
   @Column()
   status: string;
 
-  @Column()
-  paypal_subscription_id: string;
+  @Column({ nullable: true })
+  email?: string;
+
+  @Column({ nullable: true })
+  paypal_subscription_id?: string;
 
   @Column({ nullable: true })
   plan_id?: string;

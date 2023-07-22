@@ -5,6 +5,7 @@ import Subscription from '../../models/Subscription';
 import User from '../../models/User';
 
 import paypalPrivateApi from '../../apis/paypalPrivateApi';
+import { subscriptionTypes } from '../../enums/subscriptionTypes';
 
 interface Request {
   email: string;
@@ -60,7 +61,9 @@ class CreateSubscriptionService {
       user_id: user.id,
       paypal_subscription_id: subscriptionID,
       plan_id: data.plan_id,
+      email: user.email,
       status: 'ACTIVE',
+      type: subscriptionTypes.paypal,
       current_period_start: data.start_time,
       current_period_end: data.billing_info.next_billing_time,
     });
