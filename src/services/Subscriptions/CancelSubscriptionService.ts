@@ -5,17 +5,16 @@ import Subscription from '../../models/Subscription';
 
 import paypalPrivateApi from '../../apis/paypalPrivateApi';
 import User from '../../models/User';
+import { subscriptionTypes } from '../../enums/subscriptionTypes';
 
 interface Request {
   userId?: string;
-  paypalSubscriptionId: string;
   cancelationReason?: string;
 }
 
 class CancelSubscriptionService {
   public static async execute({
     userId,
-    paypalSubscriptionId,
     cancelationReason,
   }: Request): Promise<{}> {
     const subscriptionRepository = AppDataSource.getRepository(Subscription);
@@ -32,15 +31,7 @@ class CancelSubscriptionService {
       relations: ['subscription'],
     });
 
-    console.log('USER CANCELING: ', user);
-
-    // const subscription = await subscriptionRepository.findOne({
-    //   where: { paypal_subscription_id: paypalSubscriptionId },
-    // });
-
     const subscription = user?.subscription;
-
-    console.log('SUBSCRIPTION: ', subscription);
 
     if (!subscription) {
       throw new AppError('Subscription was not found');
@@ -50,19 +41,35 @@ class CancelSubscriptionService {
       throw new AppError('Not a active subscription');
     }
 
-    if (subscription.status === 'ACTIVE') {
-      const cancelResponse = await paypalPrivateApi.post(
+    // ----- CANCEL A PAYPAL SUBSCRIPTION -----
+    if (
+      subscription.type === subscriptionTypes.paypal &&
+      subscription.status === 'ACTIVE'
+    ) {
+      const cancelarionResponse = await paypalPrivateApi.post(
         `/billing/subscriptions/${subscription.paypal_subscription_id}/cancel`,
         { reason: cancelationReason },
       );
 
-      if (cancelResponse.status === 204) {
+      if (cancelarionResponse.status === 204) {
         subscription.status = 'CANCELED';
         subscription.cancelation_reason = cancelationReason;
         subscription.canceled_at = new Date().toISOString();
 
         await subscriptionRepository.update(subscription.id, subscription);
       }
+    }
+
+    // ----- CANCEL A MANUAL SUBSCRIPTION -----
+    if (
+      subscription.status === 'ACTIVE' &&
+      subscription.type !== subscriptionTypes.paypal
+    ) {
+      subscription.status = 'CANCELED';
+      subscription.cancelation_reason = cancelationReason;
+      subscription.canceled_at = new Date().toISOString();
+
+      await subscriptionRepository.update(subscription.id, subscription);
     }
 
     return subscription;

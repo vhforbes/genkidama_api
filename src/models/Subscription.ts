@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, RelationId } from 'typeorm';
 
 @Entity('subscriptions')
 class Subscription {
@@ -15,8 +15,11 @@ class Subscription {
   @Column()
   paypal_subscription_id: string;
 
-  @Column()
-  plan_id: string;
+  @Column({ nullable: true })
+  plan_id?: string;
+
+  @Column({ nullable: true })
+  type?: string;
 
   @Column()
   current_period_start: string;
