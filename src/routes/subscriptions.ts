@@ -4,6 +4,7 @@ import CancelSubscriptionService from '../services/Subscriptions/CancelSubscript
 import CreateSubscriptionService from '../services/Subscriptions/CreateSubscriptionService';
 import SubscriptionStatusService from '../services/Subscriptions/SubscriptionStatusService';
 import CreateManualSubscriptionService from '../services/Subscriptions/CreateManualSubscriptionService';
+import { ensureAdmin } from '../middlewares/ensureAdmin';
 
 const subscriptionsRouter = Router();
 
@@ -35,6 +36,7 @@ subscriptionsRouter.post(
 subscriptionsRouter.post(
   '/createManualSubscription',
   ensureAutenticated,
+  ensureAdmin,
   async (req, res) => {
     const { email, type, endDate, lifetime } = req.body;
 
