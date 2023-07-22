@@ -24,8 +24,8 @@ class Subscription {
   @Column()
   current_period_start: string;
 
-  @Column()
-  current_period_end: string;
+  @Column({ nullable: true })
+  current_period_end?: string;
 
   @Column({ nullable: true })
   canceled_at?: string;
