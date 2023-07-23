@@ -54,9 +54,9 @@ class SubscriptionStatusService {
     // Update accoring to the return
     // Cancel in case of expired date
     if (
-      subscription.type === subscriptionTypes.paypal &&
-      subscription.status === 'ACTIVE' &&
-      isExpired
+      subscription.type === subscriptionTypes.paypal
+      // subscription.status === 'ACTIVE' &&
+      // isExpired
     ) {
       const { data } = await paypalPrivateApi(
         `/billing/subscriptions/${subscription.paypal_subscription_id}`,
@@ -68,13 +68,13 @@ class SubscriptionStatusService {
         throw new AppError('Unable to retrive subscriptions details');
       }
 
-      if (data.status === 'CANCELLED' || data.status === 'SUSPENDED') {
-        subscription.status = data.status;
-        subscription.canceled_at = new Date().toISOString();
-        subscription.cancelation_reason = 'Cancelada pelo sistema';
+      // if (data.status === 'CANCELLED' || data.status === 'SUSPENDED') {
+      //   subscription.status = data.status;
+      //   subscription.canceled_at = new Date().toISOString();
+      //   subscription.cancelation_reason = 'Cancelada pelo sistema';
 
-        subscriptionRepository.save(subscription);
-      }
+      //   subscriptionRepository.save(subscription);
+      // }
     }
 
     return subscription;
