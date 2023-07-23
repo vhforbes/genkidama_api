@@ -15,7 +15,7 @@ class SubscriptionStatusService {
     userId,
   }: Request): Promise<{ status: string | null }> {
     const userRepository = AppDataSource.getRepository(User);
-    const subscriptionRepository = AppDataSource.getRepository(Subscription);
+    // const subscriptionRepository = AppDataSource.getRepository(Subscription);
 
     const user = await userRepository.findOne({
       where: { id: userId },
