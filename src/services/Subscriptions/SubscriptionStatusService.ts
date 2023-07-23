@@ -67,6 +67,11 @@ class SubscriptionStatusService {
       if (!data) {
         throw new AppError('Unable to retrive subscriptions details');
       }
+
+      if (data.status === 'CANCELED' || data.status === 'SUSPENDED') {
+        subscription.status = data.status;
+        subscription.canceled_at = new Date().toISOString();
+      }
     }
 
     return subscription;
