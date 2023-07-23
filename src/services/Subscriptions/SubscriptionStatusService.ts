@@ -69,7 +69,7 @@ class SubscriptionStatusService {
 
       // ATUALIZA A DATA EXPIRADA
       if (data.status === 'ACTIVE') {
-        subscription.current_period_end = data.next_billing_time;
+        subscription.current_period_end = data.billing_info.next_billing_time;
         subscriptionRepository.save(subscription);
       }
 
