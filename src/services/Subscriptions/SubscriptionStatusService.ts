@@ -24,7 +24,14 @@ class SubscriptionStatusService {
 
     if (!user) throw new AppError('User was not found');
 
+    if (user.role === 'ADMIN') return { status: 'ADMIN USER' };
+
     const subscription = user.subscription;
+
+    // TEMPORARY LOGIC TO FILL EMAILS (DELETE ONE DAY)
+    if (!subscription.email) {
+      subscription.email = user?.email;
+    }
 
     if (!subscription) {
       return {
