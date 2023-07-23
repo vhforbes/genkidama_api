@@ -50,13 +50,15 @@ class SubscriptionStatusService {
 
     const isExpired = todayDate > bufferedExpirationDate;
 
+    console.log('Checking expired subscription for: ', user.email);
+
+    console.log('Expired date: ', isExpired);
+
     if (
       subscription.type === subscriptionTypes.paypal &&
       subscription.status === 'ACTIVE' &&
       isExpired
     ) {
-      console.log('Checking expired subscription for: ', user.email);
-
       const { data } = await paypalPrivateApi(
         `/billing/subscriptions/${subscription.paypal_subscription_id}`,
       );
