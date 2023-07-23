@@ -1,4 +1,6 @@
+import paypalPrivateApi from '../../apis/paypalPrivateApi';
 import { AppDataSource } from '../../data-source';
+import { subscriptionTypes } from '../../enums/subscriptionTypes';
 import AppError from '../../errors/AppError';
 
 import Subscription from '../../models/Subscription';
@@ -17,18 +19,54 @@ class SubscriptionStatusService {
 
     const user = await userRepository.findOne({
       where: { id: userId },
+      relations: ['subscription'],
     });
 
     if (!user) throw new AppError('User was not found');
 
-    const subscription = await subscriptionRepository.findOne({
-      where: { id: user?.subscription_id },
-    });
+    const subscription = user.subscription;
 
     if (!subscription) {
       return {
         status: 'NO SUBSCRIPTION FOUND',
       };
+    }
+
+    // ---- Exits logic if its a lifetime subscription ----
+    //
+    if (!subscription.current_period_end) return { status: 'NO END DATE' };
+
+    // ---- Checks if the subscription has expired ----
+    //
+    const expirationDate = Date.parse(subscription.current_period_end);
+
+    // add a 15-day buffer to the expiration date
+    const bufferDays = 15;
+    const millisecondsPerDay = 24 * 60 * 60 * 1000;
+    const bufferedExpirationDate =
+      expirationDate + bufferDays * millisecondsPerDay;
+
+    const todayDate = Date.now();
+
+    const isExpired = todayDate > bufferedExpirationDate;
+
+    // Check status with paypal
+    // Update accoring to the return
+    // Cancel in case of expired date
+    if (
+      subscription.type === subscriptionTypes.paypal &&
+      subscription.status === 'ACTIVE' &&
+      isExpired
+    ) {
+      const { data } = await paypalPrivateApi(
+        `/billing/subscriptions/${subscription.paypal_subscription_id}`,
+      );
+
+      console.log(data);
+
+      if (!data) {
+        throw new AppError('Unable to retrive subscriptions details');
+      }
     }
 
     return subscription;

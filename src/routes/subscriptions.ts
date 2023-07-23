@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { ensureAutenticated } from '../middlewares/ensureAuthenticated';
 import CancelSubscriptionService from '../services/Subscriptions/CancelSubscriptionService';
-import CreateSubscriptionService from '../services/Subscriptions/CreateSubscriptionService';
+import CreateSubscriptionService from '../services/Subscriptions/CreatePaypalSubscriptionService';
 import SubscriptionStatusService from '../services/Subscriptions/SubscriptionStatusService';
 import CreateManualSubscriptionService from '../services/Subscriptions/CreateManualSubscriptionService';
 import { ensureAdmin } from '../middlewares/ensureAdmin';
