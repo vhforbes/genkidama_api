@@ -15,7 +15,7 @@ class SubscriptionStatusService {
     userId,
   }: Request): Promise<{ status: string | null }> {
     const userRepository = AppDataSource.getRepository(User);
-    // const subscriptionRepository = AppDataSource.getRepository(Subscription);
+    const subscriptionRepository = AppDataSource.getRepository(Subscription);
 
     const user = await userRepository.findOne({
       where: { id: userId },
@@ -71,6 +71,9 @@ class SubscriptionStatusService {
       if (data.status === 'CANCELLED' || data.status === 'SUSPENDED') {
         subscription.status = data.status;
         subscription.canceled_at = new Date().toISOString();
+        subscription.cancelation_reason = 'Cancelada pelo sistema';
+
+        subscriptionRepository.save(subscription);
       }
     }
 
