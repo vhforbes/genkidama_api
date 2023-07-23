@@ -50,31 +50,39 @@ class SubscriptionStatusService {
 
     const isExpired = todayDate > bufferedExpirationDate;
 
-    // Check status with paypal
-    // Update accoring to the return
-    // Cancel in case of expired date
     if (
-      subscription.type === subscriptionTypes.paypal
-      // subscription.status === 'ACTIVE' &&
-      // isExpired
+      subscription.type === subscriptionTypes.paypal &&
+      subscription.status === 'ACTIVE' &&
+      isExpired
     ) {
+      console.log('Checking expired subscription for: ', user.email);
+
       const { data } = await paypalPrivateApi(
         `/billing/subscriptions/${subscription.paypal_subscription_id}`,
       );
-
-      console.log(data);
 
       if (!data) {
         throw new AppError('Unable to retrive subscriptions details');
       }
 
-      // if (data.status === 'CANCELLED' || data.status === 'SUSPENDED') {
-      //   subscription.status = data.status;
-      //   subscription.canceled_at = new Date().toISOString();
-      //   subscription.cancelation_reason = 'Cancelada pelo sistema';
+      // ATUALIZA A DATA EXPIRADA
+      if (data.status === 'ACTIVE') {
+        subscription.current_period_end = data.next_billing_time;
+        subscriptionRepository.save(subscription);
+      }
 
-      //   subscriptionRepository.save(subscription);
-      // }
+      // CANCELA A SUBSCRIPTION DO MELIANTE
+      if (data.status === 'CANCELLED' || data.status === 'SUSPENDED') {
+        subscription.status = data.status;
+        subscription.canceled_at = new Date().toISOString();
+        subscription.cancelation_reason = 'Cancelada pelo sistema';
+
+        subscriptionRepository.save(subscription);
+      }
+
+      console.log(data);
+      console.log(user);
+      console.log(subscription);
     }
 
     return subscription;
