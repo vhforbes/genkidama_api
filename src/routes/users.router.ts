@@ -17,6 +17,7 @@ import VerifyEmailSerice from '../services/Users/VerifyEmailSerice';
 import AppError from '../errors/AppError';
 import { ensureAdmin } from '../middlewares/ensureAdmin';
 import SetUserMemberService from '../services/Users/SetUserMemberService';
+import ListUsersService from '../services/Users/ListUsersService';
 
 const usersRouter = Router();
 const upload = multer(uploadConfig);
@@ -42,6 +43,12 @@ usersRouter.get('/', ensureAutenticated, async (req, res) => {
   delete user.password;
 
   return res.json({ user });
+});
+
+usersRouter.get('/list', ensureAutenticated, ensureAdmin, async (req, res) => {
+  const usersList = await ListUsersService.execute();
+
+  return res.json(usersList);
 });
 
 usersRouter.post('/', async (req, res) => {
