@@ -52,7 +52,7 @@ class CancelSubscriptionService {
       );
 
       if (cancelarionResponse.status === 204) {
-        subscription.status = 'CANCELED';
+        // subscription.status = 'CANCELED';
         subscription.cancelation_reason = cancelationReason;
         subscription.canceled_at = new Date().toISOString();
 
