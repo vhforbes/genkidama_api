@@ -18,6 +18,7 @@ import AppError from '../errors/AppError';
 import { ensureAdmin } from '../middlewares/ensureAdmin';
 import SetUserMemberService from '../services/Users/SetUserMemberService';
 import ListUsersService from '../services/Users/ListUsersService';
+import UsersRepository from '../repositories/UsersRepository';
 
 const usersRouter = Router();
 const upload = multer(uploadConfig);
@@ -44,6 +45,30 @@ usersRouter.get('/', ensureAutenticated, async (req, res) => {
 
   return res.json({ user });
 });
+
+usersRouter.get(
+  '/id/:id',
+  ensureAutenticated,
+  ensureAdmin,
+  async (req, res) => {
+    const usersRepository = UsersRepository;
+
+    const { id } = req.params;
+
+    const user = await usersRepository.findOne({
+      where: {
+        id,
+      },
+      relations: ['subscription'],
+    });
+
+    if (!user) {
+      throw new AppError('Could not find user');
+    }
+
+    return res.json(user);
+  },
+);
 
 usersRouter.get('/list', ensureAutenticated, ensureAdmin, async (req, res) => {
   const usersList = await ListUsersService.execute();
