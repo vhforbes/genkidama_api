@@ -9,6 +9,9 @@ class ListUsersService {
 
     const users = await usersRepository.find({
       relations: ['subscription'],
+      order: {
+        name: 'ASC',
+      },
     });
 
     if (!users) {
