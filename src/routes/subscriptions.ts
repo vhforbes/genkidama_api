@@ -5,6 +5,8 @@ import CreateSubscriptionService from '../services/Subscriptions/CreatePaypalSub
 import SubscriptionStatusService from '../services/Subscriptions/SubscriptionStatusService';
 import CreateManualSubscriptionService from '../services/Subscriptions/CreateManualSubscriptionService';
 import { ensureAdmin } from '../middlewares/ensureAdmin';
+import UpdateSubscriptionService from '../services/Subscriptions/UpdateSubscriptionService';
+import Subscription from '../models/Subscription';
 
 const subscriptionsRouter = Router();
 
@@ -17,6 +19,18 @@ subscriptionsRouter.get('/status', ensureAutenticated, async (req, res) => {
 
   res.json(subscriptionStatus);
 });
+
+subscriptionsRouter.put(
+  '/update/:id',
+  ensureAutenticated,
+  ensureAdmin,
+  async (req, res) => {
+    const updatedSubscription = await UpdateSubscriptionService.execute(
+      req.body as Subscription,
+    );
+    res.json(updatedSubscription);
+  },
+);
 
 subscriptionsRouter.post(
   '/createPayapalSubscription',
@@ -38,13 +52,12 @@ subscriptionsRouter.post(
   ensureAutenticated,
   ensureAdmin,
   async (req, res) => {
-    const { email, type, endDate, lifetime } = req.body;
+    const { email, type, endDate } = req.body;
 
     const createdSubscription = await CreateManualSubscriptionService.execute({
       email,
       type,
       endDate,
-      lifetime,
     });
 
     return res.json(createdSubscription);

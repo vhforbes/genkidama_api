@@ -9,16 +9,10 @@ interface Request {
   email: string;
   type: string;
   endDate?: string;
-  lifetime: boolean;
 }
 
 class CreateManualSubscriptionService {
-  public static async execute({
-    email,
-    type,
-    endDate,
-    lifetime,
-  }: Request): Promise<{}> {
+  public static async execute({ email, type, endDate }: Request): Promise<{}> {
     const userRepository = AppDataSource.getRepository(User);
     const subscriptionRepository = AppDataSource.getRepository(Subscription);
 
@@ -56,11 +50,13 @@ class CreateManualSubscriptionService {
       throw new AppError('Subscription type is not valid');
     }
 
-    if (!lifetime && !endDate) {
+    if (type !== 'VIP' && !endDate) {
       throw new AppError('You must provide a End Date for this subscription');
     }
 
     const dateNow = new Date().toISOString().split('.')[0] + 'Z';
+
+    const adjustedEnddate = type === 'VIP' ? '' : endDate;
 
     const subscription = subscriptionRepository.create({
       user_id: user.id,
@@ -68,7 +64,7 @@ class CreateManualSubscriptionService {
       status: 'ACTIVE',
       type,
       current_period_start: dateNow,
-      current_period_end: endDate,
+      current_period_end: adjustedEnddate,
     });
 
     const createdSubscription = await subscriptionRepository.save(subscription);

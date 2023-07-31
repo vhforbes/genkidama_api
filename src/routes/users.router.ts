@@ -131,16 +131,25 @@ usersRouter.patch(
   },
 );
 
-usersRouter.put('/', ensureAutenticated, async (req, res) => {
-  // CHECK IF THIS MFUCKER IS ON BITGET LIST
+usersRouter.put(
+  '/update/:id',
+  ensureAutenticated,
+  ensureAdmin,
+  async (req, res) => {
+    const updatedUser = await UpdateUserService.execute(req.body as User);
 
+    res.send(updatedUser);
+  },
+);
+
+usersRouter.put('/updateFromToken', ensureAutenticated, async (req, res) => {
   const { name, bitgetUID } = req.body;
 
   const updatedUser = await UpdateUserService.execute({
     id: req.user.id,
     name,
     bitgetUID,
-  });
+  } as User);
 
   res.send(updatedUser);
 });

@@ -3,31 +3,41 @@ import AppError from '../../errors/AppError';
 
 import Subscription from '../../models/Subscription';
 
-interface Request {
-  paypalSubscriptionId: string;
-  current_period_end: string;
-}
-
 class UpdateSubscriptionService {
   public static async execute({
-    paypalSubscriptionId,
+    id,
+    status,
+    paypal_subscription_id,
+    type,
+    cancelation_reason,
     current_period_end,
-  }: Request): Promise<{}> {
+  }: Subscription): Promise<Subscription> {
     const subscriptionRepository = AppDataSource.getRepository(Subscription);
 
-    const subscription = await subscriptionRepository.findOne({
-      where: { paypal_subscription_id: paypalSubscriptionId },
+    const subscriptionToUpdate = await subscriptionRepository.findOne({
+      where: { id },
     });
 
-    if (!subscription) {
+    if (!subscriptionToUpdate) {
       throw new AppError('Subscription was not found');
     }
 
-    subscription.current_period_end = current_period_end;
+    // ---- SUBSCRPTION CANCELADA MANUALMENTE ----
+    if (subscriptionToUpdate.status === 'ACTIVE' && status === 'CANCELED') {
+      subscriptionToUpdate.current_period_end = new Date().toISOString();
+    }
 
-    return {
-      canceledSubscription: subscription,
-    };
+    const adjustedEnddate = type === 'VIP' ? '' : current_period_end;
+
+    subscriptionToUpdate.status = status;
+    subscriptionToUpdate.paypal_subscription_id = paypal_subscription_id;
+    subscriptionToUpdate.type = type;
+    subscriptionToUpdate.cancelation_reason = cancelation_reason;
+    subscriptionToUpdate.current_period_end = adjustedEnddate;
+
+    subscriptionRepository.save(subscriptionToUpdate);
+
+    return subscriptionToUpdate;
   }
 }
 

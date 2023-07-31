@@ -28,6 +28,8 @@ paypalRouter.post('/', async (req, res) => {
       //   paypalSubscriptionId: resource.id,
       // });
 
+      console.log(resource);
+
       break;
 
     case 'BILLING.SUBSCRIPTION.UPDATED':
@@ -36,6 +38,8 @@ paypalRouter.post('/', async (req, res) => {
       //   current_period_end: resource.final_payment_due_date,
       // });
 
+      console.log(resource);
+
       break;
 
     case 'BILLING.SUBSCRIPTION.RE-ACTIVATED':
@@ -43,6 +47,8 @@ paypalRouter.post('/', async (req, res) => {
       //   paypalSubscriptionId: resource.id,
       //   current_period_end: resource.final_payment_due_date,
       // });
+
+      console.log(resource);
 
       break;
 
