@@ -1,4 +1,5 @@
 import paypalPrivateApi from '../../apis/paypalPrivateApi';
+import sendMessageToUser from '../../bot/utils/sendMessageToUser';
 import { AppDataSource } from '../../data-source';
 import { subscriptionTypes } from '../../enums/subscriptionTypes';
 import AppError from '../../errors/AppError';
@@ -28,7 +29,7 @@ class SubscriptionStatusService {
 
     const subscription = user.subscription;
 
-    // TEMPORARY LOGIC TO FILL EMAILS (DELETE ONE DAY)
+    // TEMPORARY LOGIC TO FILL EMAILS ON SUBSCRIPTION (DELETE ONE DAY)
     if (!subscription.email) {
       subscription.email = user?.email;
     }
@@ -40,26 +41,29 @@ class SubscriptionStatusService {
     }
 
     // ---- Exits logic if its a lifetime subscription ----
-    //
+
     if (!subscription.current_period_end) return { status: 'NO END DATE' };
 
     // ---- Checks if the subscription has expired ----
-    //
-    const expirationDate = Date.parse(subscription.current_period_end);
 
-    // add a 15-day buffer to the expiration date
+    const expirationDate = Date.parse(subscription.current_period_end);
+    const todayDate = Date.now();
+
+    // -- Vai fazer a checagem de cancelamento em breve e manda um aviso. --
+
+    const willExpireSoon = todayDate > expirationDate;
+
+    if (willExpireSoon) {
+      const willExpireMessage = `Atenção Kakaroto, sua assinatura está prestes a expirar. Confira se suas informações de pagamento ou entre em contato com o @vhforbes para evitar o cancelameno da sua assinatura.`;
+      sendMessageToUser({ user, messageHtml: willExpireMessage });
+    }
+
     const bufferDays = 15;
     const millisecondsPerDay = 24 * 60 * 60 * 1000;
     const bufferedExpirationDate =
       expirationDate + bufferDays * millisecondsPerDay;
 
-    const todayDate = Date.now();
-
     const isExpired = todayDate > bufferedExpirationDate;
-
-    console.log('Checking expired subscription for: ', user.email);
-
-    console.log('Expired date: ', isExpired);
 
     if (
       subscription.type === subscriptionTypes.paypal &&
@@ -74,24 +78,24 @@ class SubscriptionStatusService {
         throw new AppError('Unable to retrive subscriptions details');
       }
 
-      // ATUALIZA A DATA EXPIRADA
+      // Atualiza a data de cobrança
       if (data.status === 'ACTIVE') {
         subscription.current_period_end = data.billing_info.next_billing_time;
         subscriptionRepository.save(subscription);
       }
 
-      // CANCELA A SUBSCRIPTION DO MELIANTE
+      // Cancela a subscription
       if (data.status === 'CANCELLED' || data.status === 'SUSPENDED') {
         subscription.status = data.status;
         subscription.canceled_at = new Date().toISOString();
         subscription.cancelation_reason = 'Cancelada pelo sistema';
 
+        const expiredMessage = `Atenção Kakaroto, sua assinatura foi cancelada... Caso você ache que isso é um erro, entre em contato com o @vhforbes.`;
+
+        sendMessageToUser({ user, messageHtml: expiredMessage });
+
         subscriptionRepository.save(subscription);
       }
-
-      console.log(data);
-      console.log(user);
-      console.log(subscription);
     }
 
     return subscription;

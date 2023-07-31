@@ -6,6 +6,7 @@ import Subscription from '../../models/Subscription';
 import paypalPrivateApi from '../../apis/paypalPrivateApi';
 import User from '../../models/User';
 import { subscriptionTypes } from '../../enums/subscriptionTypes';
+import sendMessageToUser from '../../bot/utils/sendMessageToUser';
 
 interface Request {
   userId?: string;
@@ -71,6 +72,12 @@ class CancelSubscriptionService {
 
       await subscriptionRepository.update(subscription.id, subscription);
     }
+
+    sendMessageToUser({
+      user,
+      messageHtml:
+        'Atenção Kakaroto, sua assinatura foi cancelada. Fico triste em vê-lo partir, espero que iremos nos ver novamente!',
+    });
 
     return subscription;
   }
