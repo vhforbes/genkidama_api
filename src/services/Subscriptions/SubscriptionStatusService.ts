@@ -65,6 +65,24 @@ class SubscriptionStatusService {
 
     const isExpired = todayDate > bufferedExpirationDate;
 
+    const sendCancelationMessage = () => {
+      const expiredMessage = `Atenção Kakaroto, sua assinatura foi cancelada... Caso você ache que isso é um erro, entre em contato com o @vhforbes.`;
+
+      sendMessageToUser({ user, messageHtml: expiredMessage });
+    };
+
+    if (
+      subscription.type !== subscriptionTypes.paypal &&
+      subscription.status === 'ACTIVE' &&
+      isExpired
+    ) {
+      subscription.status = 'CANCELED';
+      subscription.canceled_at = new Date().toISOString();
+      subscription.cancelation_reason = 'Cancelada pelo sistema';
+
+      sendCancelationMessage();
+    }
+
     if (
       subscription.type === subscriptionTypes.paypal &&
       subscription.status === 'ACTIVE' &&
@@ -90,11 +108,9 @@ class SubscriptionStatusService {
         subscription.canceled_at = new Date().toISOString();
         subscription.cancelation_reason = 'Cancelada pelo sistema';
 
-        const expiredMessage = `Atenção Kakaroto, sua assinatura foi cancelada... Caso você ache que isso é um erro, entre em contato com o @vhforbes.`;
-
-        sendMessageToUser({ user, messageHtml: expiredMessage });
-
         subscriptionRepository.save(subscription);
+
+        sendCancelationMessage();
       }
     }
 
