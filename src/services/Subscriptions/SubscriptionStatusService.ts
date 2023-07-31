@@ -80,6 +80,8 @@ class SubscriptionStatusService {
       subscription.canceled_at = new Date().toISOString();
       subscription.cancelation_reason = 'Cancelada pelo sistema';
 
+      subscriptionRepository.save(subscription);
+
       sendCancelationMessage();
     }
 
