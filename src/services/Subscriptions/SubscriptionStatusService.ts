@@ -53,7 +53,7 @@ class SubscriptionStatusService {
 
     const willExpireSoon = todayDate > expirationDate;
 
-    if (willExpireSoon && subscription.status === 'ACTIVE') {
+    if (willExpireSoon && subscription.type === 'ACTIVE') {
       const willExpireMessage = `Atenção Kakaroto, sua assinatura está prestes a expirar. Confira se suas informações de pagamento ou entre em contato com o @vhforbes para evitar o cancelameno da sua assinatura.`;
       sendMessageToUser({ user, messageHtml: willExpireMessage });
     }
@@ -65,12 +65,11 @@ class SubscriptionStatusService {
 
     const isExpired = todayDate > bufferedExpirationDate;
 
-    
-      const sendCancelationMessage = () => {
-        const expiredMessage = `Atenção Kakaroto, sua assinatura foi cancelada... Caso você ache que isso é um erro, entre em contato com o @vhforbes.`;
+    const sendCancelationMessage = () => {
+      const expiredMessage = `Atenção Kakaroto, sua assinatura foi cancelada... Caso você ache que isso é um erro, entre em contato com o @vhforbes.`;
 
-        sendMessageToUser({ user, messageHtml: expiredMessage });
-      
+      sendMessageToUser({ user, messageHtml: expiredMessage });
+    };
 
     if (
       subscription.type !== subscriptionTypes.paypal &&
