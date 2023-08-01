@@ -10,6 +10,8 @@ export const ensureAdmin = async (
 ) => {
   const usersRepository = AppDataSource.getRepository(User);
 
+  console.log(req);
+
   const user = await usersRepository.findOne({
     where: { id: req.user.id },
   });
