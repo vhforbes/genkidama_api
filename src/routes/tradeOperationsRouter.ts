@@ -38,35 +38,50 @@ tradeOperationsRouter.get('/', ensureAutenticated, async (req, res) => {
   }
 });
 
-tradeOperationsRouter.post('/', async (req, res) => {
-  const request = req.body as PayloadTradeOperationInterface;
+tradeOperationsRouter.post(
+  '/',
+  ensureAutenticated,
+  ensureAdmin,
+  async (req, res) => {
+    const request = req.body as PayloadTradeOperationInterface;
 
-  request.authorId = req.user.id;
+    request.authorId = req.user.id;
 
-  console.log(request);
+    console.log(request);
 
-  const requestResult = await CreateTradeOperationService.execute(request);
+    const requestResult = await CreateTradeOperationService.execute(request);
 
-  res.json(requestResult);
-});
+    res.json(requestResult);
+  },
+);
 
-tradeOperationsRouter.put('/', ensureAdmin, async (req, res) => {
-  const tradeOperation = req.body as PayloadTradeOperationInterface;
+tradeOperationsRouter.put(
+  '/',
+  ensureAutenticated,
+  ensureAdmin,
+  async (req, res) => {
+    const tradeOperation = req.body as PayloadTradeOperationInterface;
 
-  const result = await UpdateTradeOperationService.execute(tradeOperation);
+    const result = await UpdateTradeOperationService.execute(tradeOperation);
 
-  res.json(objToCamel(result));
-});
+    res.json(objToCamel(result));
+  },
+);
 
-tradeOperationsRouter.delete('/', ensureAdmin, async (req, res) => {
-  const { id } = req.query;
+tradeOperationsRouter.delete(
+  '/',
+  ensureAutenticated,
+  ensureAdmin,
+  async (req, res) => {
+    const { id } = req.query;
 
-  const result = await DeleteTradeOperationService.execute({
-    id: id as string,
-  });
+    const result = await DeleteTradeOperationService.execute({
+      id: id as string,
+    });
 
-  res.json(objToCamel(result));
-});
+    res.json(objToCamel(result));
+  },
+);
 
 tradeOperationsRouter.post('/follow', async (req, res) => {
   const request = req.body as { userId: string; tradeOperationId: string };
