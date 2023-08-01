@@ -18,7 +18,7 @@ import GetTradeOperationsResumeService from '../services/TradeOperations/getTrad
 
 const tradeOperationsRouter = Router();
 
-tradeOperationsRouter.use(ensureAutenticated);
+// tradeOperationsRouter.use(ensureAutenticated);
 
 tradeOperationsRouter.get('/', ensureAutenticated, async (req, res) => {
   const tradeOperationsRepository = TradeOperationsRepository;
@@ -48,8 +48,6 @@ tradeOperationsRouter.post(
     const request = req.body as PayloadTradeOperationInterface;
 
     request.authorId = req.user.id;
-
-    console.log(request);
 
     const requestResult = await CreateTradeOperationService.execute(request);
 
@@ -85,7 +83,7 @@ tradeOperationsRouter.delete(
   },
 );
 
-tradeOperationsRouter.post('/follow', async (req, res) => {
+tradeOperationsRouter.post('/follow', ensureAutenticated, async (req, res) => {
   const request = req.body as { userId: string; tradeOperationId: string };
 
   const tradeOperation = await AddUserToTradeOperation.execute(
@@ -101,23 +99,27 @@ tradeOperationsRouter.post('/follow', async (req, res) => {
   res.json({ tradeOperation, user });
 });
 
-tradeOperationsRouter.post('/unfollow', async (req, res) => {
-  const request = req.body as { userId: string; tradeOperationId: string };
+tradeOperationsRouter.post(
+  '/unfollow',
+  ensureAutenticated,
+  async (req, res) => {
+    const request = req.body as { userId: string; tradeOperationId: string };
 
-  const tradeOperation = await RemoveUserFromTradeOperation.execute(
-    req.user.id,
-    request.tradeOperationId,
-  );
+    const tradeOperation = await RemoveUserFromTradeOperation.execute(
+      req.user.id,
+      request.tradeOperationId,
+    );
 
-  const user = await RemoveTradeOperationFromUser.execute(
-    req.user.id,
-    request.tradeOperationId,
-  );
+    const user = await RemoveTradeOperationFromUser.execute(
+      req.user.id,
+      request.tradeOperationId,
+    );
 
-  res.json({ tradeOperation, user });
-});
+    res.json({ tradeOperation, user });
+  },
+);
 
-tradeOperationsRouter.get('/history', async (req, res) => {
+tradeOperationsRouter.get('/history', ensureAutenticated, async (req, res) => {
   const { id } = req.query;
 
   const requestResult = await GetTradeOperationHistory.execute(id as string);
