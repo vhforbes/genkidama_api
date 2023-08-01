@@ -43,6 +43,8 @@ tradeOperationsRouter.post('/', ensureAdmin, async (req, res) => {
 
   request.authorId = req.user.id;
 
+  console.log(request);
+
   const requestResult = await CreateTradeOperationService.execute(request);
 
   res.json(requestResult);
