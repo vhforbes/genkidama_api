@@ -18,6 +18,8 @@ import GetTradeOperationsResumeService from '../services/TradeOperations/getTrad
 
 const tradeOperationsRouter = Router();
 
+tradeOperationsRouter.use(ensureAutenticated);
+
 tradeOperationsRouter.get('/', ensureAutenticated, async (req, res) => {
   const tradeOperationsRepository = TradeOperationsRepository;
 
