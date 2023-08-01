@@ -38,7 +38,7 @@ tradeOperationsRouter.get('/', ensureAutenticated, async (req, res) => {
   }
 });
 
-tradeOperationsRouter.post('/', ensureAdmin, async (req, res) => {
+tradeOperationsRouter.post('/', async (req, res) => {
   const request = req.body as PayloadTradeOperationInterface;
 
   request.authorId = req.user.id;
