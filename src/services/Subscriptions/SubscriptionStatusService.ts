@@ -51,12 +51,12 @@ class SubscriptionStatusService {
 
     // -- Vai fazer a checagem de cancelamento em breve e manda um aviso. --
 
-    const willExpireSoon = todayDate > expirationDate;
+    // const willExpireSoon = todayDate > expirationDate;
 
-    if (willExpireSoon && subscription.type === 'ACTIVE') {
-      const willExpireMessage = `Atenção Kakaroto, sua assinatura está prestes a expirar. Confira se suas informações de pagamento ou entre em contato com o @vhforbes para evitar o cancelameno da sua assinatura.`;
-      sendMessageToUser({ user, messageHtml: willExpireMessage });
-    }
+    // if (willExpireSoon && subscription.type === 'ACTIVE') {
+    //   const willExpireMessage = `Atenção Kakaroto, sua assinatura está prestes a expirar. Confira se suas informações de pagamento ou entre em contato com o @vhforbes para evitar o cancelameno da sua assinatura.`;
+    //   sendMessageToUser({ user, messageHtml: willExpireMessage });
+    // }
 
     const bufferDays = 15;
     const millisecondsPerDay = 24 * 60 * 60 * 1000;
