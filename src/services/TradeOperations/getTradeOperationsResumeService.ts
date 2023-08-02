@@ -42,7 +42,6 @@ class GetTradeOperationsResumeService {
           updated_at: Between(fromDate, new Date()),
           status: 'fechada',
           result: Not(''),
-          percentual: Not(''),
         },
       ],
     });
