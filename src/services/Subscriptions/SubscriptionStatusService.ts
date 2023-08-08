@@ -109,7 +109,9 @@ class SubscriptionStatusService {
       if (data.status === 'CANCELLED' || data.status === 'SUSPENDED') {
         subscription.status = data.status;
         subscription.canceled_at = new Date().toISOString();
-        subscription.cancelation_reason = 'Cancelada pelo sistema';
+
+        if (!subscription.cancelation_reason)
+          subscription.cancelation_reason = 'Cancelada pelo sistema';
 
         subscriptionRepository.save(subscription);
 
