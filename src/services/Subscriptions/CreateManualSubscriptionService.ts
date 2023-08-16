@@ -26,20 +26,10 @@ class CreateManualSubscriptionService {
     }
 
     // CHECKS IF USER HAS A ACTIVE SUBSCRIPTION
-    if (user.subscription) {
-      const subscription = await subscriptionRepository.findOne({
-        where: { id: user.subscription.id },
-      });
-
-      if (!subscription) {
-        throw new AppError('User subscription was not found');
-      }
-
-      if (subscription.status === 'ACTIVE') {
-        throw new AppError(
-          'User already has a active subscription, update it instead',
-        );
-      }
+    if (user.subscription.status === 'ACTIVE') {
+      throw new AppError(
+        'User already has a active subscription, update it instead',
+      );
     }
 
     const isValidSubscriptionType = (): boolean => {
@@ -50,7 +40,11 @@ class CreateManualSubscriptionService {
       throw new AppError('Subscription type is not valid');
     }
 
-    if (type !== 'VIP' && !endDate) {
+    if (
+      (type !== subscriptionTypes.vip ||
+        type !== subscriptionTypes.betaTester) &&
+      !endDate
+    ) {
       throw new AppError('You must provide a End Date for this subscription');
     }
 
