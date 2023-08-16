@@ -9,7 +9,7 @@ import { subscriptionTypes } from '../../enums/subscriptionTypes';
 
 interface Request {
   email: string;
-  subscriptionID: string;
+  paypal_subscription_id: string;
 }
 
 /*
@@ -20,7 +20,10 @@ interface Request {
 */
 
 class CreateSubscriptionService {
-  public static async execute({ email, subscriptionID }: Request): Promise<{}> {
+  public static async execute({
+    email,
+    paypal_subscription_id,
+  }: Request): Promise<{}> {
     const userRepository = AppDataSource.getRepository(User);
     const subscriptionRepository = AppDataSource.getRepository(Subscription);
 
@@ -50,7 +53,7 @@ class CreateSubscriptionService {
     }
 
     const { data } = await paypalPrivateApi(
-      `/billing/subscriptions/${subscriptionID}`,
+      `/billing/subscriptions/${paypal_subscription_id}`,
     );
 
     if (!data) {
@@ -59,7 +62,7 @@ class CreateSubscriptionService {
 
     const subscription = subscriptionRepository.create({
       user_id: user.id,
-      paypal_subscription_id: subscriptionID,
+      paypal_subscription_id,
       plan_id: data.plan_id,
       email: user.email,
       status: 'ACTIVE',
