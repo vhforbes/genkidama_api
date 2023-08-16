@@ -45,7 +45,7 @@ class CreateSubscriptionService {
         throw new AppError('User subscription was not found');
       }
 
-      if (subscription.status === 'ACTIVE') {
+      if (subscription?.status === 'ACTIVE') {
         throw new AppError(
           'User already has a active subscription, update it instead',
         );
