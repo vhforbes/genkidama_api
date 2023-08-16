@@ -31,7 +31,7 @@ class CreateManualSubscriptionService {
     }
 
     // CHECKS IF USER HAS A ACTIVE SUBSCRIPTION
-    if (user.subscription.status === 'ACTIVE') {
+    if (user?.subscription?.status === 'ACTIVE') {
       throw new AppError(
         'User already has a active subscription, update it instead',
       );
