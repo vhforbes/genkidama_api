@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { AppDataSource } from '../../data-source';
 import { subscriptionTypes } from '../../enums/subscriptionTypes';
 import AppError from '../../errors/AppError';
@@ -8,11 +9,15 @@ import User from '../../models/User';
 interface Request {
   email: string;
   type: string;
-  endDate?: string;
+  current_period_end?: string;
 }
 
 class CreateManualSubscriptionService {
-  public static async execute({ email, type, endDate }: Request): Promise<{}> {
+  public static async execute({
+    email,
+    type,
+    current_period_end,
+  }: Request): Promise<{}> {
     const userRepository = AppDataSource.getRepository(User);
     const subscriptionRepository = AppDataSource.getRepository(Subscription);
 
@@ -43,14 +48,14 @@ class CreateManualSubscriptionService {
     if (
       (type !== subscriptionTypes.vip ||
         type !== subscriptionTypes.betaTester) &&
-      !endDate
+      !current_period_end
     ) {
       throw new AppError('You must provide a End Date for this subscription');
     }
 
     const dateNow = new Date().toISOString().split('.')[0] + 'Z';
 
-    const adjustedEnddate = type === 'VIP' ? '' : endDate;
+    const adjustedEnddate = type === 'VIP' ? '' : current_period_end;
 
     const subscription = subscriptionRepository.create({
       user_id: user.id,

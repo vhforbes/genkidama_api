@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Router } from 'express';
 import { ensureAutenticated } from '../middlewares/ensureAuthenticated';
 import CancelSubscriptionService from '../services/Subscriptions/CancelSubscriptionService';
@@ -52,12 +53,12 @@ subscriptionsRouter.post(
   ensureAutenticated,
   ensureAdmin,
   async (req, res) => {
-    const { email, type, endDate } = req.body;
+    const { email, type, current_period_end } = req.body;
 
     const createdSubscription = await CreateManualSubscriptionService.execute({
       email,
       type,
-      endDate,
+      current_period_end,
     });
 
     return res.json(createdSubscription);
