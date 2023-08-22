@@ -8,18 +8,21 @@ interface Request {
 }
 
 const sendMessageToUser = async ({ user, messageHtml }: Request) => {
+  if (!user) {
+    throw new AppError(`Could not find user to send message`);
+  }
+
   if (!user.telegramId) {
     throw new AppError(`${user.email} without telegramID`);
   }
 
-  if (user.telegramId) {
-    try {
-      await bot.sendMessage(user.telegramId, messageHtml, {
-        parse_mode: 'HTML',
-      });
-    } catch (err) {
-      throw new AppError(`Cloud not send message to ${user.email}`);
-    }
+  try {
+    await bot.sendMessage(user.telegramId, messageHtml, {
+      parse_mode: 'HTML',
+    });
+  } catch (err) {
+    console.error(err);
+    throw new AppError(`Cloud not send message to ${user.email}`);
   }
 };
 
