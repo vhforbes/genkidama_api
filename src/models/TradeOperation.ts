@@ -34,7 +34,7 @@ class TradeOperation extends BaseEntity {
   @Column({
     type: 'varchar',
     length: 10,
-    enum: ['aguardando', 'ativa', 'fechada'],
+    enum: ['aguardando', 'ativa', 'fechada', 'cancelada'],
   })
   status: string;
 

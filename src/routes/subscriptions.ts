@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Router } from 'express';
 import { ensureAutenticated } from '../middlewares/ensureAuthenticated';
 import CancelSubscriptionService from '../services/Subscriptions/CancelSubscriptionService';
@@ -36,11 +37,11 @@ subscriptionsRouter.post(
   '/createPayapalSubscription',
   ensureAutenticated,
   async (req, res) => {
-    const { email, subscriptionID } = req.body;
+    const { email, paypal_subscription_id } = req.body;
 
     const createdSubscription = await CreateSubscriptionService.execute({
       email,
-      subscriptionID,
+      paypal_subscription_id,
     });
 
     return res.json(createdSubscription);
@@ -52,12 +53,12 @@ subscriptionsRouter.post(
   ensureAutenticated,
   ensureAdmin,
   async (req, res) => {
-    const { email, type, endDate } = req.body;
+    const { email, type, current_period_end } = req.body;
 
     const createdSubscription = await CreateManualSubscriptionService.execute({
       email,
       type,
-      endDate,
+      current_period_end,
     });
 
     return res.json(createdSubscription);
