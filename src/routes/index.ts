@@ -8,6 +8,7 @@ import usersRouter from './users.router';
 import exclusiveVideoRouter from './exclusiveVideos.router';
 import bitgetRouter from './bitget';
 import mestreKameRouter from './mestreKame';
+import alarmsRouter from './alarms';
 
 const routes = Router();
 
@@ -20,5 +21,6 @@ routes.use('/trade-operations', tradeOperationsRouter);
 routes.use('/forms', formsRouter);
 routes.use('/bitget', bitgetRouter);
 routes.use('/mestrekame', mestreKameRouter);
+routes.use('/alarms', alarmsRouter);
 
 export default routes;
