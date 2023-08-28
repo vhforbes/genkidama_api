@@ -25,6 +25,32 @@ const UsersRepository = AppDataSource.getRepository(User).extend({
 
     return membersAndSubscribers;
   },
+
+  async membersWithActiveAlarms(): Promise<User[]> {
+    const users = await this.find({
+      relations: {
+        subscription: true,
+      },
+      where: {
+        sendAlarms: true,
+      },
+    });
+
+    const membersAndSubscribersWithAlarmsOn = [] as User[];
+
+    users.forEach(async (user: User) => {
+      if (
+        user.telegramId &&
+        (user.subscription?.status === 'ACTIVE' ||
+          user.role === roles.member ||
+          user.role === roles.admin)
+      ) {
+        membersAndSubscribersWithAlarmsOn.push(user);
+      }
+    });
+
+    return membersAndSubscribersWithAlarmsOn;
+  },
 });
 
 export default UsersRepository;

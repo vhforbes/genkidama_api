@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import TelegramBot from 'node-telegram-bot-api';
-import AddTelegramGroupService from '../services/Telegram/AddTelegramGroupService';
-import { Conversation } from './helpers';
-import { clearConversation } from './initializeBot';
-import { rules } from './html/rules';
+import AddTelegramGroupService from '../../services/Telegram/AddTelegramGroupService';
+import { Conversation } from '../helpers';
+import { clearConversation } from '../initializeBot';
+import { rules } from '../html/rules';
 
 const groupId = process.env.GROUP_ID as string;
 

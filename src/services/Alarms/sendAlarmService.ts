@@ -1,4 +1,3 @@
-import sendMessageToGroup from '../../bot/utils/sendMessageToGroup';
 import sendMessageToUsers from '../../bot/utils/sendMessageToUsers';
 import UsersRepository from '../../repositories/UsersRepository';
 
@@ -12,14 +11,13 @@ class SendAlarmService {
     ticker,
     message,
   }: AlarmRequest): Promise<string> {
-    const users = await UsersRepository.memberList();
+    const users = await UsersRepository.membersWithActiveAlarms();
 
     const messageHtml = `Alarme disparado!
   ${ticker.toUpperCase()} 
   ${message}`;
 
     sendMessageToUsers({ users, messageHtml });
-    sendMessageToGroup(messageHtml);
 
     return 'ok';
   }

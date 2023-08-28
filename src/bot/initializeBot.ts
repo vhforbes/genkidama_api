@@ -6,9 +6,11 @@ import {
   findCurrentConversation,
   updateConversationsList,
   MemberScene,
+  AlarmesScene,
 } from './helpers';
-import runMemberScene from './runMemberScene';
+import runMemberScene from './scenes/runMemberScene';
 import { rules } from './html/rules';
+import runAlarmesScene from './scenes/runAlarmesScene';
 
 // char id caio 1171976785
 
@@ -20,7 +22,14 @@ export const groupId = parseInt(process.env.GROUP_ID as string, 10);
 
 export const bot = new TelegramBot(botToken, { polling: true });
 
-const allCommands = ['/membro', '/ajuda', '/sair', '/ban', '/regras'];
+const allCommands = [
+  '/membro',
+  '/ajuda',
+  '/sair',
+  '/ban',
+  '/regras',
+  '/alarmes',
+];
 
 // Salvar no banco e fazer um request em algum momento?
 let activeConversations: Array<Conversation> = [];
@@ -56,6 +65,10 @@ export const startBot = async () => {
         runMemberScene(conversation, msg, bot);
         break;
 
+      case '/alarmes':
+        runAlarmesScene(conversation, msg, bot);
+        break;
+
       case '/ajuda':
         break;
 
@@ -72,7 +85,11 @@ export const startBot = async () => {
 
       bot.sendMessage(
         chatId,
-        'Vi que você é novo por aqui! Seja bem-vindo!!! \nDigite /ajuda para saber os comandos disponíveis',
+        `
+Comandos Disponíveis:
+/membro => Entrar no grupo
+/alarmes => Ativar ou desativar alarmes
+`,
       );
 
       return;
@@ -127,7 +144,11 @@ export const startBot = async () => {
 
     bot.sendMessage(
       chatId,
-      '<b>Comandos Disponíveis:</b> \n /membro => Entrar no grupo',
+      `
+<b>Comandos Disponíveis:</b>
+/membro => Entrar no grupo
+/alarmes => Ativar ou desativar
+`,
       {
         parse_mode: 'HTML',
       },
@@ -162,5 +183,42 @@ export const startBot = async () => {
     bot.sendMessage(chatId, rules, {
       parse_mode: 'HTML',
     });
+  });
+
+  // Start "/alarmes" scene
+  bot.onText(/\/alarmes/, msg => {
+    const chatId = msg.chat.id;
+
+    let conversation = findCurrentConversation(chatId, activeConversations);
+
+    const alarmesScene: AlarmesScene = {
+      command: '/alarmes',
+      currentStep: 'AWAIT_ALERTAS_COMMAND',
+    };
+
+    if (conversation) {
+      conversation.currentScene = alarmesScene;
+
+      activeConversations = updateConversationsList(
+        chatId,
+        conversation,
+        activeConversations,
+      );
+    }
+
+    if (!conversation) {
+      activeConversations = newConversationsList(
+        chatId,
+        activeConversations,
+        alarmesScene,
+      );
+    }
+
+    const alarmsMessage = `
+Bem vindo ao gerenciador de alarmes.
+Digite /status pra saber o status de alarmes da sua conta.
+/ativar para ativar ou /desativar para desativar`;
+
+    bot.sendMessage(chatId, alarmsMessage);
   });
 };

@@ -8,9 +8,15 @@ export interface MemberScene {
   currentStep: 'AWAIT_EMAIL';
 }
 
+export interface AlarmesScene {
+  command: '/alarmes';
+  currentStep: 'AWAIT_ALERTAS_COMMAND';
+}
+
 export interface ChatScenes {
   membro: MemberScene;
   ajuda: ChatScene;
+  alarmes: AlarmesScene;
 }
 
 export interface Conversation {

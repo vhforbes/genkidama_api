@@ -44,6 +44,9 @@ class User {
   @Column({ default: false })
   verified: boolean;
 
+  @Column({ default: true })
+  sendAlarms: boolean;
+
   @Column({ default: false })
   bitgetPartner: boolean;
 
