@@ -1,11 +1,17 @@
 import { Router } from 'express';
+import SendAlarmService from '../services/Alarms/sendAlarmService';
 
 const alarmsRouter = Router();
 
-alarmsRouter.post('/', async (req, res) => {
-  const requestBody = req.body;
+interface Alarm {
+  ticker: string;
+  message: string;
+}
 
-  console.log(requestBody);
+alarmsRouter.post('/', async (req, res) => {
+  const requestBody = req.body as Alarm;
+
+  SendAlarmService.execute(requestBody);
 
   return res.json({ ok: 'ok' });
 });
