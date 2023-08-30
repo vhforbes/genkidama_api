@@ -9,6 +9,7 @@ import exclusiveVideoRouter from './exclusiveVideos.router';
 import bitgetRouter from './bitget';
 import mestreKameRouter from './mestreKame';
 import alarmsRouter from './alarms';
+import xdecowRouter from './xdecow.router';
 
 const routes = Router();
 
@@ -22,5 +23,6 @@ routes.use('/forms', formsRouter);
 routes.use('/bitget', bitgetRouter);
 routes.use('/mestrekame', mestreKameRouter);
 routes.use('/alarms', alarmsRouter);
+routes.use('/xdecow', xdecowRouter);
 
 export default routes;
