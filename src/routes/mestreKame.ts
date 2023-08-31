@@ -39,7 +39,7 @@ mestreKameRouter.post(
       messageHtml: message as string,
     });
 
-    return res.json('message sent');
+    return res.status(200).send('OK');
   },
 );
 

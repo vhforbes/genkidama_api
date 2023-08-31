@@ -8,14 +8,14 @@ interface Request {
 }
 
 const sendMessageToUsers = async ({ users, messageHtml }: Request) => {
-  for (const user of users) {
+  users.forEach(async user => {
     if (user?.telegramId) {
       try {
-        // eslint-disable-next-line no-await-in-loop
-        await bot.sendMessage(user.telegramId, messageHtml, {
+        const resp = await bot.sendMessage(user.telegramId, messageHtml, {
           parse_mode: 'HTML',
         });
-      } catch (err: any) {
+      } catch (err) {
+        // Log the error but do nothing else.
         if (err.code === 'ETELEGRAM') {
           console.error(
             `Could not send message to ${user.email} because the bot was blocked by the user`,
@@ -27,7 +27,7 @@ const sendMessageToUsers = async ({ users, messageHtml }: Request) => {
         }
       }
     }
-  }
+  });
 };
 
 export default sendMessageToUsers;
