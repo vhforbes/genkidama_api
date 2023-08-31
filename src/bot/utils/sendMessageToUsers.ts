@@ -11,10 +11,10 @@ const sendMessageToUsers = async ({ users, messageHtml }: Request) => {
   users.forEach(async user => {
     if (user?.telegramId) {
       try {
-        const resp = await bot.sendMessage(user.telegramId, messageHtml, {
+        await bot.sendMessage(user.telegramId, messageHtml, {
           parse_mode: 'HTML',
         });
-      } catch (err) {
+      } catch (err: any) {
         // Log the error but do nothing else.
         if (err.code === 'ETELEGRAM') {
           console.error(
