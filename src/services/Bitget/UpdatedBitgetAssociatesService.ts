@@ -16,7 +16,7 @@ class UpdateBitgetAssociateService {
     const usersWithUID = await userRepository.find({
       where: {
         bitgetUID: Not(IsNull()),
-        bitgetPartner: false,
+        exchangePartner: false,
       },
     });
 
@@ -41,7 +41,7 @@ class UpdateBitgetAssociateService {
         if (uidList.includes(user.bitgetUID)) {
           const updatedUser = user;
 
-          updatedUser.bitgetPartner = true;
+          updatedUser.exchangePartner = true;
           updatedUser.role = roles.bitget;
 
           await userRepository.save(updatedUser);

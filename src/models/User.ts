@@ -48,7 +48,7 @@ class User {
   sendAlarms: boolean;
 
   @Column({ default: false })
-  bitgetPartner: boolean;
+  exchangePartner: boolean;
 
   @Column({ default: false })
   onTelegramGroup: boolean;

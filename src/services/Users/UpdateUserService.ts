@@ -11,7 +11,7 @@ class UpdateUserService {
     email,
     bitgetUID,
     role,
-    bitgetPartner,
+    exchangePartner,
   }: User): Promise<User> {
     const userRepository = AppDataSource.getRepository(User);
     const bitgetUIDRepository = AppDataSource.getRepository(BitgetUID);
@@ -30,7 +30,7 @@ class UpdateUserService {
     user.name = name;
     user.email = email;
     user.role = role;
-    user.bitgetPartner = bitgetPartner;
+    user.exchangePartner = exchangePartner;
 
     // ---- BITGET UID UPDATE LOGIC ----
     if (bitgetUID !== user.bitgetUID) {
@@ -53,7 +53,7 @@ class UpdateUserService {
       });
 
       if (isBitgetPartner) {
-        user.bitgetPartner = true;
+        user.exchangePartner = true;
       }
 
       if (isBitgetPartner && !user.role) {

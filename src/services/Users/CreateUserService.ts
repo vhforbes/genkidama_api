@@ -64,7 +64,7 @@ class CreateUserService {
       bitgetUID,
       role: hasBitgetAccount ? roles.bitget : '',
       // eslint-disable-next-line no-unneeded-ternary
-      bitgetPartner: hasBitgetAccount ? true : false,
+      exchangePartner: hasBitgetAccount ? true : false,
     });
 
     // Send verification email
