@@ -1,3 +1,4 @@
+// @ts-ignore
 import axios from 'axios';
 import { AppDataSource } from '../data-source';
 import AppError from '../errors/AppError';
@@ -19,11 +20,17 @@ paypalPrivateApi.interceptors.request.use(
 
     if (token) {
       // eslint-disable-next-line no-param-reassign
-      config.headers = {
+      config.headers.set({
         // ...config.headers,
         'content-type': 'application/json',
         Authorization: `Bearer ${token}`,
-      };
+      });
+
+      // config.headers = {
+      //   // ...config.headers,
+      //   'content-type': 'application/json',
+      //   Authorization: `Bearer ${token}`,
+      // };
     }
 
     return config;

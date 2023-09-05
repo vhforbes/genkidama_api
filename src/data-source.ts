@@ -1,8 +1,6 @@
-import 'reflect-metadata';
 import dotenv from 'dotenv';
+import 'reflect-metadata';
 import { DataSource } from 'typeorm';
-
-import { emptyMigration1669742463695 } from './migrations/1669742463695-emptyMigration';
 
 import Subscription from './models/Subscription';
 import User from './models/User';
@@ -13,6 +11,8 @@ import MentoriaForm from './models/MentoriaForm';
 import ExclusiveVideo from './models/ExclusiveVideo';
 import BitgetUID from './models/BitgetAssociatedUids';
 import TradeOperationHistory from './models/TradeOperationHistory';
+
+import { RenameIsBitgetPartnerToIsExchangePartner1693913129073 } from './migrations/1693913129073-RenameIsBitgetPartnerToIsExchangePartner';
 
 dotenv.config();
 
@@ -34,12 +34,7 @@ export const AppDataSource = new DataSource({
     MentoriaForm,
     BitgetUID,
   ],
-  migrations: [
-    emptyMigration1669742463695,
-    // postsTableUsersTable1664455607246,
-    // verifiedUserAttribute1668256084805,
-    // createSubscription1669738765564,
-  ],
+  migrations: [RenameIsBitgetPartnerToIsExchangePartner1693913129073],
   subscribers: [],
   ssl:
     enviroment === 'local'
