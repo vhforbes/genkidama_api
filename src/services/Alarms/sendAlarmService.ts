@@ -13,12 +13,14 @@ class SendAlarmService {
   }: AlarmRequest): Promise<string> {
     const users = await UsersRepository.membersWithActiveAlarms();
 
-    const linkToBitget = `https://www.bitget.com/futures/usdt/${ticker}USDT`;
+    const sanitizedTicker = ticker.replace(/usdt/i, '').toUpperCase();
+
+    const linkToBitget = `https://www.bitget.com/futures/usdt/${sanitizedTicker}USDT`;
 
     const messageHtml = `Alarme disparado!
-  ${ticker.toUpperCase()} 
+  ${sanitizedTicker}USDT
   ${message}
-  <a href="${linkToBitget}">ACESSE AGORA!</a>
+  <a href="${linkToBitget}">Acessar ${sanitizedTicker}USDT na Bitget</a>
   `;
 
     sendMessageToUsers({ users, messageHtml });

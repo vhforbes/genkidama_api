@@ -13,6 +13,7 @@ const sendMessageToUsers = async ({ users, messageHtml }: Request) => {
       try {
         await bot.sendMessage(user.telegramId, messageHtml, {
           parse_mode: 'HTML',
+          disable_web_page_preview: true,
         });
       } catch (err: any) {
         // Log the error but do nothing else.
