@@ -13,6 +13,7 @@ import BitgetUID from './models/BitgetAssociatedUids';
 import TradeOperationHistory from './models/TradeOperationHistory';
 
 import { RenameIsBitgetPartnerToIsExchangePartner1693913129073 } from './migrations/1693913129073-RenameIsBitgetPartnerToIsExchangePartner';
+import { AddExchangeColumn1630840800000 } from './migrations/1693920362640-AddExchangeColumn';
 
 dotenv.config();
 
@@ -34,7 +35,10 @@ export const AppDataSource = new DataSource({
     MentoriaForm,
     BitgetUID,
   ],
-  migrations: [RenameIsBitgetPartnerToIsExchangePartner1693913129073],
+  migrations: [
+    RenameIsBitgetPartnerToIsExchangePartner1693913129073,
+    AddExchangeColumn1630840800000,
+  ],
   subscribers: [],
   ssl:
     enviroment === 'local'
