@@ -13,6 +13,7 @@ class UpdateUserService {
     role,
     exchangePartner,
     exchange,
+    onTelegramGroup,
   }: User): Promise<User> {
     const userRepository = AppDataSource.getRepository(User);
     const bitgetUIDRepository = AppDataSource.getRepository(BitgetUID);
@@ -33,6 +34,7 @@ class UpdateUserService {
     user.role = role;
     user.exchange = exchange;
     user.exchangePartner = exchangePartner;
+    user.onTelegramGroup = onTelegramGroup;
 
     // REFACTOR FOR ALL EXCHANGES
 
