@@ -15,7 +15,7 @@ interface Request {
   name: string;
   email: string;
   password: string;
-  bitgetUID?: string;
+  exchangeUID?: string;
 }
 
 interface Response {
@@ -29,7 +29,7 @@ class CreateUserService {
     name,
     email,
     password,
-    bitgetUID,
+    exchangeUID,
   }: Request): Promise<Response> {
     const userRepository = AppDataSource.getRepository(User);
     const bitgetRepository = AppDataSource.getRepository(BitgetUID);
@@ -51,9 +51,10 @@ class CreateUserService {
 
     let hasBitgetAccount = null;
 
-    if (bitgetUID) {
+    if (exchangeUID) {
+      // REFACTOR A HAS EXCHANGE ACCOUNT TO CHECK BOTH THE EXCHANGES
       hasBitgetAccount = await bitgetRepository.findOne({
-        where: { BitgetUID: bitgetUID },
+        where: { BitgetUID: exchangeUID },
       });
     }
 
@@ -61,7 +62,7 @@ class CreateUserService {
       name,
       email: lowerCaseEmail,
       password: hashedPassword,
-      bitgetUID,
+      exchangeUID,
       role: hasBitgetAccount ? roles.bitget : '',
       // eslint-disable-next-line no-unneeded-ternary
       exchangePartner: hasBitgetAccount ? true : false,

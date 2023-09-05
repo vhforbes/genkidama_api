@@ -5,11 +5,11 @@ import { ensureAutenticated } from '../middlewares/ensureAuthenticated';
 import BitgetUID from '../models/BitgetAssociatedUids';
 import UpdateBitgetAssociateService from '../services/Exchanges/UpdatedBitgetAssociatesService';
 
-const bitgetRouter = Router();
+const bybitRouter = Router();
 
-bitgetRouter.use(ensureAutenticated);
+bybitRouter.use(ensureAutenticated);
 
-bitgetRouter.post('/associated', ensureAdmin, async (req, res) => {
+bybitRouter.post('/associated', ensureAdmin, async (req, res) => {
   const { uidList } = req.body;
 
   await UpdateBitgetAssociateService.execute({ uidList });
@@ -17,7 +17,7 @@ bitgetRouter.post('/associated', ensureAdmin, async (req, res) => {
   return res.json({ result: 'List updated' });
 });
 
-bitgetRouter.get('/associated', ensureAdmin, async (req, res) => {
+bybitRouter.get('/associated', ensureAdmin, async (req, res) => {
   const bitgetUIDRepository = AppDataSource.getRepository(BitgetUID);
 
   const reponse = await bitgetUIDRepository.find();
@@ -25,4 +25,4 @@ bitgetRouter.get('/associated', ensureAdmin, async (req, res) => {
   res.send(reponse);
 });
 
-export default bitgetRouter;
+export default bybitRouter;

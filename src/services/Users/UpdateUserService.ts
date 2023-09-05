@@ -9,9 +9,10 @@ class UpdateUserService {
     id,
     name,
     email,
-    bitgetUID,
+    exchangeUID,
     role,
     exchangePartner,
+    exchange,
   }: User): Promise<User> {
     const userRepository = AppDataSource.getRepository(User);
     const bitgetUIDRepository = AppDataSource.getRepository(BitgetUID);
@@ -30,25 +31,27 @@ class UpdateUserService {
     user.name = name;
     user.email = email;
     user.role = role;
+    user.exchange = exchange;
     user.exchangePartner = exchangePartner;
 
     // ---- BITGET UID UPDATE LOGIC ----
-    if (bitgetUID !== user.bitgetUID) {
+    if (exchangeUID !== user.exchangeUID) {
       const bitgetIdAlreadyInUse = await userRepository.findOne({
         where: {
-          bitgetUID,
+          exchangeUID,
         },
       });
 
       if (bitgetIdAlreadyInUse) {
-        throw new AppError('Bitget UID already in use', 400);
+        throw new AppError('Exchange UID already in use', 400);
       }
 
-      user.bitgetUID = bitgetUID;
+      user.exchangeUID = exchangeUID;
 
+      // REFACTOR FOR IS EXCHANGE PARTNER
       const isBitgetPartner = await bitgetUIDRepository.findOne({
         where: {
-          BitgetUID: bitgetUID,
+          BitgetUID: exchangeUID,
         },
       });
 

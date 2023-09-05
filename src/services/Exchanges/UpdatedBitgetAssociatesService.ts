@@ -15,7 +15,7 @@ class UpdateBitgetAssociateService {
 
     const usersWithUID = await userRepository.find({
       where: {
-        bitgetUID: Not(IsNull()),
+        exchangeUID: Not(IsNull()),
         exchangePartner: false,
       },
     });
@@ -38,7 +38,7 @@ class UpdateBitgetAssociateService {
 
     const updateUsersPartnerStatus = async () => {
       usersWithUID.forEach(async user => {
-        if (uidList.includes(user.bitgetUID)) {
+        if (uidList.includes(user.exchangeUID)) {
           const updatedUser = user;
 
           updatedUser.exchangePartner = true;

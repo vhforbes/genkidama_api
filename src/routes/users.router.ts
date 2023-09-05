@@ -77,13 +77,13 @@ usersRouter.get('/list', ensureAutenticated, ensureAdmin, async (req, res) => {
 });
 
 usersRouter.post('/', async (req, res) => {
-  const { name, email, password, bitgetUID } = req.body;
+  const { name, email, password, exchangeUID } = req.body;
 
   const { user } = await CreateUserService.execute({
     name,
     email,
     password,
-    bitgetUID,
+    exchangeUID,
   });
 
   // @ts-expect-error
@@ -143,12 +143,12 @@ usersRouter.put(
 );
 
 usersRouter.put('/updateFromToken', ensureAutenticated, async (req, res) => {
-  const { name, bitgetUID } = req.body;
+  const { name, exchangeUID } = req.body;
 
   const updatedUser = await UpdateUserService.execute({
     id: req.user.id,
     name,
-    bitgetUID,
+    exchangeUID,
   } as User);
 
   res.send(updatedUser);

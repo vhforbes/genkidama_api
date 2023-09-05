@@ -29,7 +29,7 @@ class User {
   password: string;
 
   @Column({ nullable: true })
-  bitgetUID: string;
+  exchangeUID: string;
 
   @Column({ nullable: true })
   role: string;
