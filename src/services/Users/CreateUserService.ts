@@ -16,6 +16,7 @@ interface Request {
   email: string;
   password: string;
   exchangeUID?: string;
+  exchange?: string;
 }
 
 interface Response {
@@ -30,6 +31,7 @@ class CreateUserService {
     email,
     password,
     exchangeUID,
+    exchange,
   }: Request): Promise<Response> {
     const userRepository = AppDataSource.getRepository(User);
     const bitgetRepository = AppDataSource.getRepository(BitgetUID);
@@ -64,6 +66,7 @@ class CreateUserService {
       password: hashedPassword,
       exchangeUID,
       role: hasBitgetAccount ? roles.bitget : '',
+      exchange,
       // eslint-disable-next-line no-unneeded-ternary
       exchangePartner: hasBitgetAccount ? true : false,
     });

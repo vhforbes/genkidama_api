@@ -34,6 +34,8 @@ class UpdateUserService {
     user.exchange = exchange;
     user.exchangePartner = exchangePartner;
 
+    // REFACTOR FOR ALL EXCHANGES
+
     // ---- BITGET UID UPDATE LOGIC ----
     if (exchangeUID !== user.exchangeUID) {
       const bitgetIdAlreadyInUse = await userRepository.findOne({
