@@ -50,8 +50,8 @@ class User {
   @Column({ default: false })
   exchangePartner: boolean;
 
-  @Column({ type: 'varchar', nullable: true })
-  exchange?: string;
+  // @Column({ type: 'varchar', nullable: true })
+  // exchange?: string;
 
   @Column({ default: false })
   onTelegramGroup: boolean;
