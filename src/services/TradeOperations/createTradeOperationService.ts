@@ -1,4 +1,4 @@
-import { newOperationToGroup } from '../../bot/tradeOperationsBot/newOperationToGroup';
+import { broadcastNewOperation } from '../../bot/tradeOperationsBot/broadcastNewOperation';
 import { AppDataSource } from '../../data-source';
 import { PayloadTradeOperationInterface } from '../../interfaces/TradeOperationInterface';
 import TradeOperation from '../../models/TradeOperation';
@@ -55,7 +55,7 @@ class CreateTradeOperationService {
 
     const results = await tradeOperationsRepository.save(tradeOperation);
 
-    newOperationToGroup(tradeOperation);
+    broadcastNewOperation(tradeOperation);
 
     return results;
   }

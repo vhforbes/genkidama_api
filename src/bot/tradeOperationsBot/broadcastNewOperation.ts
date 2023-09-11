@@ -6,7 +6,7 @@ import sendMessageToUsers from '../utils/sendMessageToUsers';
 
 const groupId = process.env.GROUP_ID as string;
 
-export const newOperationToGroup = async (tradeOperation: TradeOperation) => {
+export const broadcastNewOperation = async (tradeOperation: TradeOperation) => {
   const {
     id,
     market,
@@ -22,7 +22,7 @@ export const newOperationToGroup = async (tradeOperation: TradeOperation) => {
 <b>NOVA OPERAÇÃO</b>: 
 <b>${market}</b>
 ${`<b>Máximo de seguidores: ${maxFollowers}</b>\n`}
-${`<a href="${operationUrl}">Acessar operação</a>`}
+${`<a href="${operationUrl}#seguir">Seguir essa operação!</a>`}
 `;
 
   const users = await UsersRepository.memberList();
