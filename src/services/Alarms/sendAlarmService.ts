@@ -1,4 +1,4 @@
-import sendMessageToUsers from '../../bot/utils/sendMessageToUsers';
+import sendAlarmToUsers from '../../bot/utils/sendAlarmToUsers';
 import UsersRepository from '../../repositories/UsersRepository';
 
 interface AlarmRequest {
@@ -18,15 +18,16 @@ class SendAlarmService {
       .replace(/\s+/g, '')
       .toUpperCase();
 
-    const linkToBitget = `https://www.bitget.com/futures/usdt/${sanitizedTicker}USDT`;
+    const bitgetLink = `https://www.bitget.com/futures/usdt/${sanitizedTicker}USDT`;
+    const bybitLink = `https://www.bybit.com/trade/usdt/${sanitizedTicker}USDT`;
 
-    const messageHtml = `Alarme disparado!
-  ${sanitizedTicker}USDT
-  ${message}
-  <a href="${linkToBitget}">Acessar ${sanitizedTicker}USDT na Bitget</a>
-  `;
-
-    sendMessageToUsers({ users, messageHtml });
+    sendAlarmToUsers({
+      users,
+      ticker: sanitizedTicker,
+      message,
+      bitgetLink,
+      bybitLink,
+    });
 
     return 'ok';
   }
