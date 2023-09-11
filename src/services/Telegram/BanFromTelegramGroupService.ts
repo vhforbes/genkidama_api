@@ -20,7 +20,8 @@ class BanFromTelegramGroupService {
       if (
         user.role !== roles.admin &&
         user.role !== roles.member &&
-        user.subscription?.status !== 'ACTIVE'
+        user.subscription?.status !== 'ACTIVE' &&
+        user.onTelegramGroup
       ) {
         console.log('BANIDO', user.email, user.telegramId);
         chatIdsToBan.push(user.telegramId);
