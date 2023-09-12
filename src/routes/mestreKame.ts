@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import multer from 'multer';
-import fs from 'fs';
-import path from 'path';
+// import multer from 'multer';
+// import fs from 'fs';
+// import path from 'path';
 
 import UsersRepository from '../repositories/UsersRepository';
 import { IsNull, Not } from 'typeorm';
