@@ -12,7 +12,7 @@ import sendMessageToUsers from '../bot/utils/sendMessageToUsers';
 import sendMessageToGroup from '../bot/utils/sendMessageToGroup';
 
 import storageConfig from '../config/multer';
-import { bot } from '../bot/initializeBot';
+// import { bot } from '../bot/initializeBot';
 
 const mestreKameRouter = Router();
 
@@ -51,37 +51,37 @@ mestreKameRouter.post(
   },
 );
 
-const upload = multer({ storage: storageConfig });
+// const upload = multer({ storage: storageConfig });
 
-mestreKameRouter.post(
-  '/broadcastImage',
-  ensureAutenticated,
-  ensureAdmin,
-  upload.single('image'),
-  async (req, res) => {
-    // if (req.file) {
-    //   bot
-    //     .sendPhoto(
-    //       -817116434,
-    //       fs.createReadStream(
-    //         path.join(__dirname, 'uploads', req.file.filename),
-    //       ),
-    //     )
-    //     .then(() => {
-    //       if (req.file)
-    //         fs.unlinkSync(path.join(__dirname, 'uploads', req.file.filename)); // Delete file after sending
-    //       res.send('Image uploaded and sent via Telegram.');
-    //     })
-    //     .catch(err => {
-    //       console.error(err);
-    //       res.status(500).send('Failed to send image via Telegram.');
-    //     });
-    // } else {
-    //   res.status(400).send('No file uploaded.');
-    // }
+// mestreKameRouter.post(
+//   '/broadcastImage',
+//   ensureAutenticated,
+//   ensureAdmin,
+//   upload.single('image'),
+//   async (req, res) => {
+//     // if (req.file) {
+//     //   bot
+//     //     .sendPhoto(
+//     //       -817116434,
+//     //       fs.createReadStream(
+//     //         path.join(__dirname, 'uploads', req.file.filename),
+//     //       ),
+//     //     )
+//     //     .then(() => {
+//     //       if (req.file)
+//     //         fs.unlinkSync(path.join(__dirname, 'uploads', req.file.filename)); // Delete file after sending
+//     //       res.send('Image uploaded and sent via Telegram.');
+//     //     })
+//     //     .catch(err => {
+//     //       console.error(err);
+//     //       res.status(500).send('Failed to send image via Telegram.');
+//     //     });
+//     // } else {
+//     //   res.status(400).send('No file uploaded.');
+//     // }
 
-    res.send('ok');
-  },
-);
+//     res.send('ok');
+//   },
+// );
 
 export default mestreKameRouter;
