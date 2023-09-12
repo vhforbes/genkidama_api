@@ -8,6 +8,7 @@ import CreateManualSubscriptionService from '../services/Subscriptions/CreateMan
 import { ensureAdmin } from '../middlewares/ensureAdmin';
 import UpdateSubscriptionService from '../services/Subscriptions/UpdateSubscriptionService';
 import Subscription from '../models/Subscription';
+import CheckAllSubs from '../services/Subscriptions/CheckAllSubs';
 
 const subscriptionsRouter = Router();
 
@@ -77,5 +78,16 @@ subscriptionsRouter.post('/cancel', ensureAutenticated, async (req, res) => {
 
   return res.json(canceledSubscription);
 });
+
+subscriptionsRouter.post(
+  '/checkAllSubs',
+  ensureAutenticated,
+  ensureAdmin,
+  async (req, res) => {
+    const response = await CheckAllSubs.execute();
+
+    return res.json(response);
+  },
+);
 
 export default subscriptionsRouter;
