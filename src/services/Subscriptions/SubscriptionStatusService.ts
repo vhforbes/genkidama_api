@@ -42,11 +42,39 @@ class SubscriptionStatusService {
 
     // ---- Exits logic if its a lifetime subscription ----
 
-    if (!subscription.current_period_end) return { status: 'NO END DATE' };
+    if (
+      subscription.type === subscriptionTypes.betaTester ||
+      subscription.type === subscriptionTypes.vip ||
+      subscription.type === subscriptionTypes.vip
+    )
+      return { status: 'ACCESS GRANTED' };
 
-    // ---- Checks if the subscription has expired ----
+    // ---- VALIDATE PAYMENT AND FILL UP THE INFO IF SUBSCRIPTION IS INCOMPLETE  ----
 
-    const expirationDate = Date.parse(subscription.current_period_end);
+    if (!subscription.verified) {
+      try {
+        const { data } = await paypalPrivateApi(
+          `/billing/subscriptions/${subscription.paypal_subscription_id}`,
+        );
+
+        if (data.status === 'ACTIVE') {
+          subscription.plan_id = data.plan_id;
+          subscription.current_period_start = data.start_time;
+          subscription.current_period_end = data.billing_info.next_billing_time;
+          subscriptionRepository.save(subscription);
+          subscription.verified = true;
+        }
+      } catch (error) {
+        console.error(error);
+        throw new AppError('Unable to retrive subscriptions details');
+      }
+    }
+
+    // ---- CHECKS IS SUBSCRIPTION IS EXPIRED OR NOT ----
+
+    const expirationDate = Date.parse(
+      subscription.current_period_end as string,
+    );
     const todayDate = Date.now();
 
     // -- Vai fazer a checagem de cancelamento em breve e manda um aviso. --

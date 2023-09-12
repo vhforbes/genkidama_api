@@ -35,6 +35,9 @@ class Subscription {
 
   @Column({ nullable: true })
   cancelation_reason?: string;
+
+  @Column({ default: false })
+  verified?: boolean;
 }
 
 export default Subscription;
