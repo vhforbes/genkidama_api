@@ -51,8 +51,13 @@ class SubscriptionStatusService {
 
     // ---- VALIDATE PAYMENT AND FILL UP THE INFO IF SUBSCRIPTION IS INCOMPLETE  ----
 
-    if (!subscription.verified) {
+    if (
+      !subscription.verified &&
+      subscription.type === subscriptionTypes.paypal
+    ) {
       try {
+        console.log('VERIFYING SUB FOR: ', user.email);
+
         const { data } = await paypalPrivateApi(
           `/billing/subscriptions/${subscription.paypal_subscription_id}`,
         );
