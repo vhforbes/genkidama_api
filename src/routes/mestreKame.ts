@@ -11,7 +11,7 @@ import { ensureAutenticated } from '../middlewares/ensureAuthenticated';
 import sendMessageToUsers from '../bot/utils/sendMessageToUsers';
 import sendMessageToGroup from '../bot/utils/sendMessageToGroup';
 
-import storageConfig from '../config/multer';
+// import storageConfig from '../config/multer';
 // import { bot } from '../bot/initializeBot';
 
 const mestreKameRouter = Router();
