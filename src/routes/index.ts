@@ -1,14 +1,14 @@
 import { Router } from 'express';
-import formsRouter from './forms';
+import formsRouter from './forms.router';
 import paypalRouter from './paypal.router';
 import sessionsRouter from './sessions.router';
 import subscriptionsRouter from './subscriptions';
-import tradeOperationsRouter from './tradeOperationsRouter';
+import tradeOperationsRouter from './tradeOperations.router';
 import usersRouter from './users.router';
 import exclusiveVideoRouter from './exclusiveVideos.router';
-import bitgetRouter from './bitget';
-import mestreKameRouter from './mestreKame';
-import alarmsRouter from './alarms';
+import bitgetRouter from './bitget.router';
+import mestreKameRouter from './mestreKame.router';
+import alarmsRouter from './alarms.router';
 import xdecowRouter from './xdecow.router';
 
 const routes = Router();
