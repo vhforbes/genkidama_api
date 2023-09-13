@@ -45,15 +45,9 @@ const sendAlarmToUsers = async ({
           });
       } catch (err: any) {
         // Log the error but do nothing else.
-        if (err.code === 'ETELEGRAM') {
-          console.error(
-            `Could not send message to ${user.email} because the bot was blocked by the user`,
-          );
-        } else {
-          console.error(
-            `Could not send message to ${user.email} due to an unknown error: ${err}`,
-          );
-        }
+        console.error(
+          `Could not send message to ${user.email} due to an error: ${err}`,
+        );
       }
     }
   });
