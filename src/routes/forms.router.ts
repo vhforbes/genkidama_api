@@ -4,6 +4,7 @@ import {
   alertLiveClose,
   alertLiveStart,
 } from '../bot/livesBot/alertLiveStatus';
+import StartLiveService from '../services/Forms/StartLiveService';
 const formsRouter = Router();
 
 formsRouter.post('/mentoria', async (req, res) => {
@@ -20,14 +21,16 @@ formsRouter.post('/mentoria', async (req, res) => {
   return res.json(response);
 });
 
-formsRouter.post('/startlive', async (req, res) => {
+formsRouter.post('/startLive', async (req, res) => {
   await alertLiveStart();
+  await StartLiveService.execute({ live: true });
 
   return res.json({ status: 'live started' });
 });
 
-formsRouter.post('/closelive', async (req, res) => {
+formsRouter.post('/closeLive', async (req, res) => {
   await alertLiveClose();
+  await StartLiveService.execute({ live: false });
 
   return res.json({ status: 'live ended' });
 });

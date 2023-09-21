@@ -39,6 +39,24 @@ mestreKameRouter.post(
   async (req, res) => {
     const { message } = req.body;
 
+    const users = await UsersRepository.memberList();
+
+    await sendMessageToUsers({
+      users,
+      messageHtml: message as string,
+    });
+
+    return res.status(200).send('OK');
+  },
+);
+
+mestreKameRouter.post(
+  '/broadcastToAll',
+  ensureAutenticated,
+  ensureAdmin,
+  async (req, res) => {
+    const { message } = req.body;
+
     const users = await UsersRepository.find({
       where: {
         telegramId: Not(IsNull()),
@@ -56,6 +74,24 @@ mestreKameRouter.post(
 
 mestreKameRouter.post(
   '/broadcastImageToGroup',
+  ensureAutenticated,
+  ensureAdmin,
+  upload.single('image'),
+  async (req, res) => {
+    const file = req.file;
+
+    if (!file) {
+      throw new Error('You must upload a file');
+    }
+
+    BroadcastImageToGroupService.execute({ fileName: file.filename });
+
+    res.json({ status: 'ok' });
+  },
+);
+
+mestreKameRouter.post(
+  '/broadcastImageToAll',
   ensureAutenticated,
   ensureAdmin,
   upload.single('image'),

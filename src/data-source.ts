@@ -14,6 +14,8 @@ import TradeOperationHistory from './models/TradeOperationHistory';
 
 import { RenameIsBitgetPartnerToIsExchangePartner1693913129073 } from './migrations/1693913129073-RenameIsBitgetPartnerToIsExchangePartner';
 import { AddExchangeColumn1630840800000 } from './migrations/1693920362640-AddExchangeColumn';
+import BybitUID from './models/BybitAssociatedUids';
+import LiveStatus from './models/LiveStatus';
 
 dotenv.config();
 
@@ -34,6 +36,8 @@ export const AppDataSource = new DataSource({
     TradeOperationHistory,
     MentoriaForm,
     BitgetUID,
+    BybitUID,
+    LiveStatus,
   ],
   migrations: [
     RenameIsBitgetPartnerToIsExchangePartner1693913129073,
