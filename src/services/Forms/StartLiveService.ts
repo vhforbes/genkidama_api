@@ -14,7 +14,6 @@ class StartLiveService {
 
     try {
       if (liveStatus.length > 0) {
-        console.log('inside IF');
         await liveStatusRepository.delete(liveStatus[0]);
         liveStatus = await liveStatusRepository.find(); // Refetch after deleting
       }

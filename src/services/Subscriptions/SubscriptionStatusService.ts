@@ -91,7 +91,7 @@ class SubscriptionStatusService {
     //   sendMessageToUser({ user, messageHtml: willExpireMessage });
     // }
 
-    const bufferDays = 15;
+    const bufferDays = 1;
     const millisecondsPerDay = 24 * 60 * 60 * 1000;
     const bufferedExpirationDate =
       expirationDate + bufferDays * millisecondsPerDay;
