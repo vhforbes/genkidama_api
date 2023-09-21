@@ -43,3 +43,25 @@ export interface PayloadTradeOperationInterface {
   percentual?: string;
   stopDistance?: string;
 }
+
+export interface UpdateTradeOperationInterface {
+  id: string;
+  authorId?: string;
+  market?: string;
+  status?: 'aguardando' | 'ativa' | 'fechada';
+  direction?: string;
+  entryOrderOne?: string;
+  entryOrderTwo?: string;
+  entryOrderThree?: string;
+  takeProfitOne: string;
+  takeProfitTwo?: string;
+  stop?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  result?: string;
+  observation?: string;
+  maxFollowers?: number;
+  tradingViewLink?: string;
+  percentual?: string;
+  stopDistance?: string;
+}

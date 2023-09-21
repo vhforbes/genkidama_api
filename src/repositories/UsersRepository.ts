@@ -51,6 +51,16 @@ const UsersRepository = AppDataSource.getRepository(User).extend({
 
     return membersAndSubscribersWithAlarmsOn;
   },
+
+  async adminsList(): Promise<User[]> {
+    const users = await this.find({
+      where: {
+        role: 'ADMIN',
+      },
+    });
+
+    return users;
+  },
 });
 
 export default UsersRepository;

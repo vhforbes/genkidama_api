@@ -15,6 +15,7 @@ import RemoveUserFromTradeOperation from '../services/TradeOperations/follow/rem
 import RemoveTradeOperationFromUser from '../services/TradeOperations/follow/removeTradeOperationFromUserService';
 import DeleteTradeOperationService from '../services/TradeOperations/deleteTradeOperationService';
 import GetTradeOperationsResumeService from '../services/TradeOperations/getTradeOperationsResumeService';
+import ListTradeOperationsService from '../services/TradeOperations/listTradeOperationsService';
 
 const tradeOperationsRouter = Router();
 
@@ -133,6 +134,12 @@ tradeOperationsRouter.get('/resume', async (req, res) => {
   const requestResult = await GetTradeOperationsResumeService.execute({
     periodInDays: parseInt(period as string, 10),
   });
+
+  res.json(requestResult);
+});
+
+tradeOperationsRouter.get('/list', async (req, res) => {
+  const requestResult = await ListTradeOperationsService.execute();
 
   res.json(requestResult);
 });

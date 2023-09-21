@@ -8,8 +8,9 @@ import usersRouter from './users.router';
 import exclusiveVideoRouter from './exclusiveVideos.router';
 import bitgetRouter from './bitget.router';
 import mestreKameRouter from './mestreKame.router';
-import alarmsRouter from './alarms.router';
+import alarmsRouter from './tradingview.router';
 import xdecowRouter from './xdecow.router';
+import tradingviewRouter from './tradingview.router';
 
 const routes = Router();
 
@@ -22,7 +23,8 @@ routes.use('/trade-operations', tradeOperationsRouter);
 routes.use('/forms', formsRouter);
 routes.use('/bitget', bitgetRouter);
 routes.use('/mestrekame', mestreKameRouter);
-routes.use('/alarms', alarmsRouter);
+routes.use('/alarms', alarmsRouter); // TO BE DELETED IN FUTURE
+routes.use('/tradingview', tradingviewRouter);
 routes.use('/xdecow', xdecowRouter);
 
 export default routes;
