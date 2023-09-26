@@ -73,6 +73,9 @@ class TradeOperation extends BaseEntity {
   @Column({ type: 'float', nullable: true })
   percentual: number;
 
+  @Column('float', { nullable: true })
+  riskReturnRatio: number | null;
+
   // -------- OTHERS --------
   @Column({ nullable: true })
   tradingViewLink: string;

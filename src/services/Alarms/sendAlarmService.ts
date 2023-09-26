@@ -18,7 +18,7 @@ class SendAlarmService {
     const bitgetLink = `https://www.bitget.com/futures/usdt/${sanitizedTicker}USDT`;
     const bybitLink = `https://www.bybit.com/trade/usdt/${sanitizedTicker}USDT`;
 
-    sendAlarmToUsers({
+    await sendAlarmToUsers({
       users,
       ticker: sanitizedTicker,
       message,

@@ -12,10 +12,6 @@ interface Alarm {
 alarmsRouter.post('/', async (req, res) => {
   const requestBody = req.body as Alarm;
 
-  if (!requestBody) {
-    throw new AppError('No body for alarm');
-  }
-
   SendAlarmService.execute(requestBody);
 
   return res.json({ ok: 'ok' });

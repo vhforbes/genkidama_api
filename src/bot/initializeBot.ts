@@ -222,3 +222,9 @@ Digite /status pra saber o status de alarmes da sua conta.
     bot.sendMessage(chatId, alarmsMessage);
   });
 };
+
+export const stopBot = async () => {
+  await bot.stopPolling({
+    cancel: true,
+  });
+};

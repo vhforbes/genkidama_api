@@ -16,6 +16,7 @@ import { RenameIsBitgetPartnerToIsExchangePartner1693913129073 } from './migrati
 import { AddExchangeColumn1630840800000 } from './migrations/1693920362640-AddExchangeColumn';
 import BybitUID from './models/BybitAssociatedUids';
 import LiveStatus from './models/LiveStatus';
+import { UpdateRiskReturnRatio1695737139838 } from './migrations/1695737139838-UpdateRiskReturnRatio';
 
 dotenv.config();
 
@@ -42,6 +43,7 @@ export const AppDataSource = new DataSource({
   migrations: [
     RenameIsBitgetPartnerToIsExchangePartner1693913129073,
     AddExchangeColumn1630840800000,
+    UpdateRiskReturnRatio1695737139838,
   ],
   subscribers: [],
   ssl:
