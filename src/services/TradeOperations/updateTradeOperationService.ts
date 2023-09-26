@@ -85,11 +85,16 @@ class UpdateTradeOperationService {
         return input ? parseFloat(input) : defaultValue;
       };
 
+      const calcRiskReturnRatio = (perc: number, stopdist: number) => {
+        if (perc && stopdist) {
+          return perc / stopdist;
+        }
+
+        return 0;
+      };
+
       // Cria um objeto com a operacao nova:
       //
-      // Se existirem novos => valores novos
-      // Se nao existirem novos => valores antigos
-      // Se nao existirem e nunca existirama : undefined
       const updatedTradeOperation: Partial<TradeOperation> = {
         id,
         market: market?.trimEnd(),
@@ -120,6 +125,10 @@ class UpdateTradeOperationService {
         percentual: assignOrDefault(
           percentual,
           tradeOperationToUpdate.percentual,
+        ),
+        riskReturnRatio: calcRiskReturnRatio(
+          parseFloat(percentual as string),
+          parseFloat(stopDistance as string),
         ),
         stopDistance: assignOrDefault(
           stopDistance,
