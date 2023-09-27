@@ -9,7 +9,7 @@ interface TradeOperationsResume {
   lossPercentage: number;
   evenPercentage: number;
   totalProfitPercentage: number;
-  mediumRiskReturnRatio: number;
+  totalRiskReturnRatio: number;
 }
 
 interface TradeOperationResumeRequest {
@@ -91,7 +91,7 @@ class GetTradeOperationsResumeService {
       lossPercentage,
       evenPercentage,
       totalProfitPercentage,
-      mediumRiskReturnRatio: totalRiskReturnRatio(),
+      totalRiskReturnRatio: totalRiskReturnRatio(),
     };
   }
 }
