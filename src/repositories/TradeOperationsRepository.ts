@@ -16,7 +16,7 @@ const TradeOperationsRepository = AppDataSource.getRepository(
     const tradeOperationsQueryResult = await this.findAndCount({
       where: filter,
       order: {
-        updated_at: 'DESC',
+        created_at: 'DESC',
       },
       take: pagination.take,
       skip: pagination.skip,
