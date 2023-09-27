@@ -145,7 +145,7 @@ tradeOperationsRouter.get('/list', async (req, res) => {
   res.json(requestResult);
 });
 
-tradeOperationsRouter.post('/updateRiskReturn', async (req, res) => {
+tradeOperationsRouter.post('/updateRiskReturnRatio', async (req, res) => {
   const resp = await UpdateRiskRewardRatioService.execute();
 
   res.json(resp);
