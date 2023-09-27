@@ -19,6 +19,8 @@ class UpdateRiskRewardRatioService {
 
       tradeOperationToUpdate.riskReturnRatio =
         tradeOperation.percentual / tradeOperation.stopDistance;
+
+      TradeOperationsRepository.save(tradeOperationToUpdate);
     });
 
     return {
