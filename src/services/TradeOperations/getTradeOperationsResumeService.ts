@@ -68,7 +68,7 @@ class GetTradeOperationsResumeService {
       0,
     );
 
-    const mediumRiskReturnRatio = () => {
+    const totalRiskReturnRatio = () => {
       const riskReturns: number[] = [];
 
       trades.forEach(trade => {
@@ -82,7 +82,7 @@ class GetTradeOperationsResumeService {
         0,
       );
 
-      return sum / riskReturns.length;
+      return sum;
     };
 
     return {
@@ -91,7 +91,7 @@ class GetTradeOperationsResumeService {
       lossPercentage,
       evenPercentage,
       totalProfitPercentage,
-      mediumRiskReturnRatio: mediumRiskReturnRatio(),
+      mediumRiskReturnRatio: totalRiskReturnRatio(),
     };
   }
 }
