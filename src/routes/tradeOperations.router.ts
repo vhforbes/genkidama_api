@@ -16,6 +16,7 @@ import RemoveTradeOperationFromUser from '../services/TradeOperations/follow/rem
 import DeleteTradeOperationService from '../services/TradeOperations/deleteTradeOperationService';
 import GetTradeOperationsResumeService from '../services/TradeOperations/getTradeOperationsResumeService';
 import ListTradeOperationsService from '../services/TradeOperations/listTradeOperationsService';
+import UpdateRiskRewardRatioService from '../services/TradeOperations/updateRiskRewardRatioService';
 
 const tradeOperationsRouter = Router();
 
@@ -142,6 +143,12 @@ tradeOperationsRouter.get('/list', async (req, res) => {
   const requestResult = await ListTradeOperationsService.execute();
 
   res.json(requestResult);
+});
+
+tradeOperationsRouter.post('/updateRiskReturn', async (req, res) => {
+  const resp = await UpdateRiskRewardRatioService.execute();
+
+  res.json(resp);
 });
 
 export default tradeOperationsRouter;

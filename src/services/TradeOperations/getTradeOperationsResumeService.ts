@@ -9,6 +9,7 @@ interface TradeOperationsResume {
   lossPercentage: number;
   evenPercentage: number;
   totalProfitPercentage: number;
+  mediumRiskReturnRatio: number;
 }
 
 interface TradeOperationResumeRequest {
@@ -67,12 +68,30 @@ class GetTradeOperationsResumeService {
       0,
     );
 
+    const mediumRiskReturnRatio = () => {
+      const riskReturns: number[] = [];
+
+      trades.forEach(trade => {
+        if (trade.riskReturnRatio) {
+          riskReturns.push(trade.riskReturnRatio);
+        }
+      });
+
+      let sum = riskReturns.reduce(
+        (accumulator, currentValue) => accumulator + currentValue,
+        0,
+      );
+
+      return sum / riskReturns.length;
+    };
+
     return {
       totalOperations,
       gainPercentage,
       lossPercentage,
       evenPercentage,
       totalProfitPercentage,
+      mediumRiskReturnRatio: mediumRiskReturnRatio(),
     };
   }
 }
