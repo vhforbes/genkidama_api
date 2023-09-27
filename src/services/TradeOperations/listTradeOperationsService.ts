@@ -9,7 +9,7 @@ class ListTradeOperationsService {
 
     const TradeOperations = await TradeOperationsRepository.find({
       order: {
-        updated_at: 'DESC',
+        created_at: 'DESC',
       },
     });
 
