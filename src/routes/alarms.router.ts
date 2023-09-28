@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import SendAlarmService from '../services/Alarms/sendAlarmService';
-import AppError from '../errors/AppError';
 
 const alarmsRouter = Router();
 

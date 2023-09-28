@@ -8,7 +8,7 @@ import usersRouter from './users.router';
 import exclusiveVideoRouter from './exclusiveVideos.router';
 import bitgetRouter from './bitget.router';
 import mestreKameRouter from './mestreKame.router';
-import alarmsRouter from './tradingview.router';
+import alarmsRouter from './alarms.router';
 import xdecowRouter from './xdecow.router';
 import tradingviewRouter from './tradingview.router';
 
