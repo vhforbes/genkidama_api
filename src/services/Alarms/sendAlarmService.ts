@@ -13,8 +13,6 @@ class SendAlarmService {
   }: AlarmRequest): Promise<string> {
     const users = await UsersRepository.membersWithActiveAlarms();
 
-    console.log(users);
-
     const sanitizedTicker = ticker.replace(/USD.*$/, '');
 
     const bitgetLink = `https://www.bitget.com/futures/usdt/${sanitizedTicker}USDT`;
