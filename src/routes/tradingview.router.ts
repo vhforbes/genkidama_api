@@ -14,8 +14,6 @@ interface Alarm {
 tradingviewRouter.post('/alarm', async (req, res) => {
   const requestBody = req.body as Alarm;
 
-  console.log(requestBody);
-
   if (!requestBody) {
     throw new AppError('No body for alarm');
   }
