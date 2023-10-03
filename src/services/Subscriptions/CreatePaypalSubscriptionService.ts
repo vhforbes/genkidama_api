@@ -57,7 +57,6 @@ class CreateSubscriptionService {
       await sendMessageToAdmins({
         messageHtml: `Erro ao obter subscription ID para ${user.email}. Atualizar manualmente.`,
       });
-      throw new AppError('No subscription_id provided');
     }
 
     // const { data } = await paypalPrivateApi(
