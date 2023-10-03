@@ -9,6 +9,7 @@ import { ensureAdmin } from '../middlewares/ensureAdmin';
 import UpdateSubscriptionService from '../services/Subscriptions/UpdateSubscriptionService';
 import Subscription from '../models/Subscription';
 import CheckAllSubs from '../services/Subscriptions/CheckAllSubs';
+import sendMessageToAdmins from '../bot/utils/sendMessageToAdmins';
 
 const subscriptionsRouter = Router();
 
@@ -39,6 +40,12 @@ subscriptionsRouter.post(
   ensureAutenticated,
   async (req, res) => {
     const { email, paypal_subscription_id } = req.body;
+
+    sendMessageToAdmins({
+      messageHtml: `Subscription sendo criada, checando corpo para identificar erro ${JSON.stringify(
+        req.body,
+      )}`,
+    });
 
     const createdSubscription = await CreateSubscriptionService.execute({
       email,
