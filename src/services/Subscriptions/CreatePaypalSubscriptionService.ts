@@ -6,6 +6,7 @@ import User from '../../models/User';
 
 // import paypalPrivateApi from '../../apis/paypalPrivateApi';
 import { subscriptionTypes } from '../../enums/subscriptionTypes';
+import sendMessageToAdmins from '../../bot/utils/sendMessageToAdmins';
 
 interface Request {
   email: string;
@@ -50,6 +51,13 @@ class CreateSubscriptionService {
           'User already has a active subscription, update it instead',
         );
       }
+    }
+
+    if (!paypal_subscription_id) {
+      await sendMessageToAdmins({
+        messageHtml: `Erro ao obter subscription ID para ${user.email}. Atualizar manualmente.`,
+      });
+      throw new AppError('No subscription_id provided');
     }
 
     // const { data } = await paypalPrivateApi(
