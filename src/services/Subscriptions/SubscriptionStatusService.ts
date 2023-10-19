@@ -29,11 +29,6 @@ class SubscriptionStatusService {
 
     const subscription = user.subscription;
 
-    // TEMPORARY LOGIC TO FILL EMAILS ON SUBSCRIPTION (DELETE ONE DAY)
-    if (!subscription.email) {
-      subscription.email = user?.email;
-    }
-
     if (!subscription) {
       return {
         status: 'NO SUBSCRIPTION FOUND',

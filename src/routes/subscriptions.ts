@@ -39,7 +39,7 @@ subscriptionsRouter.post(
   '/createPayapalSubscription',
   ensureAutenticated,
   async (req, res) => {
-    const { email, paypal_subscription_id } = req.body;
+    const { email, subscriptionID } = req.body;
 
     sendMessageToAdmins({
       messageHtml: `Subscription sendo criada, checando corpo para identificar erro ${JSON.stringify(
@@ -49,7 +49,7 @@ subscriptionsRouter.post(
 
     const createdSubscription = await CreateSubscriptionService.execute({
       email,
-      paypal_subscription_id,
+      paypal_subscription_id: subscriptionID,
     });
 
     return res.json(createdSubscription);

@@ -1,18 +1,41 @@
-version: '3'
+version: '3.8'
 
 services:
   app:
-    build: .
+    image: node:18-alpine
+    command: sh -c "npm install && npm run dev"
     ports:
-      - '3000:3333'
-    depends_on:
-      - db
+      - 127.0.0.1:3333:3333
+      - 127.0.0.1:9229:9229
+    working_dir: /app
+    volumes:
+      - ./:/app
     environment:
-      - DATABASE_URL=postgres://username:password@db:5432/mydatabase
+      ENVIROMENT: local
+      POSTGRES_HOST: postgres
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: genkidama
+      DATABASE_URL: postgresql://root:secret@postgres:5432/genkidama
+      PAYPAL_USERNAME: AQQ1bf2U-onJi8x7hpHmjIawBSSVHrhZ9mjlupNWBJ0IT_WwONcpfIFKD-ExN4bBTRTfLpeXgZpb0bRw
+      PAYPAL_PASSWORD: ELbAsnJffOxxZqR613zOmh_nb18dhox-NQqJjpqI5LgsWF84-QhXBuZ5E7hN7S4MBQWz9xIaw84oPjul
+      BACKEND_URL: http://locahost:3333
+      BOT_TOKEN: 5785186481:AAE7CmNaALDZ3zCFzp7L-JlVeVEcZNSmkUs
+      CHAT_ID: 123
+      GROUP_ID: -817116434
+      PAYPAL_URL: https://api.paypal.com/v1/oauth2/token
+      PAYAP_DEV: https://api.sandbox.paypal.com/v1/oauth2/token
 
-  db:
+  postgres:
     image: postgres:latest
+    volumes:
+      - genkidama-postgres-data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_USER=username
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=mydatabase
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: genkidama
+    ports:
+      - 5432:5432
+
+volumes:
+  genkidama-postgres-data:
