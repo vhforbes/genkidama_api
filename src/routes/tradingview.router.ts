@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import SendAlarmService from '../services/Alarms/sendAlarmService';
-import AppError from '../errors/AppError';
 import { UpdateTradeOperationInterface } from '../interfaces/TradeOperationInterface';
 import UpdateTradeOperationService from '../services/TradeOperations/updateTradeOperationService';
 
