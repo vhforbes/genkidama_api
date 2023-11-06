@@ -1,4 +1,4 @@
-import AppError from 'errors/AppError';
+import AppError from '../../errors/AppError';
 import sendAlarmToUsers from '../../bot/utils/sendAlarmToUsers';
 import UsersRepository from '../../repositories/UsersRepository';
 
