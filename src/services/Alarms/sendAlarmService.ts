@@ -1,3 +1,4 @@
+import AppError from 'errors/AppError';
 import sendAlarmToUsers from '../../bot/utils/sendAlarmToUsers';
 import UsersRepository from '../../repositories/UsersRepository';
 
@@ -12,6 +13,10 @@ class SendAlarmService {
     message,
   }: AlarmRequest): Promise<string> {
     const users = await UsersRepository.membersWithActiveAlarms();
+
+    if (!ticker) {
+      throw new AppError('No ticker provided.');
+    }
 
     const sanitizedTicker = ticker.replace(/USD.*$/, '');
 
