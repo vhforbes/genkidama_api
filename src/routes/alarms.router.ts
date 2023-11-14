@@ -6,6 +6,7 @@ const alarmsRouter = Router();
 interface Alarm {
   ticker: string;
   message: string;
+  price: string;
 }
 
 alarmsRouter.post('/', async (req, res) => {

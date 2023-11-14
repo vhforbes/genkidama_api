@@ -5,12 +5,14 @@ import UsersRepository from '../../repositories/UsersRepository';
 interface AlarmRequest {
   ticker: string;
   message: string;
+  price: string;
 }
 
 class SendAlarmService {
   public static async execute({
     ticker,
     message,
+    price,
   }: AlarmRequest): Promise<string> {
     const users = await UsersRepository.membersWithActiveAlarms();
 
@@ -29,6 +31,7 @@ class SendAlarmService {
       message,
       bitgetLink,
       bybitLink,
+      price,
     });
 
     return 'ok';

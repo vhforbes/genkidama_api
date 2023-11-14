@@ -3,4 +3,5 @@ package-lock.json-
 tmp/*
 !tmp/.gitkeep
 .env
+dist/
 coverage

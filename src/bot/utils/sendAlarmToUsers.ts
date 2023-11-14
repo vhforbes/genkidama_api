@@ -6,6 +6,7 @@ interface Request {
   users: User[];
   ticker: string;
   message: string;
+  price: string;
   bitgetLink: string;
   bybitLink: string;
 }
@@ -14,17 +15,18 @@ const sendAlarmToUsers = async ({
   users,
   message,
   ticker,
+  price,
   bitgetLink,
   bybitLink,
 }: Request) => {
   const messageBitget = `Alarme disparado!
-    ${ticker}USDT
+    ${ticker}USDT - $${price}
     ${message}
     <a href="${bitgetLink}">Acessar ${ticker}USDT na Bitget</a>
     `;
 
   const messageBybit = `Alarme disparado!
-    ${ticker}USDT
+    ${ticker}USDT- $${price}
     ${message}
     <a href="${bybitLink}">Acessar ${ticker}USDT na Bybit</a>
     `;

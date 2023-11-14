@@ -11,6 +11,7 @@ describe('SendAlarmService', () => {
     const alarmRequest = {
       ticker: 'BTCUSD',
       message: 'Alarm message',
+      price: '22',
     };
     const users = [
       { id: '1', name: 'John' },

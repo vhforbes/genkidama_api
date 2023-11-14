@@ -8,12 +8,11 @@ const tradingviewRouter = Router();
 interface Alarm {
   ticker: string;
   message: string;
+  price: string;
 }
 
 tradingviewRouter.post('/alarm', async (req, res) => {
   const requestBody = req.body as Alarm;
-
-  console.log(requestBody);
 
   SendAlarmService.execute(requestBody);
 
