@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Router } from 'express';
 import { ensureAutenticated } from '../middlewares/ensureAuthenticated';
+import { ensureAdmin } from '../middlewares/ensureAdmin';
+
 import CancelSubscriptionService from '../services/Subscriptions/CancelSubscriptionService';
 import CreateSubscriptionService from '../services/Subscriptions/CreatePaypalSubscriptionService';
 import SubscriptionStatusService from '../services/Subscriptions/SubscriptionStatusService';
 import CreateManualSubscriptionService from '../services/Subscriptions/CreateManualSubscriptionService';
-import { ensureAdmin } from '../middlewares/ensureAdmin';
 import UpdateSubscriptionService from '../services/Subscriptions/UpdateSubscriptionService';
+import CheckAllSubsService from '../services/Subscriptions/CheckAllSubsService';
 import Subscription from '../models/Subscription';
-import CheckAllSubs from '../services/Subscriptions/CheckAllSubs';
+
 import sendMessageToAdmins from '../bot/utils/sendMessageToAdmins';
 
 const subscriptionsRouter = Router();
@@ -91,7 +93,7 @@ subscriptionsRouter.post(
   ensureAutenticated,
   ensureAdmin,
   async (req, res) => {
-    const response = await CheckAllSubs.execute();
+    const response = await CheckAllSubsService.execute();
 
     return res.json(response);
   },

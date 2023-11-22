@@ -1,7 +1,7 @@
 import UsersRepository from '../../repositories/UsersRepository';
 import SubscriptionStatusService from './SubscriptionStatusService';
 
-class CheckAllSubs {
+class CheckAllSubsService {
   public static async execute(): Promise<{ status: string | null }> {
     const members = await UsersRepository.memberList();
 
@@ -13,4 +13,4 @@ class CheckAllSubs {
   }
 }
 
-export default CheckAllSubs;
+export default CheckAllSubsService;
