@@ -113,9 +113,9 @@ class TradeOperation extends BaseEntity {
     comment: 'JSON column to store the status of entry orders',
   })
   entryOrdersStatus: {
-    entry_order_one_triggered?: boolean;
-    entry_order_two_triggered?: boolean;
-    entry_order_three_triggered?: boolean;
+    entryOrderOneTriggered?: boolean;
+    entryOrderTwoTriggered?: boolean;
+    entryOrderThreeTriggered?: boolean;
   };
 
   @Column('json', {
@@ -124,9 +124,9 @@ class TradeOperation extends BaseEntity {
     comment: 'JSON column to store the status of entry orders',
   })
   takeProfitStatus: {
-    take_profit_one_triggered?: boolean;
-    take_profit_two_triggered?: boolean;
-    take_profit_three_triggered?: boolean;
+    takeProfitOneTriggered?: boolean;
+    takeProfitTwoTriggered?: boolean;
+    takeProfitThreeTriggered?: boolean;
   };
 }
 

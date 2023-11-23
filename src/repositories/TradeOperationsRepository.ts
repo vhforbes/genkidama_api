@@ -1,8 +1,9 @@
 import { AppDataSource } from '../data-source';
 import TradeOperation from '../models/TradeOperation';
+import { In } from 'typeorm'; // Import 'In' from TypeORM
 
-interface Request {
-  status?: string;
+interface Query {
+  status?: string[];
   direction?: string;
 }
 
@@ -10,11 +11,23 @@ const TradeOperationsRepository = AppDataSource.getRepository(
   TradeOperation,
 ).extend({
   async filteredOperations(
-    filter: Request,
+    filter: Query,
     pagination: any,
   ): Promise<[TradeOperation[], number] | null> {
+    const whereCondition: any = {};
+
+    // Since 'status' is always an array, use 'In' directly
+    if (filter.status) {
+      whereCondition.status = In(filter.status);
+    }
+
+    // Include other filters as needed
+    if (filter.direction) {
+      whereCondition.direction = filter.direction;
+    }
+
     const tradeOperationsQueryResult = await this.findAndCount({
-      where: filter,
+      where: whereCondition,
       order: {
         created_at: 'DESC',
       },

@@ -9,12 +9,14 @@ import { AppDataSource } from './data-source';
 import uploadConfig from './config/upload';
 import AppError from './errors/AppError';
 import { startBot } from './bot/initializeBot';
+import StartActiveJobs from './services/PriceFetcher/StartActiveJobs';
 
 dotenv.config();
 
 AppDataSource.initialize()
   .then(async () => {
     console.log('Data Source has been initialized!');
+    StartActiveJobs.execute();
   })
   .catch(err => {
     console.error('Error during Data Source initialization:', err);

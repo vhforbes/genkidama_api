@@ -43,10 +43,8 @@ subscriptionsRouter.post(
   async (req, res) => {
     const { email, subscriptionID } = req.body;
 
-    sendMessageToAdmins({
-      messageHtml: `Subscription sendo criada, checando corpo para identificar erro ${JSON.stringify(
-        req.body,
-      )}`,
+    await sendMessageToAdmins({
+      messageHtml: `Subscription sendo criada: ${JSON.stringify(req.body)}`,
     });
 
     const createdSubscription = await CreateSubscriptionService.execute({

@@ -1,5 +1,8 @@
 import CronJobManager from 'cron-job-manager';
 import CheckPriceService from './CheckPriceService';
+import CheckTradeTriggersService from './CheckTradeTriggersService';
+import { PayloadTradeOperationInterface } from '../../interfaces/TradeOperationInterface';
+import sendMessageToAdmins from '../../bot/utils/sendMessageToAdmins';
 
 export class CronJobManagerService {
   private manager: CronJobManager;
@@ -8,28 +11,41 @@ export class CronJobManagerService {
     this.manager = new CronJobManager();
   }
 
-  startJob(operationId: string, market: string, cronTime: string): void {
-    if (!this.manager.exists(operationId)) {
-      this.manager.add(operationId, cronTime, async () => {
+  startJob(tradeOperation: PayloadTradeOperationInterface): void {
+    if (!this.manager.exists(tradeOperation.id)) {
+      this.manager.add(tradeOperation.id, '* * * * *', async () => {
         try {
-          await CheckPriceService.execute(market);
+          const priceData = await CheckPriceService.execute(
+            tradeOperation.market,
+          );
+
+          CheckTradeTriggersService.execute(tradeOperation, priceData);
         } catch (error) {
           console.error(
-            `Error in cron job for operation ${operationId}:`,
+            `Error in cron job for operation ${tradeOperation.id}:`,
             error,
           );
         }
+
+        await sendMessageToAdmins({
+          messageHtml: `Price checker job for ${tradeOperation.market} STARTED`,
+        });
       });
-      this.manager.start(operationId);
-      console.log(`Cron job for operation ${operationId} started`);
+      this.manager.start(tradeOperation.id);
+      console.log(`Cron job for operation ${tradeOperation.id} started`);
     }
   }
 
-  stopJob(operationId: string): void {
-    if (this.manager.exists(operationId)) {
-      this.manager.stop(operationId);
-      this.manager.deleteJob(operationId);
-      console.log(`Cron job for operation ${operationId} stopped`);
+  stopJob(tradeOperation: PayloadTradeOperationInterface): void {
+    if (this.manager.exists(tradeOperation.id)) {
+      this.manager.stop(tradeOperation.id);
+      this.manager.deleteJob(tradeOperation.id);
+
+      console.log(`Cron job for operation ${tradeOperation.id} stopped`);
+
+      sendMessageToAdmins({
+        messageHtml: `Price checker job for ${tradeOperation.market} STOPPED`,
+      });
     }
   }
 }

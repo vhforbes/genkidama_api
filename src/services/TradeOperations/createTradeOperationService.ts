@@ -1,10 +1,11 @@
-import { v4 as uuidv4 } from 'uuid';
+import { v4 } from 'uuid';
 import { broadcastNewOperation } from '../../bot/tradeOperationsBot/broadcastNewOperation';
 import { AppDataSource } from '../../data-source';
 import { PayloadTradeOperationInterface } from '../../interfaces/TradeOperationInterface';
 import TradeOperation from '../../models/TradeOperation';
 import { replaceCommasWithDots } from '../../utils/replaceCommasWithDots';
 import { CronJobManagerService } from '../../services/PriceFetcher/CronJobService';
+import { objToCamel } from '../../utils/responseToCamel';
 
 class CreateTradeOperationService {
   public static async execute(
@@ -37,7 +38,7 @@ class CreateTradeOperationService {
     } = cleanRequest;
 
     const tradeOperation = tradeOperationsRepository.create({
-      id: uuidv4(),
+      id: v4(),
       author_id: authorId,
       market: market.trimEnd(),
       maxFollowers,
@@ -63,9 +64,7 @@ class CreateTradeOperationService {
     const cronJobManagerService = new CronJobManagerService();
 
     cronJobManagerService.startJob(
-      tradeOperation.id,
-      tradeOperation.market,
-      '* * * * *',
+      objToCamel(tradeOperation) as PayloadTradeOperationInterface,
     );
 
     return results;
