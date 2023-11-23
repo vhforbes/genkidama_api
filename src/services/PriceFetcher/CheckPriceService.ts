@@ -48,9 +48,9 @@ class CheckPriceService {
       console.log(response.data);
 
       const price = {
-        entry: parseInt(response.data.data[0][1], 10),
-        highest: parseInt(response.data.data[0][2], 10),
-        lowest: parseInt(response.data.data[0][3], 10),
+        entry: parseFloat(response.data.data[0][1]),
+        highest: parseFloat(response.data.data[0][2]),
+        lowest: parseFloat(response.data.data[0][3]),
       };
 
       return price;
