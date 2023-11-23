@@ -6,6 +6,7 @@ import TradeOperationsRepository from '../../repositories/TradeOperationsReposit
 import AppError from '../../errors/AppError';
 import UpdateTradeOperationService from '../../services/TradeOperations/updateTradeOperationService';
 import DeleteTradeOperationService from '../../services/TradeOperations/deleteTradeOperationService';
+import sendMessageToAdmins from '../../bot/utils/sendMessageToAdmins';
 
 dotenv.config();
 
@@ -99,6 +100,10 @@ class CheckTradeTriggersService {
         camelTradeOperation.entryOrdersStatus?.entryOrderOneTriggered
       ) {
         camelTradeOperation.status = 'fechada';
+
+        await sendMessageToAdmins({
+          messageHtml: `!!ATENCAO ADMIN!! ATUALIZAR RESULTADO DA ${tradeOperation.market} NA PLATAFORMA <3`,
+        });
 
         UpdateTradeOperationService.execute(camelTradeOperation);
       }
