@@ -26,10 +26,6 @@ export class CronJobManagerService {
             error,
           );
         }
-
-        await sendMessageToAdmins({
-          messageHtml: `Price checker job for ${tradeOperation.market} STARTED`,
-        });
       });
       this.manager.start(tradeOperation.id);
       console.log(`Cron job for operation ${tradeOperation.id} started`);

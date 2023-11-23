@@ -50,3 +50,17 @@
     }
   ]
 }
+
+
+{
+    entryOrderOneTriggered: true,
+    entryOrderTwoTriggered: false,
+    entryOrderThreeTriggered: false,
+  };
+
+
+  {
+    takeProfitOneTriggered: true,
+    takeProfitTwoTriggered: false,
+    takeProfitThreeTriggered: false,
+  }

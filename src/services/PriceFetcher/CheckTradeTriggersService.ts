@@ -55,7 +55,7 @@ class CheckTradeTriggersService {
 
         camelTradeOperation.status = 'ativa';
 
-        camelTradeOperation.observation = 'Pegou ordem 1';
+        camelTradeOperation.observation = 'BOT - Pegou ordem 1';
 
         UpdateTradeOperationService.execute(camelTradeOperation);
       }
@@ -72,7 +72,7 @@ class CheckTradeTriggersService {
           entryOrderThreeTriggered: false,
         };
 
-        camelTradeOperation.observation = 'Pegou ordem 2';
+        camelTradeOperation.observation = 'BOT - Pegou ordem 2';
 
         UpdateTradeOperationService.execute(camelTradeOperation);
       }
@@ -88,7 +88,7 @@ class CheckTradeTriggersService {
           entryOrderThreeTriggered: false,
         };
 
-        camelTradeOperation.observation = 'Pegou ordem 3';
+        camelTradeOperation.observation = 'BOT - Pegou ordem 3';
 
         UpdateTradeOperationService.execute(camelTradeOperation);
       }
@@ -124,32 +124,8 @@ class CheckTradeTriggersService {
           takeProfitThreeTriggered: false,
         };
 
-        camelTradeOperation.observation = 'Take profit 1';
+        camelTradeOperation.observation = 'BOT - Take profit 1';
       }
-
-      // Pegou TP 2
-      // console.log({
-      //   takeProfitTwo: camelTradeOperation.takeProfitTwo,
-      //   parsedTakeProfitTwo: parseFloat(
-      //     camelTradeOperation.takeProfitTwo as string,
-      //   ),
-      //   entryOrderOneTriggered:
-      //     camelTradeOperation.entryOrdersStatus?.entryOrderOneTriggered,
-      //   takeProfitTwoTriggered:
-      //     camelTradeOperation.takeProfitStatus?.takeProfitTwoTriggered,
-      // });
-
-      console.log(
-        parseFloat(camelTradeOperation.takeProfitTwo as string) <
-          priceData.highest,
-      );
-      console.log(
-        camelTradeOperation.entryOrdersStatus?.entryOrderOneTriggered,
-      );
-
-      console.log(
-        !camelTradeOperation.takeProfitStatus?.takeProfitTwoTriggered,
-      );
 
       if (camelTradeOperation.takeProfitTwo) {
         if (
@@ -164,7 +140,7 @@ class CheckTradeTriggersService {
                 takeProfitThreeTriggered: false,
               };
 
-              camelTradeOperation.observation = 'Take profit 2';
+              camelTradeOperation.observation = 'BOT - Take profit 2';
               cronJobManagerService.stopJob(camelTradeOperation);
 
               UpdateTradeOperationService.execute(camelTradeOperation);
@@ -191,7 +167,7 @@ class CheckTradeTriggersService {
 
         camelTradeOperation.status = 'ativa';
 
-        camelTradeOperation.observation = 'Pegou ordem 1';
+        camelTradeOperation.observation = 'BOT - Pegou ordem 1';
 
         UpdateTradeOperationService.execute(camelTradeOperation);
       }
@@ -208,7 +184,7 @@ class CheckTradeTriggersService {
           entryOrderThreeTriggered: false,
         };
 
-        camelTradeOperation.observation = 'Pegou ordem 2';
+        camelTradeOperation.observation = 'BOT - Pegou ordem 2';
 
         UpdateTradeOperationService.execute(camelTradeOperation);
       }
@@ -225,7 +201,7 @@ class CheckTradeTriggersService {
           entryOrderThreeTriggered: true,
         };
 
-        camelTradeOperation.observation = 'Pegou ordem 3';
+        camelTradeOperation.observation = 'BOT - Pegou ordem 3';
 
         UpdateTradeOperationService.execute(camelTradeOperation);
       }
@@ -260,7 +236,7 @@ class CheckTradeTriggersService {
           takeProfitThreeTriggered: false,
         };
 
-        camelTradeOperation.observation = 'Take profit 1';
+        camelTradeOperation.observation = 'BOT - Take profit 1';
 
         UpdateTradeOperationService.execute(camelTradeOperation);
       }
@@ -279,7 +255,7 @@ class CheckTradeTriggersService {
                 takeProfitThreeTriggered: false,
               };
 
-              camelTradeOperation.observation = 'Take profit 2';
+              camelTradeOperation.observation = 'BOT - Take profit 2';
               cronJobManagerService.stopJob(camelTradeOperation);
 
               UpdateTradeOperationService.execute(camelTradeOperation);
