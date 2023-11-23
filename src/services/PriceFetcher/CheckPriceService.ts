@@ -43,10 +43,6 @@ class CheckPriceService {
     try {
       const response = await bitgetPrivateApi.get(`${url}?${queryParams}`);
 
-      console.log(url);
-
-      console.log(response.data);
-
       const price = {
         entry: parseFloat(response.data.data[0][1]),
         highest: parseFloat(response.data.data[0][2]),
