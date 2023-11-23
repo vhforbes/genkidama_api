@@ -34,8 +34,8 @@ class CheckPriceService {
 
       return price;
     } catch (error) {
-      throw new AppError(`Error when fetching price from bitget for ${market}`); // Or handle the error as needed
       console.error(error);
+      throw new AppError(`Error when fetching price from bitget for ${market}`); // Or handle the error as needed
     }
   }
 }
