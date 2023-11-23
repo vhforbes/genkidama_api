@@ -94,9 +94,11 @@ class CheckTradeTriggersService {
       }
 
       // PEGOU STOP
-      if (parseFloat(camelTradeOperation.stop) > priceData.lowest) {
+      if (
+        parseFloat(camelTradeOperation.stop) > priceData.lowest &&
+        camelTradeOperation.entryOrdersStatus?.entryOrderOneTriggered
+      ) {
         camelTradeOperation.status = 'fechada';
-        camelTradeOperation.result = 'loss';
 
         UpdateTradeOperationService.execute(camelTradeOperation);
       }
