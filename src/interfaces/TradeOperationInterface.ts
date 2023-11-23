@@ -2,6 +2,7 @@ export interface ResponseTradeOperationInterface {
   id: string;
   authorId: string;
   market: string;
+  marketLocation: 'spot' | 'futures';
   status: 'aguardando' | 'ativa' | 'fechada';
   direction: string;
   entryOrderOne: number;
@@ -60,6 +61,7 @@ export interface UpdateTradeOperationInterface {
   authorId?: string;
   market?: string;
   status?: 'aguardando' | 'ativa' | 'fechada';
+  marketLocation: 'spot' | 'futures';
   direction?: string;
   entryOrderOne?: string;
   entryOrderTwo?: string;

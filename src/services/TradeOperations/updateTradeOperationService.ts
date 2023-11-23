@@ -25,6 +25,7 @@ class UpdateTradeOperationService {
       const {
         id,
         market,
+        marketLocation,
         status,
         direction,
         entryOrderOne,
@@ -99,6 +100,7 @@ class UpdateTradeOperationService {
       const updatedTradeOperation: Partial<TradeOperation> = {
         id,
         market: market?.trimEnd(),
+        marketLocation,
         status: status || tradeOperationToUpdate.status,
         direction: direction || tradeOperationToUpdate.direction,
         entry_order_one: assignOrDefault(
