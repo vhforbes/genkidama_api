@@ -115,7 +115,8 @@ class CheckTradeTriggersService {
       // Pegou TP 1
       if (
         parseFloat(camelTradeOperation.takeProfitOne) < priceData.highest &&
-        camelTradeOperation.entryOrdersStatus?.entryOrderOneTriggered
+        camelTradeOperation.entryOrdersStatus?.entryOrderOneTriggered &&
+        !camelTradeOperation.takeProfitStatus?.takeProfitOneTriggered
       ) {
         camelTradeOperation.takeProfitStatus = {
           takeProfitOneTriggered: true,
@@ -127,22 +128,50 @@ class CheckTradeTriggersService {
       }
 
       // Pegou TP 2
-      if (
+      // console.log({
+      //   takeProfitTwo: camelTradeOperation.takeProfitTwo,
+      //   parsedTakeProfitTwo: parseFloat(
+      //     camelTradeOperation.takeProfitTwo as string,
+      //   ),
+      //   entryOrderOneTriggered:
+      //     camelTradeOperation.entryOrdersStatus?.entryOrderOneTriggered,
+      //   takeProfitTwoTriggered:
+      //     camelTradeOperation.takeProfitStatus?.takeProfitTwoTriggered,
+      // });
+
+      console.log(
         parseFloat(camelTradeOperation.takeProfitTwo as string) <
-          priceData.highest &&
-        camelTradeOperation.entryOrdersStatus?.entryOrderOneTriggered
-      ) {
-        camelTradeOperation.takeProfitStatus = {
-          takeProfitOneTriggered: true,
-          takeProfitTwoTriggered: true,
-          takeProfitThreeTriggered: false,
-        };
+          priceData.highest,
+      );
+      console.log(
+        camelTradeOperation.entryOrdersStatus?.entryOrderOneTriggered,
+      );
 
-        camelTradeOperation.observation = 'Take profit 2';
-        cronJobManagerService.stopJob(camelTradeOperation);
+      console.log(
+        !camelTradeOperation.takeProfitStatus?.takeProfitTwoTriggered,
+      );
+
+      if (camelTradeOperation.takeProfitTwo) {
+        if (
+          parseFloat(camelTradeOperation.takeProfitTwo as string) <
+          priceData.highest
+        ) {
+          if (camelTradeOperation.entryOrdersStatus?.entryOrderOneTriggered) {
+            if (!camelTradeOperation.takeProfitStatus?.takeProfitTwoTriggered) {
+              camelTradeOperation.takeProfitStatus = {
+                takeProfitOneTriggered: true,
+                takeProfitTwoTriggered: true,
+                takeProfitThreeTriggered: false,
+              };
+
+              camelTradeOperation.observation = 'Take profit 2';
+              cronJobManagerService.stopJob(camelTradeOperation);
+
+              UpdateTradeOperationService.execute(camelTradeOperation);
+            }
+          }
+        }
       }
-
-      UpdateTradeOperationService.execute(camelTradeOperation);
     }
 
     // --------- Logica para SORTs ---------
@@ -237,21 +266,26 @@ class CheckTradeTriggersService {
       }
 
       // Pegou TP 2
-      if (
-        parseFloat(camelTradeOperation.takeProfitTwo as string) >
-          priceData.lowest &&
-        camelTradeOperation.entryOrdersStatus?.entryOrderOneTriggered
-      ) {
-        camelTradeOperation.takeProfitStatus = {
-          takeProfitOneTriggered: true,
-          takeProfitTwoTriggered: true,
-          takeProfitThreeTriggered: false,
-        };
+      if (camelTradeOperation.takeProfitTwo) {
+        if (
+          parseFloat(camelTradeOperation.takeProfitTwo as string) >
+          priceData.lowest
+        ) {
+          if (camelTradeOperation.entryOrdersStatus?.entryOrderOneTriggered) {
+            if (!camelTradeOperation.takeProfitStatus?.takeProfitTwoTriggered) {
+              camelTradeOperation.takeProfitStatus = {
+                takeProfitOneTriggered: true,
+                takeProfitTwoTriggered: true,
+                takeProfitThreeTriggered: false,
+              };
 
-        camelTradeOperation.observation = 'Take profit 2';
-        cronJobManagerService.stopJob(camelTradeOperation);
+              camelTradeOperation.observation = 'Take profit 2';
+              cronJobManagerService.stopJob(camelTradeOperation);
 
-        UpdateTradeOperationService.execute(camelTradeOperation);
+              UpdateTradeOperationService.execute(camelTradeOperation);
+            }
+          }
+        }
       }
     }
 

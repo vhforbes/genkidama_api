@@ -1,0 +1,52 @@
+{
+  "tradeOperations": [
+    {
+      "id": "0709a07f-6bca-456b-98bc-38d50a3f41de",
+      "author_id": "4a63b8a7-5504-41fd-bcfa-94482d643390",
+      "market": "LINKUSDT",
+      "status": "aguardando",
+      "direction": "long",
+      "observation": "Operação pode demorar dias para ativar!",
+      "entry_order_one": 12.02,
+      "entry_order_two": 11.26,
+      "entry_order_three": 10.49,
+      "take_profit_one": 18.45,
+      "take_profit_two": 20.87,
+      "stop": 9.3,
+      "result": "",
+      "percentual": null,
+      "tradingViewLink": "",
+      "created_at": "2023-11-14T19:21:56.200Z",
+      "updated_at": "2023-11-23T12:04:00.298Z",
+      "version": 6,
+      "maxFollowers": 40,
+      "currentFollowers": 40,
+      "stopDistance": 16.34,
+      "riskReturnRatio": 0.0
+    },
+    {
+      "id": "ba351a69-e403-4eac-8518-94aa3d7b78a3",
+      "author_id": "4a63b8a7-5504-41fd-bcfa-94482d643390",
+      "market": "RNDRUSDT",
+      "status": "ativa",
+      "direction": "long",
+      "observation": "Alterando nome do ticker para o correto",
+      "entry_order_one": 2.706,
+      "entry_order_two": 2.62,
+      "entry_order_three": 2.47,
+      "take_profit_one": 3.24,
+      "take_profit_two": 4.2,
+      "stop": 2.27,
+      "result": "",
+      "percentual": null,
+      "tradingViewLink": "",
+      "created_at": "2023-11-15T17:37:15.394Z",
+      "updated_at": "2023-11-23T12:04:00.260Z",
+      "version": 9,
+      "maxFollowers": 30,
+      "currentFollowers": 29,
+      "stopDistance": 14.51,
+      "riskReturnRatio": 0.0
+    }
+  ]
+}
