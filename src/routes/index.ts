@@ -11,7 +11,6 @@ import mestreKameRouter from './mestreKame.router';
 import alarmsRouter from './alarms.router';
 import xdecowRouter from './xdecow.router';
 import tradingviewRouter from './tradingview.router';
-import fetchPriceRouter from './fetchPrice.router';
 
 const routes = Router();
 
@@ -27,6 +26,5 @@ routes.use('/mestrekame', mestreKameRouter);
 routes.use('/alarms', alarmsRouter); // TO BE DELETED IN FUTURE
 routes.use('/tradingview', tradingviewRouter);
 routes.use('/xdecow', xdecowRouter);
-routes.use('/fetch-price', fetchPriceRouter);
 
 export default routes;
