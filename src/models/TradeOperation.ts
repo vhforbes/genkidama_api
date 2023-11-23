@@ -106,6 +106,28 @@ class TradeOperation extends BaseEntity {
   @ManyToMany(() => User)
   @JoinTable()
   users: User[];
+
+  @Column('json', {
+    nullable: true,
+    default: () => "'{}'",
+    comment: 'JSON column to store the status of entry orders',
+  })
+  entryOrdersStatus: {
+    entryOrderOneTriggered?: boolean;
+    entryOrderTwoTriggered?: boolean;
+    entryOrderThreeTriggered?: boolean;
+  };
+
+  @Column('json', {
+    nullable: true,
+    default: () => "'{}'",
+    comment: 'JSON column to store the status of entry orders',
+  })
+  takeProfitStatus: {
+    takeProfitOneTriggered?: boolean;
+    takeProfitTwoTriggered?: boolean;
+    takeProfitThreeTriggered?: boolean;
+  };
 }
 
 export default TradeOperation;

@@ -36,12 +36,22 @@ export interface PayloadTradeOperationInterface {
   stop: string;
   createdAt?: string;
   updatedAt?: string;
-  result?: string;
+  result?: 'loss' | 'gain' | 'even';
   observation?: string;
   maxFollowers?: number;
   tradingViewLink?: string;
   percentual?: string;
   stopDistance?: string;
+  entryOrdersStatus?: {
+    entryOrderOneTriggered?: boolean;
+    entryOrderTwoTriggered?: boolean;
+    entryOrderThreeTriggered?: boolean;
+  };
+  takeProfitStatus?: {
+    takeProfitOneTriggered?: boolean;
+    takeProfitTwoTriggered?: boolean;
+    takeProfitThreeTriggered?: boolean;
+  };
 }
 
 export interface UpdateTradeOperationInterface {
@@ -58,10 +68,20 @@ export interface UpdateTradeOperationInterface {
   stop?: string;
   createdAt?: string;
   updatedAt?: string;
-  result?: string;
+  result?: 'loss' | 'gain' | 'even';
   observation?: string;
   maxFollowers?: number;
   tradingViewLink?: string;
   percentual?: string;
   stopDistance?: string;
+  entryOrdersStatus?: {
+    entryOrderOneTriggered?: boolean;
+    entryOrderTwoTriggered?: boolean;
+    entryOrderThreeTriggered?: boolean;
+  };
+  takeProfitStatus?: {
+    takeProfitOneTriggered?: boolean;
+    takeProfitTwoTriggered?: boolean;
+    takeProfitThreeTriggered?: boolean;
+  };
 }

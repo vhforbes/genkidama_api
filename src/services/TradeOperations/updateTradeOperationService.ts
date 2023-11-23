@@ -39,6 +39,7 @@ class UpdateTradeOperationService {
         maxFollowers,
         tradingViewLink,
         stopDistance,
+        entryOrdersStatus,
       } = cleanRequest;
 
       if (!id) {
@@ -138,6 +139,7 @@ class UpdateTradeOperationService {
         version: tradeOperationToUpdate.version + 1,
         maxFollowers: maxFollowers || tradeOperationToUpdate.maxFollowers,
         tradingViewLink,
+        entryOrdersStatus,
       };
 
       // Clean it up so the invalid values are not sent to the DB
@@ -166,7 +168,18 @@ class UpdateTradeOperationService {
         (user: User) => user.telegramId !== null,
       );
 
-      updateOperationToGroup(afterUpdateTradeOperation, usersWithTelegramID);
+      await updateOperationToGroup(
+        afterUpdateTradeOperation,
+        usersWithTelegramID,
+      );
+
+      const messageHtml = `
+      <b>OPERAÇÃO ATUALIZADA</b>: 
+      <b>${market}</b> | ${direction} | ${status} | ${result || ''}
+      ${`<b>Obs:  ${observation}</b>\n`}
+      `;
+
+      await sendMessageToAdmins({ messageHtml });
 
       return afterUpdateTradeOperation;
     } catch (error: any) {

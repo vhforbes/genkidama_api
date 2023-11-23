@@ -1,17 +1,17 @@
+import { PayloadTradeOperationInterface } from '../../interfaces/TradeOperationInterface';
 import AppError from '../../errors/AppError';
-import TradeOperation from '../../models/TradeOperation';
 import TradeOperationsRepository from '../../repositories/TradeOperationsRepository';
 import { arrayToCamel } from '../../utils/responseToCamel';
 
 interface Request {
-  status?: string;
+  status?: string | string[];
   direction?: string;
   page?: string;
   limit?: string;
 }
 
 interface TradeOperationsResults {
-  tradeOperations: TradeOperation[];
+  tradeOperations: PayloadTradeOperationInterface[];
   next: Object;
   previous: Object;
   totalPages: number;
@@ -45,10 +45,19 @@ class GetFilteredTradeOperationsService {
       };
     }
 
-    const filter = {
-      status: query.status,
-      direction: query.direction,
-    };
+    let filter: any = {};
+
+    if (query.status) {
+      if (Array.isArray(query.status)) {
+        filter.status = query.status;
+      } else {
+        filter.status = [query.status];
+      }
+    }
+
+    if (query.direction) {
+      filter.direction = query.direction;
+    }
 
     const response = await TradeOperationsRepository.filteredOperations(
       filter,
@@ -56,10 +65,12 @@ class GetFilteredTradeOperationsService {
     );
 
     if (!response) {
-      throw new AppError('Unable to make exclusiveVideos query');
+      throw new AppError('Unable to make trade operations query');
     }
 
-    const tradeOperations = arrayToCamel(response[0]) as TradeOperation[];
+    const tradeOperations = arrayToCamel(
+      response[0],
+    ) as PayloadTradeOperationInterface[];
     const totalTradeOperations = response[1];
 
     const results: TradeOperationsResults = {
