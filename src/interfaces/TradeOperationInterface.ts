@@ -26,6 +26,7 @@ export interface PayloadTradeOperationInterface {
   id: string;
   authorId: string;
   market: string;
+  marketLocation: 'spot' | 'futures';
   status: 'aguardando' | 'ativa' | 'fechada';
   direction: string;
   entryOrderOne: string;

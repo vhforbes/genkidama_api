@@ -15,9 +15,7 @@ export class CronJobManagerService {
     if (!this.manager.exists(tradeOperation.id)) {
       this.manager.add(tradeOperation.id, '* * * * *', async () => {
         try {
-          const priceData = await CheckPriceService.execute(
-            tradeOperation.market,
-          );
+          const priceData = await CheckPriceService.execute(tradeOperation);
 
           CheckTradeTriggersService.execute(tradeOperation, priceData);
         } catch (error) {

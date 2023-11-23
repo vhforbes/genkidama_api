@@ -32,6 +32,12 @@ class TradeOperation extends BaseEntity {
   market: string;
 
   @Column({
+    nullable: true,
+    enum: ['spot', 'futures'],
+  })
+  marketLocation: string;
+
+  @Column({
     type: 'varchar',
     length: 10,
     enum: ['aguardando', 'ativa', 'fechada', 'cancelada'],

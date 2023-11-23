@@ -52,11 +52,7 @@
 }
 
 
-{
-    entryOrderOneTriggered: true,
-    entryOrderTwoTriggered: false,
-    entryOrderThreeTriggered: false,
-  };
+{entryOrderOneTriggered:true,entryOrderTwoTriggered:true,entryOrderThreeTriggered:true}
 
 
   {

@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import bitgetPrivateApi from '../../apis/bitgetApi';
 import AppError from '../../errors/AppError';
+import { PayloadTradeOperationInterface } from '../../interfaces/TradeOperationInterface';
 
 dotenv.config();
 
@@ -11,20 +12,40 @@ interface PriceData {
 }
 
 class CheckPriceService {
-  public static async execute(market: string): Promise<PriceData> {
-    console.log('Checking price for: ', market);
+  public static async execute(
+    tradeOperation: PayloadTradeOperationInterface,
+  ): Promise<PriceData> {
+    console.log('Checking price for: ', tradeOperation.market);
 
-    const queryParams = new URLSearchParams({
+    let queryParams = {};
+
+    let url = '';
+
+    queryParams = new URLSearchParams({
       productType: 'USDT-FUTURES',
-      symbol: market,
+      symbol: tradeOperation.market,
       granularity: '5m',
       limit: '1',
     }).toString();
 
+    url = `/api/v2/mix/market/candles`;
+
+    if (tradeOperation.marketLocation === 'spot') {
+      queryParams = new URLSearchParams({
+        symbol: tradeOperation.market,
+        granularity: '5min',
+        limit: '1',
+      }).toString();
+
+      url = '/api/v2/spot/market/candles';
+    }
+
     try {
-      const response = await bitgetPrivateApi.get(
-        `/api/v2/mix/market/candles?${queryParams}`,
-      );
+      const response = await bitgetPrivateApi.get(`${url}?${queryParams}`);
+
+      console.log(url);
+
+      console.log(response.data);
 
       const price = {
         entry: parseInt(response.data.data[0][1], 10),
@@ -35,7 +56,9 @@ class CheckPriceService {
       return price;
     } catch (error) {
       console.error(error);
-      throw new AppError(`Error when fetching price from bitget for ${market}`); // Or handle the error as needed
+      throw new AppError(
+        `Error when fetching price from bitget for ${tradeOperation.market}`,
+      ); // Or handle the error as needed
     }
   }
 }
