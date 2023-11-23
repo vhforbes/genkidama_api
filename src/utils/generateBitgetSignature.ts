@@ -1,4 +1,7 @@
 import crypto from 'crypto';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export const generateSignature = (
   timestamp: string,
@@ -15,7 +18,7 @@ export const generateSignature = (
     body;
   const hmac = crypto.createHmac(
     'sha256',
-    'fd8907a756c5d4a9cc1ad6cfb559d9a8fdf248e206207264eea4e4a4b7822b78',
+    process.env.BITGET_ACCESS_SIGNATURE as string,
   );
   return hmac.update(prehash).digest('base64');
 };

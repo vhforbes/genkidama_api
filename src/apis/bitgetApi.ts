@@ -1,9 +1,12 @@
 /* eslint-disable no-param-reassign */
 import axios from 'axios';
+import dotenv from 'dotenv';
 import AppError from '../errors/AppError';
 import { generateSignature } from '../utils/generateBitgetSignature';
 
 // Assuming you have a function to generate the signature
+
+dotenv.config();
 
 const bitgetPrivateApi = axios.create({});
 
@@ -23,10 +26,10 @@ bitgetPrivateApi.interceptors.request.use(
 
     // Directly assign necessary headers
     config.headers.set({
-      'ACCESS-KEY': 'bg_9f590483c3b8da7d49ebaef91662af29',
+      'ACCESS-KEY': process.env.BITGET_ACCESS_KEY as string,
       'ACCESS-SIGN': signature,
       'ACCESS-TIMESTAMP': timestamp,
-      'ACCESS-PASSPHRASE': '170496hugo',
+      'ACCESS-PASSPHRASE': process.env.BITGET_ACCESS_PASSPHRASE as string,
       'Content-Type': 'application/json',
       locale: 'en-US',
     });
