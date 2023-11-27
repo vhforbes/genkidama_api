@@ -40,6 +40,10 @@ class CheckTradeTriggersService {
       throw new AppError('Operation not found when running triggers check');
     }
 
+    if (camelTradeOperation.status === 'fechada') {
+      cronJobManagerService.stopJob(camelTradeOperation);
+    }
+
     // --------- Logica para LONGs ---------
 
     if (camelTradeOperation.direction === 'long') {
@@ -106,6 +110,8 @@ class CheckTradeTriggersService {
         });
 
         UpdateTradeOperationService.execute(camelTradeOperation);
+
+        cronJobManagerService.stopJob(camelTradeOperation);
       }
 
       // PEGOU TP1 sem pegar entradas DELETAR OPERAÇÃO
@@ -113,9 +119,10 @@ class CheckTradeTriggersService {
         parseFloat(camelTradeOperation.takeProfitOne) < priceData.highest &&
         !camelTradeOperation.entryOrdersStatus?.entryOrderOneTriggered
       ) {
-        DeleteTradeOperationService.execute({
+        await DeleteTradeOperationService.execute({
           id: camelTradeOperation.id,
         });
+
         cronJobManagerService.stopJob(camelTradeOperation);
       }
 
@@ -150,6 +157,10 @@ class CheckTradeTriggersService {
               camelTradeOperation.observation = 'BOT - Take profit 2';
               cronJobManagerService.stopJob(camelTradeOperation);
 
+              await sendMessageToAdmins({
+                messageHtml: `!!ATENCAO ADMIN!! ATUALIZAR RESULTADO DA ${tradeOperation.market} NA PLATAFORMA <3`,
+              });
+
               UpdateTradeOperationService.execute(camelTradeOperation);
             }
           }
@@ -157,7 +168,7 @@ class CheckTradeTriggersService {
       }
     }
 
-    // --------- Logica para SORTs ---------
+    // --------- Logica para SHORTs ---------
 
     if (camelTradeOperation.direction === 'short') {
       // Pegou Entry 1
@@ -216,9 +227,14 @@ class CheckTradeTriggersService {
       // PEGOU STOP
       if (parseFloat(camelTradeOperation.stop) < priceData.highest) {
         camelTradeOperation.status = 'fechada';
-        camelTradeOperation.result = 'loss';
 
         UpdateTradeOperationService.execute(camelTradeOperation);
+
+        await sendMessageToAdmins({
+          messageHtml: `!!ATENCAO ADMIN!! ATUALIZAR RESULTADO DA ${tradeOperation.market} NA PLATAFORMA <3`,
+        });
+
+        cronJobManagerService.stopJob(camelTradeOperation);
       }
 
       // PEGOU TP1 sem pegar entradas DELETAR OPERAÇÃO
@@ -263,6 +279,7 @@ class CheckTradeTriggersService {
               };
 
               camelTradeOperation.observation = 'BOT - Take profit 2';
+
               cronJobManagerService.stopJob(camelTradeOperation);
 
               UpdateTradeOperationService.execute(camelTradeOperation);
