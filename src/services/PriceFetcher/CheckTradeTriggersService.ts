@@ -42,6 +42,8 @@ class CheckTradeTriggersService {
 
     if (camelTradeOperation.status === 'fechada') {
       cronJobManagerService.stopJob(camelTradeOperation);
+
+      return;
     }
 
     // --------- Logica para LONGs ---------
