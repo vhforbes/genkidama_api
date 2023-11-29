@@ -87,12 +87,13 @@ class CheckTradeTriggersService {
       // Pegou Entry 3
       if (
         parseFloat(camelTradeOperation.entryOrderThree as string) >
-        priceData.lowest
+          priceData.lowest &&
+        !camelTradeOperation.entryOrdersStatus?.entryOrderThreeTriggered
       ) {
         camelTradeOperation.entryOrdersStatus = {
           entryOrderOneTriggered: true,
           entryOrderTwoTriggered: true,
-          entryOrderThreeTriggered: false,
+          entryOrderThreeTriggered: true,
         };
 
         camelTradeOperation.observation = 'BOT - Pegou ordem 3';
