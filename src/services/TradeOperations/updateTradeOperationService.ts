@@ -41,6 +41,7 @@ class UpdateTradeOperationService {
         tradingViewLink,
         stopDistance,
         entryOrdersStatus,
+        takeProfitStatus,
       } = cleanRequest;
 
       if (!id) {
@@ -142,6 +143,7 @@ class UpdateTradeOperationService {
         maxFollowers: maxFollowers || tradeOperationToUpdate.maxFollowers,
         tradingViewLink,
         entryOrdersStatus,
+        takeProfitStatus,
       };
 
       // Clean it up so the invalid values are not sent to the DB
