@@ -28,3 +28,36 @@
     }
   ]
 }
+
+
+{
+  "tradeOperations": [
+    {
+      "id" : "2421272d-0f6f-4272-8eef-d0a820730927",
+      "author_id" : "af0c40a2-81e8-4481-970c-accf9c848684",
+      "market" : "BCHUSDT",
+      "status" : "ativa",
+      "direction" : "long",
+      "observation" : "BOT - Pegou ordem 2",
+      "entry_order_one" : 248.0,
+      "entry_order_two" : 240.0,
+      "entry_order_three" : 233.5,
+      "take_profit_one" : 256.0,
+      "take_profit_two" : 289.0,
+      "stop" : 222.0,
+      "result" : "",
+      "percentual" : null,
+      "tradingViewLink" : "",
+      "created_at" : "2023-12-04T15:41:06.448Z",
+      "updated_at" : "2023-12-06T09:08:04.181Z",
+      "version" : 3,
+      "maxFollowers" : 100,
+      "currentFollowers" : 38,
+      "stopDistance" : 6.65,
+      "riskReturnRatio" : 0.0,
+      "entryOrdersStatus" : "{\"entryOrderOneTriggered\":true,\"entryOrderTwoTriggered\":true,\"entryOrderThreeTriggered\":false}",
+      "takeProfitStatus" : "{}",
+      "marketLocation" : "futures"
+    }
+  ]}
+  

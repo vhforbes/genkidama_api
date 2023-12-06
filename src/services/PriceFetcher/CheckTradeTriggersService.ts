@@ -142,6 +142,8 @@ class CheckTradeTriggersService {
         };
 
         camelTradeOperation.observation = 'BOT - Take profit 1';
+
+        UpdateTradeOperationService.execute(camelTradeOperation);
       }
 
       if (camelTradeOperation.takeProfitTwo) {

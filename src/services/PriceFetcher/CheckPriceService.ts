@@ -24,7 +24,7 @@ class CheckPriceService {
     queryParams = new URLSearchParams({
       productType: 'USDT-FUTURES',
       symbol: tradeOperation.market,
-      granularity: '5m',
+      granularity: '1Dutc',
       limit: '1',
     }).toString();
 
