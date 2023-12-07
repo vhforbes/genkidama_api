@@ -50,7 +50,8 @@ class CheckPriceService {
       };
 
       return price;
-    } catch (error) {
+    } catch (error: any) {
+      console.error(error.response);
       throw new AppError(
         `Error when fetching price from bitget for ${tradeOperation.market}`,
       ); // Or handle the error as needed
