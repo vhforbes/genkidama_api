@@ -6,13 +6,19 @@ class StartActiveJobs {
     const cronJobManagerService = new CronJobManagerService();
 
     try {
-      // Call the service for 'active' status
       const activeParams = { status: ['ativa', 'aguardando'] };
       const tradeOperationsResult =
         await GetFilteredTradeOperationsService.execute(activeParams);
 
+      let delay = 0;
+      const delayIncrement = 20000; // 20 seconds delay increment
+
       tradeOperationsResult?.tradeOperations.forEach(tradeOperation => {
-        cronJobManagerService.startJob(tradeOperation);
+        setTimeout(() => {
+          cronJobManagerService.startJob(tradeOperation);
+        }, delay);
+
+        delay += delayIncrement; // Increase delay for the next iteration
       });
     } catch (error) {
       console.error('Error fetching trade operations:', error);
