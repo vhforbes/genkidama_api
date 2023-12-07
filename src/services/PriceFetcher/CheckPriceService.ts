@@ -24,7 +24,7 @@ class CheckPriceService {
     queryParams = new URLSearchParams({
       productType: 'USDT-FUTURES',
       symbol: tradeOperation.market,
-      granularity: '15min',
+      granularity: '15m',
       limit: '1',
     }).toString();
 
@@ -33,7 +33,7 @@ class CheckPriceService {
     if (tradeOperation.marketLocation === 'spot') {
       queryParams = new URLSearchParams({
         symbol: tradeOperation.market,
-        granularity: '15min',
+        granularity: '15m',
         limit: '1',
       }).toString();
 
