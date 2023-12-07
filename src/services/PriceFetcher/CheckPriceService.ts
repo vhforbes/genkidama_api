@@ -33,7 +33,7 @@ class CheckPriceService {
     if (tradeOperation.marketLocation === 'spot') {
       queryParams = new URLSearchParams({
         symbol: tradeOperation.market,
-        granularity: '15m',
+        granularity: '15min',
         limit: '1',
       }).toString();
 
