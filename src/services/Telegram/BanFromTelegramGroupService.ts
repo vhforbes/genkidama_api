@@ -1,3 +1,4 @@
+import sendMessageToUser from '../../bot/utils/sendMessageToUser';
 import { AppDataSource } from '../../data-source';
 import { roles } from '../../enums/roles';
 import User from '../../models/User';
@@ -26,6 +27,12 @@ class BanFromTelegramGroupService {
         console.log('BANIDO', user.email, user.telegramId);
         chatIdsToBan.push(user.telegramId);
         user.onTelegramGroup = false;
+
+        await sendMessageToUser({
+          user,
+          messageHtml: `Olá ${user.name}, infelizmente sua assinatura expirou e estou te removendo do nosso grupo.
+        Lembre-se que a comunidade é mais rica com sua presença! Caso deseje retornar basta assinar novamente <a href="https://genkidama.me/assinatura">nesse link!</a>`,
+        });
 
         // eslint-disable-next-line no-await-in-loop
         await userRepository.save(user);
