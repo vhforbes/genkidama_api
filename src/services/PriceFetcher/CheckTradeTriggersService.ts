@@ -107,12 +107,13 @@ class CheckTradeTriggersService {
         camelTradeOperation.entryOrdersStatus?.entryOrderOneTriggered
       ) {
         camelTradeOperation.status = 'fechada';
+        camelTradeOperation.observation = 'BOT - Stop';
 
         await sendMessageToAdmins({
           messageHtml: `!!ATENCAO ADMIN!! ATUALIZAR RESULTADO DA ${tradeOperation.market} NA PLATAFORMA <3`,
         });
 
-        UpdateTradeOperationService.execute(camelTradeOperation);
+        await UpdateTradeOperationService.execute(camelTradeOperation);
 
         cronJobManagerService.stopJob(camelTradeOperation);
       }
@@ -232,6 +233,7 @@ class CheckTradeTriggersService {
       // PEGOU STOP
       if (parseFloat(camelTradeOperation.stop) < priceData.highest) {
         camelTradeOperation.status = 'fechada';
+        camelTradeOperation.observation = 'BOT - Stop';
 
         UpdateTradeOperationService.execute(camelTradeOperation);
 

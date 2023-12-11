@@ -27,6 +27,10 @@ export class CronJobManagerService {
       });
       this.manager.start(tradeOperation.id);
       console.log(`Cron job for operation ${tradeOperation.id} started`);
+
+      sendMessageToAdmins({
+        messageHtml: `Price checker job for ${tradeOperation.market} STARTED`,
+      });
     }
   }
 
@@ -35,7 +39,7 @@ export class CronJobManagerService {
       this.manager.stop(tradeOperation.id);
       this.manager.deleteJob(tradeOperation.id);
 
-      console.log(`Cron job for operation ${tradeOperation.id} stopped`);
+      console.log(`Cron job for operation ${tradeOperation.id} STOPPED`);
 
       sendMessageToAdmins({
         messageHtml: `Price checker job for ${tradeOperation.market} STOPPED`,
