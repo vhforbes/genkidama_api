@@ -13,6 +13,7 @@ export const broadcastNewOperation = async (tradeOperation: TradeOperation) => {
     // direction,
     // status,
     maxFollowers,
+    marketLocation,
     // observation = '',
   } = tradeOperation;
 
@@ -20,7 +21,7 @@ export const broadcastNewOperation = async (tradeOperation: TradeOperation) => {
 
   const messageHtml = `
 <b>NOVA OPERAÇÃO</b>: 
-<b>${market}</b>
+<b>${market} - ${marketLocation}</b>
 ${`<b>Máximo de seguidores: ${maxFollowers}</b>\n`}
 ${`<a href="${operationUrl}#seguir">Seguir essa operação!</a>`}
 `;
