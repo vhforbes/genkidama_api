@@ -110,7 +110,7 @@ class CheckTradeTriggersService {
         camelTradeOperation.observation = 'BOT - Stop';
 
         await sendMessageToAdmins({
-          messageHtml: `!!ATENCAO ADMIN!! ATUALIZAR RESULTADO DA ${tradeOperation.market} NA PLATAFORMA <3`,
+          messageHtml: `!!ATENCAO ADMIN!! ATUALIZAR RESULTADO DA ${tradeOperation.market} NA PLATAFORMA`,
         });
 
         await UpdateTradeOperationService.execute(camelTradeOperation);
@@ -164,7 +164,7 @@ class CheckTradeTriggersService {
               cronJobManagerService.stopJob(camelTradeOperation);
 
               await sendMessageToAdmins({
-                messageHtml: `!!ATENCAO ADMIN!! ATUALIZAR RESULTADO DA ${tradeOperation.market} NA PLATAFORMA <3`,
+                messageHtml: `!!ATENCAO ADMIN!! ATUALIZAR RESULTADO DA ${tradeOperation.market} NA PLATAFORMA`,
               });
 
               UpdateTradeOperationService.execute(camelTradeOperation);
@@ -238,7 +238,7 @@ class CheckTradeTriggersService {
         UpdateTradeOperationService.execute(camelTradeOperation);
 
         await sendMessageToAdmins({
-          messageHtml: `!!ATENCAO ADMIN!! ATUALIZAR RESULTADO DA ${tradeOperation.market} NA PLATAFORMA <3`,
+          messageHtml: `!!ATENCAO ADMIN!! ATUALIZAR RESULTADO DA ${tradeOperation.market} NA PLATAFORMA`,
         });
 
         cronJobManagerService.stopJob(camelTradeOperation);
