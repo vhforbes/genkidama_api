@@ -119,16 +119,16 @@ class CheckTradeTriggersService {
       }
 
       // PEGOU TP1 sem pegar entradas DELETAR OPERAÇÃO
-      if (
-        parseFloat(camelTradeOperation.takeProfitOne) < priceData.highest &&
-        !camelTradeOperation.entryOrdersStatus?.entryOrderOneTriggered
-      ) {
-        await DeleteTradeOperationService.execute({
-          id: camelTradeOperation.id,
-        });
+      // if (
+      //   parseFloat(camelTradeOperation.takeProfitOne) < priceData.highest &&
+      //   !camelTradeOperation.entryOrdersStatus?.entryOrderOneTriggered
+      // ) {
+      //   await DeleteTradeOperationService.execute({
+      //     id: camelTradeOperation.id,
+      //   });
 
-        cronJobManagerService.stopJob(camelTradeOperation);
-      }
+      //   cronJobManagerService.stopJob(camelTradeOperation);
+      // }
 
       // Pegou TP 1
       if (
@@ -244,16 +244,16 @@ class CheckTradeTriggersService {
         cronJobManagerService.stopJob(camelTradeOperation);
       }
 
-      // PEGOU TP1 sem pegar entradas DELETAR OPERAÇÃO
-      if (
-        parseFloat(camelTradeOperation.takeProfitOne) < priceData.lowest &&
-        !camelTradeOperation.entryOrdersStatus?.entryOrderOneTriggered
-      ) {
-        DeleteTradeOperationService.execute({
-          id: camelTradeOperation.id,
-        });
-        cronJobManagerService.stopJob(camelTradeOperation);
-      }
+      // // PEGOU TP1 sem pegar entradas DELETAR OPERAÇÃO
+      // if (
+      //   parseFloat(camelTradeOperation.takeProfitOne) < priceData.lowest &&
+      //   !camelTradeOperation.entryOrdersStatus?.entryOrderOneTriggered
+      // ) {
+      //   DeleteTradeOperationService.execute({
+      //     id: camelTradeOperation.id,
+      //   });
+      //   cronJobManagerService.stopJob(camelTradeOperation);
+      // }
 
       // Pegou TP 1
       if (
